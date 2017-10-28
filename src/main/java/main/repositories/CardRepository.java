@@ -1,6 +1,6 @@
-package ent.rep;
+package main.repositories;
 
-import ent.Card;
+import main.entities.Card;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CardRepository extends CrudRepository<Card, Long> {

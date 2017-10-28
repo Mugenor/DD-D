@@ -2,7 +2,7 @@ package main.entities;
 
 import javax.persistence.*;
 
-@Entity(name = "point")
+@Entity(name = "notpoint")
 public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-10-28.13:46:28.785</IntrospectionTimestamp>
-      <IntrospectionStateNumber>778</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-10-28.21:28:58.312</IntrospectionTimestamp>
+      <IntrospectionStateNumber>788</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -30,44 +30,44 @@
       <ObjectId>11480</ObjectId>
     </schema>
     <sequence id="9" parent="3" name="hibernate_sequence">
-      <ObjectId>16473</ObjectId>
-      <StateNumber>778</StateNumber>
+      <ObjectId>16475</ObjectId>
+      <StateNumber>787</StateNumber>
       <SequenceIdentity>1</SequenceIdentity>
     </sequence>
-    <table id="10" parent="3" name="point">
-      <ObjectId>16468</ObjectId>
-      <StateNumber>777</StateNumber>
+    <table id="10" parent="3" name="notpoint">
+      <ObjectId>16477</ObjectId>
+      <StateNumber>788</StateNumber>
     </table>
     <column id="11" parent="10" name="id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>777</StateNumber>
+      <StateNumber>788</StateNumber>
     </column>
     <column id="12" parent="10" name="x">
       <Position>2</Position>
       <DataType>double precision|0</DataType>
-      <StateNumber>777</StateNumber>
+      <StateNumber>788</StateNumber>
     </column>
     <column id="13" parent="10" name="y">
       <Position>3</Position>
       <DataType>double precision|0</DataType>
-      <StateNumber>777</StateNumber>
+      <StateNumber>788</StateNumber>
     </column>
     <column id="14" parent="10" name="z">
       <Position>4</Position>
       <DataType>double precision|0</DataType>
-      <StateNumber>777</StateNumber>
+      <StateNumber>788</StateNumber>
     </column>
-    <index id="15" parent="10" name="point_pkey">
-      <ObjectId>16471</ObjectId>
+    <index id="15" parent="10" name="notpoint_pkey">
+      <ObjectId>16480</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="16" parent="10" name="point_pkey">
-      <ObjectId>16472</ObjectId>
+    <key id="16" parent="10" name="notpoint_pkey">
+      <ObjectId>16481</ObjectId>
       <ColNames>id</ColNames>
-      <UnderlyingIndexName>point_pkey</UnderlyingIndexName>
+      <UnderlyingIndexName>notpoint_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
   </database-model>

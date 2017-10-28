@@ -1,6 +1,4 @@
-package ent;
-
-import ent.Place;
+package main.entities;
 
 import javax.persistence.*;
 
