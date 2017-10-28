@@ -1,6 +1,4 @@
-package main.entities;
-
-import org.hibernate.annotations.GeneratorType;
+package ent;
 
 import javax.persistence.*;
 
@@ -10,9 +8,16 @@ public class Character {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "health")
     private int health;
+    @Column(name = "description")
     private String description;
+    @OneToOne
+    @JoinColumn(name = "id")
     private Skill skill;
+    @OneToOne
+    @JoinColumn(name = "id")
     private Person person;
 }

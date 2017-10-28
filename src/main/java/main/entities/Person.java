@@ -1,7 +1,7 @@
-package main.entities;
+package ent;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Collection;
 
 @Entity(name = "person")
 public class Person {
@@ -17,10 +17,14 @@ public class Person {
     private int age;
     @Column(name = "picture")
     private String picture;
-    private List<Person> friends;
-    private List<Feature> features;
+    @ManyToMany
+    @JoinTable(name = "pers_feat", joinColumns = @JoinColumn(name = "person", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "feature", referencedColumnName = "id"))
+    private Collection<Feature> features;
+    @ManyToOne
+    @JoinColumn(name = "id")
     private Position position;
-    private Place workPlace;
+
 
     public Person(String name, boolean sex, int age, String picture){
         this.name = name;
