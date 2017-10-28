@@ -8,13 +8,13 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id")
     private Person author;
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "where_id")
     private Place where;
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "finder_id")
     private Person finder;
 }

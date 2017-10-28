@@ -14,10 +14,10 @@ public class Character {
     private int health;
     @Column(name = "description")
     private String description;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Skill skill;
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "person_id")
     private Person person;
 }

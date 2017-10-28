@@ -10,7 +10,7 @@ public class Position {
     private Long id;
     @Column(name = "name")
     private String name;
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "place_id")
     private Place place;
 }

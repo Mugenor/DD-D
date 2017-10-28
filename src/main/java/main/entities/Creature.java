@@ -16,7 +16,7 @@ public class Creature {
     private String picture;
     @Column(name = "description")
     private String description;
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "diary_id")
     private Diary diary;
 }

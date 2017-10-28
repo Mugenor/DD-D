@@ -6,6 +6,7 @@ import java.util.Collection;
 @Entity (name = "user")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private String login;
     @Column
@@ -19,8 +20,8 @@ public class User {
     @Column
     private long amountGames;
     @Column
-    private int amountWin;
-    @ManyToMany
+    private long amountWin;
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable (name = "friends",
             joinColumns = @JoinColumn (name = "user1",
                     referencedColumnName = "login"),

@@ -14,5 +14,6 @@ public class News {
     @Column
     private String topic;
     @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 }
