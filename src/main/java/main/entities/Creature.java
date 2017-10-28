@@ -19,4 +19,5 @@ public class Creature {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "diary_id")
     private Diary diary;
+
 }
