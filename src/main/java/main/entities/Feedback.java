@@ -9,7 +9,7 @@ public class Feedback {
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn (name = "user")
     private User user;
     @Column
@@ -17,6 +17,7 @@ public class Feedback {
     @Column
     private boolean isCard;
     @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @Column
     private String response;

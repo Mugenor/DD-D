@@ -12,10 +12,10 @@ public class Card {
     private String name;
     @Column(name = "description")
     private String description;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Creature creature;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Skill skill;
     @Column(name = "cubeNumber")

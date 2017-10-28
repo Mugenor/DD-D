@@ -9,8 +9,8 @@ public class Episode {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "creature_id")
     private Creature creature;
     @Column(name = "cause")
     private String cause;
@@ -18,12 +18,12 @@ public class Episode {
     private String problem;
     @Column(name = "solution")
     private String solution;
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "solver_id")
     private Person solver;
     @Column(name = "series")
     private int series;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "epis_place", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"), inverseJoinColumns =
         @JoinColumn(name = "place", referencedColumnName = "id"))
     private Collection<Place> place;

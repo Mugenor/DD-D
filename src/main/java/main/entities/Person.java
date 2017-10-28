@@ -17,12 +17,12 @@ public class Person {
     private int age;
     @Column(name = "picture")
     private String picture;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "pers_feat", joinColumns = @JoinColumn(name = "person", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "feature", referencedColumnName = "id"))
     private Collection<Feature> features;
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "position_id")
     private Position position;
 
 
