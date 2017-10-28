@@ -25,6 +25,17 @@ public class Person {
     @JoinColumn(name = "position_id")
     private Position position;
 
+<<<<<<< HEAD
+=======
+    public Person(){}
+    public Person(String name, boolean sex, int age, String picture){
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.picture = picture;
+    }
+
+>>>>>>> 26dc9021a8e6f256e8e4cfb215b0a1870cbab494
     public Long getId() {
         return id;
     }

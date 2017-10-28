@@ -10,7 +10,7 @@ public class Feedback {
     @Column
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn (name = "user")
+    @JoinColumn (name = "ourUser")
     private User user;
     @Column
     private String message;

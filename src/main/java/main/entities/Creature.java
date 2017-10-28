@@ -20,6 +20,7 @@ public class Creature {
     @JoinColumn(name = "diary_id")
     private Diary diary;
 
+<<<<<<< HEAD
     public Long getId() {
         return id;
     }
@@ -74,4 +75,6 @@ public class Creature {
         this.description = description;
         this.diary = diary;
     }
+=======
+>>>>>>> 26dc9021a8e6f256e8e4cfb215b0a1870cbab494
 }

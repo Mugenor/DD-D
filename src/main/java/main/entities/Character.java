@@ -15,7 +15,7 @@ public class Character {
     @Column(name = "description")
     private String description;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "skill_id")
     private Skill skill;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id")
