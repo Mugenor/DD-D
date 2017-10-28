@@ -10,4 +10,31 @@ public class Top {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn (name = "login")
     private User user;
+
+    public Integer getPosition() {
+        return position;
+    }
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "position=\"" + position +
+                "\", user=\"" + user +
+                "\"}";
+    }
+
+    public Top() {}
+    public Top(int position, User user ){
+        this.position = position;
+        this.user = user;
+    }
 }
