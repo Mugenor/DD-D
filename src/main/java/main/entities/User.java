@@ -3,7 +3,7 @@ package main.entities;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity (name = "user")
+@Entity (name = "ourUser")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,5 +28,15 @@ public class User {
             inverseJoinColumns = @JoinColumn (name = "user2",
                     referencedColumnName = "login"))
     private Collection<User> friends;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "canUse",
+        joinColumns = @JoinColumn (name = "ourUser", referencedColumnName = "login"),
+        inverseJoinColumns = @JoinColumn(name = "card", referencedColumnName = "id"))
+    private Collection<Card> cardsCanUse;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "inUse",
+        joinColumns = @JoinColumn(name = "ourUser", referencedColumnName = "login"),
+        inverseJoinColumns = @JoinColumn(name = "card", referencedColumnName = "id"))
+    private Collection<Card> cardsInUse;
 
 }

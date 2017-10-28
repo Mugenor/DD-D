@@ -25,7 +25,7 @@ public class Person {
     @JoinColumn(name = "position_id")
     private Position position;
 
-
+    public Person(){}
     public Person(String name, boolean sex, int age, String picture){
         this.name = name;
         this.sex = sex;
