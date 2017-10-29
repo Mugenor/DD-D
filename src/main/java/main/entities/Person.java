@@ -27,12 +27,11 @@ public class Person {
     private int age;
     @Column(name = "picture")
     private String picture;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "pers_feat", joinColumns = @JoinColumn(name = "person", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "feature", referencedColumnName = "id"))
-    @Fetch(FetchMode.SELECT)
     private Collection<Feature> features;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "position_id")
     private Position position;
 

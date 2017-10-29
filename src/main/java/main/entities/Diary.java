@@ -1,6 +1,7 @@
 package main.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity(name = "diary")
 public class Diary {
@@ -9,15 +10,17 @@ public class Diary {
     @SequenceGenerator(name = "diarySeq", sequenceName = "diarySeq")
     @Column(name = "id")
     private Integer id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     private Person author;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "where_id")
     private Place where;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "finder_id")
     private Person finder;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "id")
+    private Collection<Creature> creatures;
 
     public Integer getId() {
         return id;
