@@ -9,17 +9,17 @@ public class Card {
     @SequenceGenerator(name = "cardSeq", sequenceName = "cardSeq")
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
-    @Column(name = "description")
+    @Column(name = "description", unique = true, nullable = false)
     private String description;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "creature_id")
+    @JoinColumn(name = "creature_id", unique = true)
     private Creature creature;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "skill_id")
+    @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
-    @Column(name = "cubeNumber")
+    @Column(name = "cube_Number", unique = true, nullable = false)
     private int cubeNumber;
 
     public Long getId() {
@@ -51,13 +51,13 @@ public class Card {
     @Override
     public String toString() {
         return "{" +
-                "id=\"" + id +
-                "\", name=\"" + name +
-                "\", description=\"" + description +
-                "\", creature=\"" + creature +
-                "\", skill=\"" + skill +
-                "\", cubeNumber=\"" + cubeNumber +
-                "\"}";
+                "id:" + id +
+                ", name:\"" + name +
+                "\", description:\"" + description +
+                "\", creature:" + creature +
+                ", skill:" + skill +
+                ", cubeNumber:" + cubeNumber +
+                "}";
     }
 
     public Card() {}

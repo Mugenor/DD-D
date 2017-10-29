@@ -11,7 +11,7 @@ public class Episode {
     @Column(name = "id")
     private Long id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "creature_id")
+    @JoinColumn(name = "creature_id", unique = true, nullable = false)
     private Creature creature;
     @Column(name = "cause")
     private String cause;
@@ -22,11 +22,11 @@ public class Episode {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "solver_id")
     private Person solver;
-    @Column(name = "series")
+    @Column(name = "series", unique = true, nullable = false)
     private int series;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "epis_place", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"), inverseJoinColumns =
-        @JoinColumn(name = "place", referencedColumnName = "id"))
+    @JoinTable(name = "epis_place", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "place", referencedColumnName = "id"))
     private Collection<Place> place;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "epis_person", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
@@ -78,18 +78,24 @@ public class Episode {
     public void setPlace(Collection<Place> place) {
         this.place = place;
     }
+    public Collection<Person> getParticipants() {
+        return participants;
+    }
+    public void setParticipants(Collection<Person> participants) {
+        this.participants = participants;
+    }
 
     @Override
     public String toString() {
         return "{" +
-                "id=\"" + id +
-                "\", creature=\"" + creature +
-                "\", cause=\"" + cause +
+                "id=" + id +
+                ", creature=" + creature +
+                ", cause=\"" + cause +
                 "\", problem=\"" + problem +
                 "\", solution=\"" + solution +
-                "\", solver=\"" + solver +
-                "\", series=\"" + series +
-                "\", place=\"" + place +
+                "\", solver=" + solver +
+                ", series=" + series +
+                ", place=\"" + place +
                 "\"}";
     }
 

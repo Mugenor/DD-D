@@ -88,19 +88,15 @@ public class User {
     public void setFriends(Collection<User> friends) {
         this.friends = friends;
     }
-
     public Collection<Card> getCardsCanUse() {
         return cardsCanUse;
     }
-
     public void setCardsCanUse(Collection<Card> cardsCanUse) {
         this.cardsCanUse = cardsCanUse;
     }
-
     public Collection<Card> getCardsInUse() {
         return cardsInUse;
     }
-
     public void setCardsInUse(Collection<Card> cardsInUse) {
         this.cardsInUse = cardsInUse;
     }

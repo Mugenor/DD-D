@@ -9,17 +9,17 @@ public class Character {
     @SequenceGenerator(name = "CharacterSeq", sequenceName = "CharacterSeq")
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
-    @Column(name = "health")
+    @Column(name = "health", nullable = false)
     private int health;
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "skill_id")
+    @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "person")
+    @JoinColumn(name = "person_id", unique = true, nullable = false)
     private Person person;
 
     public Long getId() {
@@ -59,13 +59,13 @@ public class Character {
     @Override
     public String toString() {
         return "{" +
-                "id=\"" + id +
-                "\", name=\"" + name +
-                "\", health=\"" + health +
-                "\", description=\"" + description +
-                "\", skill=\"" + skill +
-                "\", person=\"" + person +
-                "\"}";
+                "id:" + id +
+                ", name:\"" + name +
+                "\", health:" + health +
+                ", description:\"" + description +
+                "\", skill:" + skill +
+                ", person:" + person +
+                "}";
     }
 
     public Character() {}

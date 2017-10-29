@@ -1,5 +1,7 @@
 package main.entities;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 
 @Entity(name = "creature")
@@ -9,19 +11,19 @@ public class Creature {
     @SequenceGenerator(name = "creatureSeq", sequenceName = "creatureSeq")
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private int amount;
-    @Column(name = "picture")
+    @Column(name = "picture", unique = true)
     private String picture;
-    @Column(name = "description")
+    @Column(name = "description", unique = true, nullable = false)
     private String description;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "episode_id")
+    @JoinColumn(name = "episode_id", unique = true, nullable = false)
     private Episode episode;
 
 
@@ -58,17 +60,26 @@ public class Creature {
     public void setDiary(Diary diary) {
         this.diary = diary;
     }
+    public Episode getEpisode() {
+        return episode;
+    }
+    public void setEpisode(Episode episode) {
+        this.episode = episode;
+    }
 
     @Override
     public String toString() {
-        return "{" +
-                "id=\"" + id +
-                "\", name=\"" + name +
-                "\", amount=\"" + amount +
-                "\", picture=\"" + picture +
-                "\", description=\"" + description +
-                "\", diary=\"" + diary +
-                "\"}";
+        String str = "{" +
+                "id:" + id +
+                ", name:\"" + name +
+                "\", amount:" + amount +
+                ", picture:\"" + picture +
+                "\", description:\"" + description +
+                "\"";
+        if (Hibernate.isInitialized(diary)) str = str + ", diary:" + diary;
+        if (Hibernate.isInitialized(episode)) str = str + ", episode:" + episode;
+        str = str + "}";
+        return str;
     }
 
     public Creature() {}
