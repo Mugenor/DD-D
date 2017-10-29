@@ -7,7 +7,7 @@ public class Top {
     @Id
     @Column
     private Integer position;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn (name = "login")
     private User user;
 

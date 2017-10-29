@@ -22,19 +22,19 @@ public class User {
     private long amountGames;
     @Column
     private long amountWin;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable (name = "friends",
             joinColumns = @JoinColumn (name = "user1",
                     referencedColumnName = "login"),
             inverseJoinColumns = @JoinColumn (name = "user2",
                     referencedColumnName = "login"))
     private Collection<User> friends;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "canUse",
         joinColumns = @JoinColumn (name = "ourUser", referencedColumnName = "login"),
         inverseJoinColumns = @JoinColumn(name = "card", referencedColumnName = "id"))
     private Collection<Card> cardsCanUse;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "inUse",
         joinColumns = @JoinColumn(name = "ourUser", referencedColumnName = "login"),
         inverseJoinColumns = @JoinColumn(name = "card", referencedColumnName = "id"))

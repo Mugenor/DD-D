@@ -10,7 +10,7 @@ public class Episode {
     @SequenceGenerator(name = "episodeSeq", sequenceName = "episodeSeq")
     @Column(name = "id")
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "creature_id")
     private Creature creature;
     @Column(name = "cause")
@@ -19,15 +19,19 @@ public class Episode {
     private String problem;
     @Column(name = "solution")
     private String solution;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "solver_id")
     private Person solver;
     @Column(name = "series")
     private int series;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "epis_place", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"), inverseJoinColumns =
         @JoinColumn(name = "place", referencedColumnName = "id"))
     private Collection<Place> place;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "epis_person", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name="person", referencedColumnName = "id"))
+    private Collection<Person> participants;
 
     public Long getId() {
         return id;

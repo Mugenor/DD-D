@@ -17,9 +17,13 @@ public class Creature {
     private String picture;
     @Column(name = "description")
     private String description;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "episode_id")
+    private Episode episode;
+
 
     public Long getId() {
         return id;
