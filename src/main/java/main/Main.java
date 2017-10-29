@@ -6,6 +6,7 @@ import main.entities.Place;
 import main.entities.Position;
 import main.repositories.*;
 import main.services.PersonService;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -24,8 +25,7 @@ public class Main {
     }
 
     @Bean
-    public CommandLineRunner demo(PersonService personService, PersonRepository personRepository, FeatureRepository featureRepository, PlaceRepository placeRepository
-                    , PositionRepository positionRepository){
+    public CommandLineRunner demo(PersonService personService){
         return (args)-> {
             Person person = new Person();
             Position position = new Position();
@@ -42,24 +42,18 @@ public class Main {
             features.add(new Feature("nice boy"));
             features.add(new Feature("smart"));
             person.setFeatures(features);
-            personRepository.save(person);
-            person = personService.findById(1L);
+            personService.saveOrUpdate(person);
+            person = personService.getById(1L);
             if(person!=null) {
                 log.info("Person:\n " + person.toString());
             } else {
                 log.info("Peson: null");
             }
-            Iterable<Feature> newFeatures = featureRepository.findAll();
-            for(Feature feature: newFeatures){
-                log.info("Feature: " + feature.toString());
-            }
-            Iterable<Place> places = placeRepository.findAll();
-            for(Place newPlace: places){
-                log.info("Place: " + newPlace.toString());
-            }
-            Iterable<Position> positions = positionRepository.findAll();
-            for(Position position1: positions){
-                log.info("Position: " + position1.toString());
+            person = personService.getByName("Ilya");
+            if(person!=null) {
+                log.info("Person:\n " + person.toString());
+            } else {
+                log.info("Peson: null");
             }
         };
     }

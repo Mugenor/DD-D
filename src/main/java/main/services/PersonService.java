@@ -11,11 +11,16 @@ import java.util.List;
 
 @Service
 public class PersonService {
-    @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    public PersonService(PersonRepository personRepository){
+        this.personRepository = personRepository;
+    }
+    public PersonService(){}
+
     @Transactional
-    public Person findById(long id){
+    public Person getById(long id){
         Person person = personRepository.findOne(id);
         Hibernate.initialize(person.getFeatures());
         Hibernate.initialize(person.getPosition());
@@ -23,15 +28,13 @@ public class PersonService {
     }
 
     @Transactional
-    public List<Person> findByName(String name){
-        List<Person> persons = personRepository.findByName(name);
-        for(Person person: persons){
+    public Person getByName(String name){
+        Person person = personRepository.findByName(name);
             Hibernate.initialize(person.getFeatures());
             Hibernate.initialize(person.getPosition());
-        }
-        return persons;
+        return person;
     }
-
+    @Transactional
     public Iterable<Person> getAllPersons(){
         Iterable<Person> people = personRepository.findAll();
         for(Person person: people){
@@ -39,5 +42,17 @@ public class PersonService {
             Hibernate.initialize(person.getFeatures());
         }
         return people;
+    }
+    @Transactional
+    public Person saveOrUpdate(Person person){
+        return personRepository.save(person);
+    }
+    @Transactional
+    public void deleteById(Long id){
+        personRepository.delete(id);
+    }
+    @Transactional
+    public void delete(Person person){
+        personRepository.delete(person);
     }
 }

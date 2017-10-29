@@ -10,7 +10,7 @@ public class Feedback {
     @SequenceGenerator(name = "feedbackSeq", sequenceName = "feedbackSeq")
     @Column
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn (name = "ourUser")
     private User user;
     @Column
@@ -76,5 +76,12 @@ public class Feedback {
         this.isCard = isCard;
         this.date = date;
         this.response = response;
+    }
+
+    public Feedback (User user, String message, boolean isCard, Date date) {
+        this.user = user;
+        this.message = message;
+        this.isCard = isCard;
+        this.date = date;
     }
 }

@@ -26,8 +26,17 @@ public class Episode {
     private int series;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "epis_place", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"), inverseJoinColumns =
-        @JoinColumn(name = "place", referencedColumnName = "id"))
-    private Collection<Place> place;
+        @JoinColumn(name = "places", referencedColumnName = "id"))
+    private Collection<Place> places;
+
+    public Collection<Person> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Collection<Person> participants) {
+        this.participants = participants;
+    }
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "epis_person", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name="person", referencedColumnName = "id"))
@@ -72,11 +81,11 @@ public class Episode {
     public void setSeries(int series) {
         this.series = series;
     }
-    public Collection<Place> getPlace() {
-        return place;
+    public Collection<Place> getPlaces() {
+        return places;
     }
-    public void setPlace(Collection<Place> place) {
-        this.place = place;
+    public void setPlaces(Collection<Place> places) {
+        this.places = places;
     }
 
     @Override
@@ -89,18 +98,18 @@ public class Episode {
                 "\", solution=\"" + solution +
                 "\", solver=\"" + solver +
                 "\", series=\"" + series +
-                "\", place=\"" + place +
+                "\", places=\"" + places +
                 "\"}";
     }
 
     public Episode() {}
-    public Episode (Creature creature, String cause, String problem, String solution, Person solver, int series, Collection<Place> place) {
+    public Episode (Creature creature, String cause, String problem, String solution, Person solver, int series, Collection<Place> places) {
         this.creature = creature;
         this.cause = cause;
         this.problem = problem;
         this.solution = solution;
         this.solver = solver;
         this.series = series;
-        this.place = place;
+        this.places = places;
     }
 }

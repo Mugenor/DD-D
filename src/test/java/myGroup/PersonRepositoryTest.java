@@ -33,7 +33,7 @@ public class PersonRepositoryTest {
 
     @Test
     public void testPersonRepository(){
-        Person person = personService.findById(1L);
+        Person person = personService.getById(1L);
 
     }
 
