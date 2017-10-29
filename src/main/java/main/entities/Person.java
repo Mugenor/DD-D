@@ -1,10 +1,5 @@
 package main.entities;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -89,6 +84,13 @@ public class Person {
     }
 
     public Person() {}
+    public Person(String name, boolean sex, int age, String picture, Position position){
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.picture = picture;
+        this.position = position;
+    }
     public Person(String name, boolean sex, int age, String picture, Collection<Feature> features, Position position){
         this.name = name;
         this.sex = sex;

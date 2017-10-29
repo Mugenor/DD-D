@@ -1,7 +1,6 @@
 package main.entities;
 
 import org.hibernate.Hibernate;
-
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -58,7 +57,7 @@ public class Diary {
         if (Hibernate.isInitialized(author)) str = str + ", author:" + author;
         if (Hibernate.isInitialized(where)) str = str + ", where:" + where;
         if (Hibernate.isInitialized(finder)) str = str + ", finder:" + finder;
-        str = str + "}";
+        str = str + ", creatures:" + creatures.toString() + "}";
         return str;
     }
 
@@ -67,5 +66,11 @@ public class Diary {
         this.author = author;
         this.where = where;
         this.finder = finder;
+    }
+    public Diary (Person author, Place where, Person finder, Collection<Creature> creatures) {
+        this.author = author;
+        this.where = where;
+        this.finder = finder;
+        this.creatures = creatures;
     }
 }

@@ -19,7 +19,7 @@ public class Card {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
-    @Column(name = "cube_Number", unique = true, nullable = false)
+    @Column(name = "cube_number", unique = true, nullable = false)
     private int cubeNumber;
 
     public Long getId() {

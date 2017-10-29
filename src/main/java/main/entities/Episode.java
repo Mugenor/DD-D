@@ -1,5 +1,7 @@
 package main.entities;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -87,20 +89,27 @@ public class Episode {
 
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", creature=" + creature +
-                ", cause=\"" + cause +
-                "\", problem=\"" + problem +
-                "\", solution=\"" + solution +
-                "\", solver=" + solver +
-                ", series=" + series +
-                ", place=\"" + places +
-                "\"}";
+        String str = "{id:" + id;
+        if (Hibernate.isInitialized(creature)) str = str + ", creature:" + creature;
+        str = str +", cause:\"" + cause + "\", problem:\"" + problem + "\", solution:\"" + solution;
+        if (Hibernate.isInitialized(solver)) str = str + ", solver:" + solver;
+        str = str + ", series:" + series;
+        if (Hibernate.isInitialized(places)) str = str + ", places:" + places;
+        if (Hibernate.isInitialized(participants)) str = str + ", participants:" + participants;
+        str = str + "}";
+        return str;
     }
 
     public Episode() {}
-    public Episode (Creature creature, String cause, String problem, String solution, Person solver, int series, Collection<Place> places) {
+    public Episode (Creature creature, String cause, String problem, String solution, Person solver, int series) {
+        this.creature = creature;
+        this.cause = cause;
+        this.problem = problem;
+        this.solution = solution;
+        this.solver = solver;
+        this.series = series;
+    }
+    public Episode (Creature creature, String cause, String problem, String solution, Person solver, int series, Collection<Place> places, Collection<Person> participants) {
         this.creature = creature;
         this.cause = cause;
         this.problem = problem;
@@ -108,5 +117,6 @@ public class Episode {
         this.solver = solver;
         this.series = series;
         this.places = places;
+        this.participants = participants;
     }
 }

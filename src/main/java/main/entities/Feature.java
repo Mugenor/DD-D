@@ -9,7 +9,7 @@ public class Feature {
     @SequenceGenerator(name = "featureSeq", sequenceName = "featureSeq")
     @Column(name = "id")
     private Long id;
-    @Column(name = "description")
+    @Column(name = "description", unique = true, nullable = false)
     private String description;
 
     public Long getId() {
@@ -25,8 +25,8 @@ public class Feature {
     @Override
     public String toString() {
         return "{" +
-                "id=\"" + id +
-                "\", description=\"" + description +
+                "id:" + id +
+                ", description:\"" + description +
                 "\"}";
     }
 
