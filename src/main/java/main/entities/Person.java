@@ -29,7 +29,7 @@ public class Person {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "pers_feat", joinColumns = @JoinColumn(name = "person", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "feature", referencedColumnName = "id"))
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     private Collection<Feature> features;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "position_id")

@@ -6,7 +6,8 @@ import java.util.Date;
 @Entity (name = "feedback")
 public class Feedback {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "feedbackSeq")
+    @SequenceGenerator(name = "feedbackSeq", sequenceName = "feedbackSeq")
     @Column
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)

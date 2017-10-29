@@ -5,7 +5,8 @@ import javax.persistence.*;
 @Entity(name = "card")
 public class Card {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cardSeq")
+    @SequenceGenerator(name = "cardSeq", sequenceName = "cardSeq")
     @Column(name = "id")
     private Long id;
     @Column(name = "name")

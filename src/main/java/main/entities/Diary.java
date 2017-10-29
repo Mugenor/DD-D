@@ -5,7 +5,8 @@ import javax.persistence.*;
 @Entity(name = "diary")
 public class Diary {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "diarySeq")
+    @SequenceGenerator(name = "diarySeq", sequenceName = "diarySeq")
     @Column(name = "id")
     private Integer id;
     @OneToOne(cascade = CascadeType.ALL)

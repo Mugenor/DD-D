@@ -6,7 +6,8 @@ import java.util.Collection;
 @Entity(name = "episode")
 public class Episode {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "episodeSeq")
+    @SequenceGenerator(name = "episodeSeq", sequenceName = "episodeSeq")
     @Column(name = "id")
     private Long id;
     @OneToOne(cascade = CascadeType.ALL)

@@ -6,7 +6,8 @@ import java.util.Date;
 @Entity (name = "news")
 public class News {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "newsSeq")
+    @SequenceGenerator(name = "newsSeq", sequenceName = "newsSeq")
     @Column
     private long id;
     @Column
