@@ -25,47 +25,66 @@ public class Person {
     @JoinColumn(name = "position_id")
     private Position position;
 
-    public Person(){}
-    public Person(String name, boolean sex, int age, String picture){
-        this.name = name;
-        this.sex = sex;
-        this.age = age;
-        this.picture = picture;
-    }
-
     public Long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public boolean isSex() {
         return sex;
     }
-
     public void setSex(boolean sex) {
         this.sex = sex;
     }
-
     public int getAge() {
         return age;
     }
-
     public void setAge(int age) {
         this.age = age;
     }
-
     public String getPicture() {
         return picture;
     }
-
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+    public Collection<Feature> getFeatures() {
+        return features;
+    }
+    public void setFeatures(Collection<Feature> features) {
+        this.features = features;
+    }
+    public Position getPosition() {
+        return position;
+    }
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=\"" + id +
+                "\", name=\"" + name +
+                "\", sex=\"" + sex +
+                "\", age=\"" + age +
+                "\", picture=\"" + picture +
+                "\", features=\"" + features +
+                "\", position=\"" + position +
+                "\"}";
+    }
+
+    public Person() {}
+    public Person(String name, boolean sex, int age, String picture, Collection<Feature> features, Position position){
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.picture = picture;
+        this.features = features;
+        this.position = position;
     }
 }

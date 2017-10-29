@@ -11,4 +11,26 @@ public class Place {
     @Column(name = "place")
     private String place;
 
+    public Integer getId() {
+        return id;
+    }
+    public String getPlace() {
+        return place;
+    }
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=\"" + id +
+                "\", place=\"" + place +
+                "\"}";
+    }
+
+    public Place() {}
+    public Place(String place){
+        this.place = place;
+    }
 }
