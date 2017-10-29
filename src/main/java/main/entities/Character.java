@@ -18,7 +18,7 @@ public class Character {
     @JoinColumn(name = "skill_id")
     private Skill skill;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id")
+    @JoinColumn(name = "person")
     private Person person;
 
     public Long getId() {

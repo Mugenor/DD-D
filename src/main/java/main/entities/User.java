@@ -88,6 +88,22 @@ public class User {
         this.friends = friends;
     }
 
+    public Collection<Card> getCardsCanUse() {
+        return cardsCanUse;
+    }
+
+    public void setCardsCanUse(Collection<Card> cardsCanUse) {
+        this.cardsCanUse = cardsCanUse;
+    }
+
+    public Collection<Card> getCardsInUse() {
+        return cardsInUse;
+    }
+
+    public void setCardsInUse(Collection<Card> cardsInUse) {
+        this.cardsInUse = cardsInUse;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -98,11 +114,14 @@ public class User {
                 "\", winrate=\"" + winrate +
                 "\", amountGames=\"" + amountGames +
                 "\", amountWin=\"" + amountWin +
-                "\", friends=\"" + friends +
-                "\"}";
+                "\", friends=" + friends +
+                ", cardsCanUse=" + cardsCanUse +
+                ", cardsInUse=" + cardsInUse +
+                "}";
     }
 
     public User() {}
+
     public User(String login, long password, String username, int status, double winrate, long amountGames, long amountWin, Collection<User> friends){
         this.login = login;
         this.password = password;
@@ -112,5 +131,19 @@ public class User {
         this.amountGames = amountGames;
         this.amountWin = amountWin;
         this.friends = friends;
+    }
+
+    public User(String login, long password, String username, int status, double winrate, long amountGames, long amountWin, Collection<User> friends
+        ,Collection<Card> canUse, Collection<Card> inUse){
+        this.login = login;
+        this.password = password;
+        this.username = username;
+        this.status = status;
+        this.winrate = winrate;
+        this.amountGames = amountGames;
+        this.amountWin = amountWin;
+        this.friends = friends;
+        this.cardsCanUse = canUse;
+        this.cardsInUse = inUse;
     }
 }

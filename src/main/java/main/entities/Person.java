@@ -1,10 +1,19 @@
 package main.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity(name = "person")
 public class Person {
+    @Transient
+    public static final boolean MALE = true;
+    @Transient
+    public static final boolean FEMALE = false;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -20,6 +29,7 @@ public class Person {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "pers_feat", joinColumns = @JoinColumn(name = "person", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "feature", referencedColumnName = "id"))
+    @Fetch(FetchMode.JOIN)
     private Collection<Feature> features;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "position_id")
