@@ -29,6 +29,19 @@ public class User {
             inverseJoinColumns = @JoinColumn (name = "user2",
                     referencedColumnName = "login"))
     private Collection<User> friends;
+
+    public Collection<User> getAwaitingFriends() {
+        return awaitingFriends;
+    }
+
+    public void setAwaitingFriends(Collection<User> awaitingFriends) {
+        this.awaitingFriends = awaitingFriends;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "awaitingFriends", joinColumns = @JoinColumn(name = "user1", referencedColumnName = "login"),
+        inverseJoinColumns = @JoinColumn(name = "user2", referencedColumnName = "login"))
+    private Collection<User> awaitingFriends;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "canUse",
         joinColumns = @JoinColumn (name = "ourUser", referencedColumnName = "login"),

@@ -27,10 +27,10 @@ public class Episode {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "epis_place", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "place", referencedColumnName = "id"))
-    private Collection<Place> place;
+    private Collection<Place> places;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "epis_person", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name="person", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name="person", referencedColumnName = "id"))
     private Collection<Person> participants;
 
     public Long getId() {
@@ -72,11 +72,11 @@ public class Episode {
     public void setSeries(int series) {
         this.series = series;
     }
-    public Collection<Place> getPlace() {
-        return place;
+    public Collection<Place> getPlaces() {
+        return places;
     }
-    public void setPlace(Collection<Place> place) {
-        this.place = place;
+    public void setPlaces(Collection<Place> places) {
+        this.places = places;
     }
     public Collection<Person> getParticipants() {
         return participants;
@@ -95,18 +95,18 @@ public class Episode {
                 "\", solution=\"" + solution +
                 "\", solver=" + solver +
                 ", series=" + series +
-                ", place=\"" + place +
+                ", place=\"" + places +
                 "\"}";
     }
 
     public Episode() {}
-    public Episode (Creature creature, String cause, String problem, String solution, Person solver, int series, Collection<Place> place) {
+    public Episode (Creature creature, String cause, String problem, String solution, Person solver, int series, Collection<Place> places) {
         this.creature = creature;
         this.cause = cause;
         this.problem = problem;
         this.solution = solution;
         this.solver = solver;
         this.series = series;
-        this.place = place;
+        this.places = places;
     }
 }

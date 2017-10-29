@@ -77,4 +77,11 @@ public class Feedback {
         this.date = date;
         this.response = response;
     }
+
+    public Feedback (User user, String message, boolean isCard, Date date) {
+        this.user = user;
+        this.message = message;
+        this.isCard = isCard;
+        this.date = date;
+    }
 }
