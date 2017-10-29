@@ -15,7 +15,8 @@ public class Person {
     @Transient
     public static final boolean FEMALE = false;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "personSeq")
+    @SequenceGenerator(name = "personSeq", sequenceName = "personSeq")
     @Column(name = "id")
     private Long id;
     @Column(name = "name")

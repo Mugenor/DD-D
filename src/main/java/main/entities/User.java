@@ -6,7 +6,8 @@ import java.util.Collection;
 @Entity (name = "ourUser")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "userSeq")
+    @SequenceGenerator(name = "userSeq", sequenceName = "userSeq")
     @Column
     private String login;
     @Column

@@ -5,7 +5,8 @@ import javax.persistence.*;
 @Entity(name = "position")
 public class Position {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "positionSeq")
+    @SequenceGenerator(name = "positionSeq", sequenceName = "positionSeq")
     @Column(name = "id")
     private Long id;
     @Column(name = "name")
