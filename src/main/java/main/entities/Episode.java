@@ -28,6 +28,10 @@ public class Episode {
     @JoinTable(name = "epis_place", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"), inverseJoinColumns =
         @JoinColumn(name = "places", referencedColumnName = "id"))
     private Collection<Place> places;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "epis_person", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name="person", referencedColumnName = "id"))
+    private Collection<Person> participants;
 
     public Collection<Person> getParticipants() {
         return participants;
@@ -37,10 +41,6 @@ public class Episode {
         this.participants = participants;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "epis_person", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name="person", referencedColumnName = "id"))
-    private Collection<Person> participants;
 
     public Long getId() {
         return id;

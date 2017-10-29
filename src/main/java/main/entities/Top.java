@@ -8,7 +8,7 @@ public class Top {
     @Column
     private Integer position;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn (name = "login")
+    @JoinColumn (name = "ourUser")
     private User user;
 
     public Integer getPosition() {
