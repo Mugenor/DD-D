@@ -1,6 +1,5 @@
 package main.services;
 
-
 import main.entities.Diary;
 import main.repositories.DiaryRepository;
 import org.hibernate.Hibernate;
