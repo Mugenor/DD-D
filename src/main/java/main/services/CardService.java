@@ -52,7 +52,7 @@ public class CardService {
 
     /**
      * Return all Cards from the database
-     * @return iterable of Cards
+     * @return Cards
      */
     @Transactional
     public Iterable<Card> getAllCards(){
@@ -62,7 +62,7 @@ public class CardService {
 
     /**
      * Save the Card if it's a new or update if it already exists
-     * @param card Card which should be saved or updated
+     * @param card which should be saved or updated
      * @return saved or updated Card
      */
     @Transactional

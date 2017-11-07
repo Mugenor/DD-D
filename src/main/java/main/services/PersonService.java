@@ -18,9 +18,9 @@ public class PersonService {
     public PersonService(){}
 
     /**
-     * Find and return Person by id in database
-     * @param id person's id
-     * @return person with id = id
+     * Find and return one Person by id from the database
+     * @param id of required Person
+     * @return one Person
      */
     @Transactional
     public Person getById(long id){
@@ -31,9 +31,9 @@ public class PersonService {
     }
 
     /**
-     * Find and return Person by his name in database
-     * @param name person's name
-     * @return person with name = name
+     * Find and return one Person by name from the database
+     * @param name of required Person
+     * @return one Person
      */
     @Transactional
     public Person getByName(String name){
@@ -44,8 +44,8 @@ public class PersonService {
     }
 
     /**
-     * Find and return all persons in database
-     * @return iterable array of persons
+     * Return all Persons without Features and Positions from the database
+     * @return Persons with minimum information
      */
     @Transactional
     public Iterable<Person> getAllPersons(){
@@ -58,10 +58,9 @@ public class PersonService {
     }
 
     /**
-     *
-     * Save person if it's new or update if it's already exists in database
-     * @param person person
-     * @return person which was saved or updated
+     * Save the Person if it's a new or update if it already exists
+     * @param person which should be saved or updated
+     * @return saved or updated Person
      */
     @Transactional
     public Person saveOrUpdate(Person person){
@@ -69,8 +68,8 @@ public class PersonService {
     }
 
     /**
-     * Delete person by his id from database
-     * @param id person's id
+     * Delete the Person by id from the database
+     * @param id of required Person
      */
     @Transactional
     public void deleteById(Long id){
@@ -78,8 +77,8 @@ public class PersonService {
     }
 
     /**
-     * Delete person from database
-     * @param person person
+     * Delete the required Person from the database
+     * @param person which should be deleted
      */
     @Transactional
     public void delete(Person person){
@@ -87,8 +86,8 @@ public class PersonService {
     }
 
     /**
-     * Delete person by his name from database
-     * @param name person's name
+     * Delete the Person by name from the database
+     * @param name of required Person
      */
     @Transactional void deleteByName(String name){
         personRepository.deleteByName(name);

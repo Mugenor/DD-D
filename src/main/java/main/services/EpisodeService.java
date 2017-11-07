@@ -17,17 +17,9 @@ public class EpisodeService {
     public EpisodeService(){}
 
     /**
-     * Find and return all episodes without Creature, Solver, Places, Participants from database
-     * @return all episodes with minimum info
-     */
-    @Transactional
-    public Iterable<Episode> getAllEpisodes(){
-       return episodeRepository.findAll();
-    }
-    /**
-     * Find and return Diary by id in database
-     * @param series Series with this episode
-     * @return Episode
+     * Find and return one Episode by series from the database
+     * @param series of required Episode
+     * @return one Episode
      */
     @Transactional
     public Episode getBySeries(int series){
@@ -40,9 +32,9 @@ public class EpisodeService {
     }
 
     /**
-     * Find and return Diary by id in database
-     * @param id of this episode
-     * @return episode
+     * Find and return one Episode by id from the database
+     * @param id of required Episode
+     * @return one Episode
      */
     @Transactional
     public Episode getById(Long id){
@@ -55,9 +47,18 @@ public class EpisodeService {
     }
 
     /**
-     * Save episode if it's new or update it if it's already exists in database
-     * @param episode episode which should be updated or saved
-     * @return Saved or updated episode
+     * Return all Episodes without Creatures, Solvers, Places and Participants from the database
+     * @return Episodes with minimum information
+     */
+    @Transactional
+    public Iterable<Episode> getAllEpisodes(){
+        return episodeRepository.findAll();
+    }
+
+    /**
+     * Save the Episode if it's a new or update if it already exists
+     * @param episode which should be saved or updated
+     * @return saved or updated Episode
      */
     @Transactional
     public Episode saveOrUpdate(Episode episode){
@@ -65,8 +66,8 @@ public class EpisodeService {
     }
 
     /**
-     * Delete episode in series from database
-     * @param series Series with this episode
+     * Delete the Episode by series from the database
+     * @param series of required Episode
      */
     @Transactional
     public void deleteBySeries(int series){
@@ -74,8 +75,8 @@ public class EpisodeService {
     }
 
     /**
-     * Delete episode by his id from database
-     * @param id episode's id which should be deleted
+     * Delete the Episode by id from the database
+     * @param id of required Episode
      */
     @Transactional
     public void deleteById(Long id){
@@ -83,8 +84,8 @@ public class EpisodeService {
     }
 
     /**
-     * Delete episode from database
-     * @param episode episod which should be deleted
+     * Delete the required Episode from the database
+     * @param episode which should be deleted
      */
     @Transactional
     public void delete(Episode episode){episodeRepository.delete(episode);}

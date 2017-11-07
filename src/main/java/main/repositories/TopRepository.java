@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface TopRepository extends CrudRepository<Top, Integer> {
     @Query ("select top from top where user.username=:username")
     public Top findByUsername (@Param("username") String username);
+    @Query ("delete from top where user.username=:username")
+    public void deleteByUsername (@Param("username") String username);
 }

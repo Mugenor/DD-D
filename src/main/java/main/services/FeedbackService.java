@@ -21,20 +21,9 @@ public class FeedbackService {
     }
 
     /**
-     * Find and return all feedbacks in database
-     * @return all feedbacks
-     */
-    public Iterable<Feedback> getAllFeebacks(){
-        Iterable<Feedback> feedbacks = feedbackRepository.findAll();
-        for(Feedback feedback: feedbacks){
-            Hibernate.initialize(feedback.getUser());
-        }
-        return feedbacks;
-    }
-    /**
-     * Find and return Feedback by id in database
-     * @param id feedback's id which should be returned
-     * @return Feedback
+     * Find and return one Feedback by id from the database
+     * @param id of required Feedback
+     * @return one Feedback
      */
     @Transactional
     public Feedback getById(Long id){
@@ -44,9 +33,9 @@ public class FeedbackService {
     }
 
     /**
-     * Find and return all Feedbacks of User in database
-     * @param username User's username
-     * @return List of Feedbacks from this user
+     * Find and return one Feedback by username from the database
+     * @param username of required Feedback
+     * @return one Feedback
      */
     @Transactional
     public List<Feedback> getByUserName(String username){
@@ -58,8 +47,8 @@ public class FeedbackService {
     }
 
     /**
-     * Find and return all unanswered Feedbacks in database
-     * @return unaswered Feedbacks
+     * Find and return all unanswered Feedbacks from the database
+     * @return the list of unanswered Feedbacks
      */
     @Transactional
     public List<Feedback> getUnanswered(){
@@ -71,8 +60,20 @@ public class FeedbackService {
     }
 
     /**
-     * Save feedback if it's new or update it if it's already exists in database
-     * @param feedback feedback which should be saved
+     * Return all Feedbacks from the database
+     * @return Feedbacks
+     */
+    public Iterable<Feedback> getAllFeebacks(){
+        Iterable<Feedback> feedbacks = feedbackRepository.findAll();
+        for(Feedback feedback: feedbacks){
+            Hibernate.initialize(feedback.getUser());
+        }
+        return feedbacks;
+    }
+
+    /**
+     * Save the Feedback if it's a new or update if it already exists
+     * @param feedback which should be saved or updated
      * @return saved or updated feedback
      */
     @Transactional
@@ -81,8 +82,8 @@ public class FeedbackService {
     }
 
     /**
-     * Delete feedback with id from database
-     * @param id feedback's id
+     * Delete the feedback by id from the database
+     * @param id of required Feedback
      */
     @Transactional
     public void deleteById(Long id){
@@ -90,8 +91,8 @@ public class FeedbackService {
     }
 
     /**
-     * Delete all feedback which where created before date from database
-     * @param date all feedback which where created before this date will be deleted
+     * Delete all feedbacks which were created before the required date from the database
+     * @param date all feedbacks which were created before this date will be deleted
      */
     @Transactional
     public void deleteAllBeforeDate(Date date){
@@ -99,8 +100,8 @@ public class FeedbackService {
     }
 
     /**
-     * Delete feedback from database
-     * @param feedback feedback which should be deleted
+     * Delete the required Feedback from the database
+     * @param feedback which should be deleted
      */
     @Transactional
     public void delete(Feedback feedback){
