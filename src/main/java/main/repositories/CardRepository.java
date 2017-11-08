@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface CardRepository extends CrudRepository<Card, Long> {
     public Card findByName (String name);
     public Card findByCubeNumber (int number);
+    public void deleteByName (String name);
 }

@@ -5,8 +5,6 @@ import main.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -19,29 +17,9 @@ public class FriendsService {
     public FriendsService(){}
 
     /**
-     * Find and return all friends of user in database
-     * @param user user which friends you want to get
-     * @return list of friends
-     */
-    @Transactional
-    public List<User> getAllFriends(User user){
-        return userRepository.getAllFriends(user.getUsername());
-    }
-
-    /**
-     * Find and return all friends of user in database
-     * @param username user's username
-     * @return list of friends
-     */
-    @Transactional
-    public List<User> getAllFriends(String username){
-        return userRepository.getAllFriends(username);
-    }
-
-    /**
-     * Find and return all awaiting friends of user in database
-     * @param user user which awaiting friends you want to get
-     * @return list of awaiting friends
+     * Find and return the list of awaitingFriends by User from the database
+     * @param user of required User
+     * @return list of awaitingFriends
      */
     @Transactional
     public List<User> getAllAwaitingFriends(User user){
@@ -49,20 +27,31 @@ public class FriendsService {
     }
 
     /**
-     * Find and return all awaiting friends of user in database
-     * @param username user's username
-     * @return list of awaiting friends
+     * Find and return the list of awaitingFriends by User from the database
+     * @param username of required User
+     * @return list of awaitingFriends
      */
     @Transactional
     public List<User> getAllAwaitingFriends(String username){
         return userRepository.getAllAwaitingFriends(username);
     }
 
+
     /**
-     * Add to user's friend list a new friend in database
-     * @param user user which accepted a new friend
-     * @param friend user which want to be a friend of user
-     * @return true - if success. false - if unsuccess
+     * Return all Friends from the database
+     * @return thelist of friends
+     */
+    @Transactional
+    public List<User> getAllFriends(String username){
+        return userRepository.getAllFriends(username);
+    }
+
+
+    /**
+     * Add in user's friends a new friend
+     * @param user who accepted a new friend
+     * @param friend who want to be a friend for required user
+     * @return true if successfully, false if unsuccessfully
      */
     @Transactional
     public boolean addFriendToUser(User user, User friend){
@@ -88,10 +77,10 @@ public class FriendsService {
     }
 
     /**
-     * Remove friend from user's friend list in database
-     * @param user user who remove a friend
-     * @param friend friend which is removing
-     * @return true - if success. false - if unsuccess
+     * Remove friend from user's friends
+     * @param user who remove a friend
+     * @param friend which will be removed
+     * @return true if successfully, false if unsuccessfully
      */
     @Transactional
     public boolean removeFriendFromUser(User user, User friend){
@@ -110,10 +99,10 @@ public class FriendsService {
     }
 
     /**
-     * Adding a friend request to user from friend in database
-     * @param user will have new request
-     * @param friend user which requested to be friends
-     * @return true - if success. false - if unsuccess
+     * Add a friend request to user from new friend
+     * @param user who have new request
+     * @param friend which requested in friends
+     * @return true if successfully, false if unsuccessfully
      */
     @Transactional
     public boolean addRequestForFriends(User user, User friend){
@@ -126,10 +115,10 @@ public class FriendsService {
     }
 
     /**
-     * User reject a friend request from friend in database
-     * @param user user who rejected request
-     * @param friend user whose request were rejected
-     * @return true - if success. false - if unsuccess
+     * User reject a request from friend
+     * @param user who rejected request
+     * @param friend whose request were rejected
+     * @return true if successfully, false if unsuccessfully
      */
     @Transactional
     public boolean rejectRequestForFriends(User user, User friend){

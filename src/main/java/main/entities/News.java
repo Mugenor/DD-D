@@ -10,11 +10,11 @@ public class News {
     @SequenceGenerator(name = "newsSeq", sequenceName = "newsSeq")
     @Column
     private long id;
-    @Column
+    @Column(nullable = false)
     private String news;
-    @Column
+    @Column (nullable = false)
     private String topic;
-    @Column
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
@@ -43,10 +43,10 @@ public class News {
     @Override
     public String toString() {
         return "{" +
-                "id=\"" + id +
-                "\", news=\"" + news +
-                "\", topic=\"" + topic +
-                "\", date=\"" + date +
+                "id:" + id +
+                ", news:\"" + news +
+                "\", topic:\"" + topic +
+                "\", date:\"" + date +
                 "\"}";
     }
 

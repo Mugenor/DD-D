@@ -9,13 +9,13 @@ public class Skill {
     @SequenceGenerator(name = "skillSeq", sequenceName = "skillSeq")
     @Column(name = "id")
     private Long id;
-    @Column(name = "description")
+    @Column(name = "description", unique = true, nullable = false)
     private String description;
-    @Column(name = "shortDescription")
+    @Column(name = "shortDescription", unique = true, nullable = false)
     private String shortDescription;
-    @Column(name = "picture")
+    @Column(name = "picture", unique = true, nullable = false)
     private String picture;
-    @Column(name = "distance")
+    @Column(name = "distance", nullable = false)
     private int distance;
 
     public Long getId() {
@@ -49,12 +49,12 @@ public class Skill {
     @Override
     public String toString() {
         return "{" +
-                "id=\"" + id +
-                "\", description=\"" + description +
-                "\", shortDescription=\"" + shortDescription +
-                "\", picture=\"" + picture +
-                "\", distance=\"" + distance +
-                "\"}";
+                "id:" + id +
+                ", description:\"" + description +
+                "\", shortDescription:\"" + shortDescription +
+                "\", picture:\"" + picture +
+                "\", distance:" + distance +
+                "}";
     }
 
     public Skill() {}

@@ -9,9 +9,9 @@ public class Position {
     @SequenceGenerator(name = "positionSeq", sequenceName = "positionSeq")
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "place_id")
     private Place place;
 
@@ -34,10 +34,10 @@ public class Position {
     @Override
     public String toString() {
         return "{" +
-                "id=\"" + id +
-                "\", name=\"" + name +
-                "\", place=\"" + place +
-                "\"}";
+                "id:" + id +
+                ", name:\"" + name +
+                "\", place:" + place +
+                "}";
     }
 
     public Position() {}

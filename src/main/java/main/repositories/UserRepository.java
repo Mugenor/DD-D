@@ -10,9 +10,15 @@ import java.util.List;
 @Repository
 public interface UserRepository extends CrudRepository<User, String>{
     public User findByUsername(String username);
-    public User findByStatus(int status);
-    @Query("select u.friends from ourUser u where u.username = :username")
+
+    @Query("select ou from ourUser ou where ou.status = :status")
+    public List<User> findByStatus(@Param("status") int status);
+
+    public void deleteByUsername (String username);
+
+    @Query("select ou.friends from ourUser ou where ou.username = :username")
     public List<User> getAllFriends(@Param("username") String username);
-    @Query("select u.awaitingFriends from ourUser u where u.username = :username")
+
+    @Query("select ou.awaitingFriends from ourUser ou where ou.username = :username")
     public List<User> getAllAwaitingFriends(@Param("username") String username);
 }

@@ -1,7 +1,6 @@
 package main.entities;
 
 import org.hibernate.Hibernate;
-
 import javax.persistence.*;
 
 @Entity(name = "creature")
@@ -83,11 +82,12 @@ public class Creature {
     }
 
     public Creature() {}
-    public Creature (String name, int amount, String picture, String description, Diary diary) {
+    public Creature (String name, int amount, String picture, String description, Diary diary, Episode episode) {
         this.name = name;
         this.amount = amount;
         this.picture = picture;
         this.description = description;
         this.diary = diary;
+        this.episode = episode;
     }
 }

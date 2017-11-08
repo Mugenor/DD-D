@@ -5,17 +5,16 @@ import javax.persistence.*;
 @Entity (name = "top")
 public class Top {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "topSeq")
+    @SequenceGenerator(name = "topSeq", sequenceName = "topSeq")
     @Column
     private Integer position;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn (name = "ourUser")
+    @JoinColumn (name = "ourUser", unique = true)
     private User user;
 
     public Integer getPosition() {
         return position;
-    }
-    public void setPosition(Integer position) {
-        this.position = position;
     }
     public User getUser() {
         return user;
@@ -27,9 +26,9 @@ public class Top {
     @Override
     public String toString() {
         return "{" +
-                "position=\"" + position +
-                "\", user=\"" + user +
-                "\"}";
+                "position:" + position +
+                ", user:" + user +
+                "}";
     }
 
     public Top() {}

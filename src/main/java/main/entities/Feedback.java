@@ -11,11 +11,11 @@ public class Feedback {
     @Column
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn (name = "ourUser")
+    @JoinColumn (name = "ourUser", nullable = false)
     private User user;
     @Column
     private String message;
-    @Column
+    @Column (name = "is_card")
     private boolean isCard;
     @Column
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,28 +60,27 @@ public class Feedback {
     @Override
     public String toString() {
         return "{" +
-                "id=\"" + id +
-                "\", user=\"" + user +
-                "\", message=\"" + message +
-                "\", isCard=\"" + isCard +
-                "\", date=\"" + date +
-                "\", response=\"" + response +
+                "id:" + id +
+                ", user:" + user +
+                ", message:\"" + message +
+                "\", isCard:" + isCard +
+                ", date:\"" + date +
+                "\", response:\"" + response +
                 "\"}";
     }
 
     public Feedback() {}
+    public Feedback (User user, String message, boolean isCard, Date date) {
+        this.user = user;
+        this.message = message;
+        this.isCard = isCard;
+        this.date = date;
+    }
     public Feedback (User user, String message, boolean isCard, Date date, String response) {
         this.user = user;
         this.message = message;
         this.isCard = isCard;
         this.date = date;
         this.response = response;
-    }
-
-    public Feedback (User user, String message, boolean isCard, Date date) {
-        this.user = user;
-        this.message = message;
-        this.isCard = isCard;
-        this.date = date;
     }
 }

@@ -1,10 +1,6 @@
 package main.entities;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
+import org.hibernate.Hibernate;
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -19,13 +15,13 @@ public class Person {
     @SequenceGenerator(name = "personSeq", sequenceName = "personSeq")
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
-    @Column(name = "sex")
+    @Column(name = "sex", nullable = false)
     private boolean sex;
     @Column(name = "age")
     private int age;
-    @Column(name = "picture")
+    @Column(name = "picture", unique = true)
     private String picture;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "pers_feat", joinColumns = @JoinColumn(name = "person", referencedColumnName = "id"),
@@ -77,18 +73,22 @@ public class Person {
 
     @Override
     public String toString() {
-        return "{" +
-                "id=\"" + id +
-                "\", name=\"" + name +
-                "\", sex=\"" + sex +
-                "\", age=\"" + age +
-                "\", picture=\"" + picture +
-                "\", features=\"" + features +
-                "\", position=\"" + position +
-                "\"}";
+        String str = "{id:" + id + ", name:\"" + name + "\", sex:" + sex +
+                ", age:" + age + ", picture:\"" + picture + "\"";
+        if (Hibernate.isInitialized(features)) str = str + ", features:" + features;
+        if (Hibernate.isInitialized(position)) str = str + ", position:" + position;
+        str = str + "}";
+        return str;
     }
 
     public Person() {}
+    public Person(String name, boolean sex, int age, String picture, Position position){
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.picture = picture;
+        this.position = position;
+    }
     public Person(String name, boolean sex, int age, String picture, Collection<Feature> features, Position position){
         this.name = name;
         this.sex = sex;

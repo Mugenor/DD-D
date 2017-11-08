@@ -9,7 +9,7 @@ public class Place {
     @SequenceGenerator(name = "placeSeq", sequenceName = "placeSeq")
     @Column(name = "id")
     private Integer id;
-    @Column(name = "place")
+    @Column(name = "place", unique = true, nullable = false)
     private String place;
 
     public Integer getId() {
@@ -25,8 +25,8 @@ public class Place {
     @Override
     public String toString() {
         return "{" +
-                "id=\"" + id +
-                "\", place=\"" + place +
+                "id:" + id +
+                ", place:\"" + place +
                 "\"}";
     }
 

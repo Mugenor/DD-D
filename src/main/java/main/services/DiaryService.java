@@ -1,6 +1,5 @@
 package main.services;
 
-
 import main.entities.Diary;
 import main.repositories.DiaryRepository;
 import org.hibernate.Hibernate;
@@ -19,22 +18,9 @@ public class DiaryService {
     public DiaryService(){}
 
     /**
-     * Find and return all diaries without Creatures from database
-     * @return diaries with minimum info
-     */
-    public Iterable<Diary> getAllDiaries(){
-        Iterable<Diary> diaries = diaryRepository.findAll();
-        for(Diary diary: diaries){
-            Hibernate.initialize(diary.getWhere());
-            Hibernate.initialize(diary.getFinder());
-            Hibernate.initialize(diary.getAuthor());
-        }
-        return diaries;
-    }
-    /**
-     * Find and return Diary by id in database
-     * @param id Diary id in database
-     * @return Diary with id = @param id
+     * Find and return one Diary by id from the database
+     * @param id of required Diary
+     * @return one Diary
      */
     @Transactional
     public Diary getById(Integer id){
@@ -47,9 +33,23 @@ public class DiaryService {
     }
 
     /**
-     * Save diary if it's new or update if it's already exists in database
-     * @param diary Diary
-     * @return Diary which was saved
+     * Return all Diaries without Creatures from the database
+     * @return Diaries with minimum information
+     */
+    public Iterable<Diary> getAllDiaries(){
+        Iterable<Diary> diaries = diaryRepository.findAll();
+        for(Diary diary: diaries){
+            Hibernate.initialize(diary.getWhere());
+            Hibernate.initialize(diary.getFinder());
+            Hibernate.initialize(diary.getAuthor());
+        }
+        return diaries;
+    }
+
+    /**
+     * Save the Diary if it's a new or update if it already exists
+     * @param diary which should be saved or updated
+     * @return saved or updated Diary
      */
     @Transactional
     public Diary saveOrUpdate(Diary diary){
@@ -57,16 +57,16 @@ public class DiaryService {
     }
 
     /**
-     * Delete diary by id from database
-     * @param id of diary which should be deleted
+     * Delete the Diary by id from the database
+     * @param id of required Diary
      */
     @Transactional
-    public void delete(Integer id){
+    public void deleteById(Integer id){
         diaryRepository.delete(id);
     }
 
     /**
-     * Delete diary from database
+     * Delete the required Diary from the database
      * @param diary which should be deleted
      */
     @Transactional

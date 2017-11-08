@@ -1,43 +1,32 @@
 package main.entities;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity (name = "ourUser")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "userSeq")
-    @SequenceGenerator(name = "userSeq", sequenceName = "userSeq")
     @Column
     private String login;
-    @Column
+    @Column (unique = true, nullable = false)
     private long password;
-    @Column
+    @Column (unique = true, nullable = false)
     private String username;
-    @Column
+    @Column (nullable = false)
     private int status;
-    @Column
+    @Column (nullable = false)
     private double winrate;
-    @Column
+    @Column (nullable = false)
     private long amountGames;
-    @Column
+    @Column (nullable = false)
     private long amountWin;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable (name = "friends",
-            joinColumns = @JoinColumn (name = "user1",
-                    referencedColumnName = "login"),
-            inverseJoinColumns = @JoinColumn (name = "user2",
-                    referencedColumnName = "login"))
+            joinColumns = @JoinColumn (name = "user1", referencedColumnName = "login"),
+            inverseJoinColumns = @JoinColumn (name = "user2", referencedColumnName = "login"))
     private Collection<User> friends;
-
-    public Collection<User> getAwaitingFriends() {
-        return awaitingFriends;
-    }
-
-    public void setAwaitingFriends(Collection<User> awaitingFriends) {
-        this.awaitingFriends = awaitingFriends;
-    }
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "awaitingFriends", joinColumns = @JoinColumn(name = "user1", referencedColumnName = "login"),
         inverseJoinColumns = @JoinColumn(name = "user2", referencedColumnName = "login"))
@@ -56,9 +45,7 @@ public class User {
     public String getLogin() {
         return login;
     }
-    public void setLogin(String login) {
-        this.login = login;
-    }
+    public void setLogin (String login) { this.login = login; }
     public long getPassword() {
         return password;
     }
@@ -113,26 +100,29 @@ public class User {
     public void setCardsInUse(Collection<Card> cardsInUse) {
         this.cardsInUse = cardsInUse;
     }
+    public Collection<User> getAwaitingFriends() {
+        return awaitingFriends;
+    }
+    public void setAwaitingFriends(Collection<User> awaitingFriends) {
+        this.awaitingFriends = awaitingFriends;
+    }
 
     @Override
     public String toString() {
-        return "{" +
-                "login=\"" + login +
-                "\", password=\"******\"" +
-                "\", username=\"" + username +
-                "\", status=\"" + status +
-                "\", winrate=\"" + winrate +
-                "\", amountGames=\"" + amountGames +
-                "\", amountWin=\"" + amountWin +
-                "\", friends=" + friends +
-                ", cardsCanUse=" + cardsCanUse +
-                ", cardsInUse=" + cardsInUse +
-                "}";
+        String str = "{login:\"" + login + "\", password:\"******\"" + "\", username:\"" + username +
+                "\", status:" + status + ", winrate:" + winrate + ", amountGames:" + amountGames + ", amountWin:" + amountWin;
+        if (Hibernate.isInitialized(friends)) str = str + ", friends:" + friends;
+        if (Hibernate.isInitialized(awaitingFriends)) str = str + ", awaitingFriends:" + awaitingFriends;
+        if (Hibernate.isInitialized(cardsCanUse)) str = str + ", cardsCanUse:" + cardsCanUse;
+        if (Hibernate.isInitialized(cardsInUse)) str = str + ", cardsInUse:" + cardsInUse;
+        str = str + "}";
+        return str;
     }
 
     public User() {}
 
-    public User(String login, long password, String username, int status, double winrate, long amountGames, long amountWin, Collection<User> friends){
+    public User(String login, long password, String username, int status, double winrate, long amountGames, long amountWin,
+                Collection<User> friends, Collection<User> awaitingFriends){
         this.login = login;
         this.password = password;
         this.username = username;
@@ -141,10 +131,11 @@ public class User {
         this.amountGames = amountGames;
         this.amountWin = amountWin;
         this.friends = friends;
+        this.awaitingFriends = awaitingFriends;
     }
 
-    public User(String login, long password, String username, int status, double winrate, long amountGames, long amountWin, Collection<User> friends
-        ,Collection<Card> canUse, Collection<Card> inUse){
+    public User(String login, long password, String username, int status, double winrate, long amountGames, long amountWin,
+                Collection<User> friends,  Collection<User> awaitingFriends, Collection<Card> canUse, Collection<Card> inUse){
         this.login = login;
         this.password = password;
         this.username = username;
@@ -153,6 +144,7 @@ public class User {
         this.amountGames = amountGames;
         this.amountWin = amountWin;
         this.friends = friends;
+        this.awaitingFriends = awaitingFriends;
         this.cardsCanUse = canUse;
         this.cardsInUse = inUse;
     }
