@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserService {
     private UserRepository userRepository;
 
@@ -25,7 +26,6 @@ public class UserService {
      * @param login of required User
      * @return one User
      */
-    @Transactional
     public User getByLogin(String login){
         User user = userRepository.findOne(login);
         Hibernate.initialize(user.getFriends());
@@ -39,7 +39,6 @@ public class UserService {
      * @param username of required User
      * @return one User
      */
-    @Transactional
     public User getByUsername(String username){
         User user = userRepository.findByUsername(username);
         Hibernate.initialize(user.getFriends());
@@ -53,7 +52,6 @@ public class UserService {
      * @param status of required Users
      * @return Users
      */
-    @Transactional
     public List<User> getByStatus(int status){
         List<User> users = userRepository.findByStatus(status);
         for (User user : users) {
@@ -68,7 +66,6 @@ public class UserService {
      * Return all Users without friends, awaitingFriends, cardsCanUse and cardsInUse from the database
      * @return Users with minimum information
      */
-    @Transactional
     public Iterable<User> getAllUsers(){
         Iterable<User> users = userRepository.findAll();
         for(User user: users){
@@ -84,7 +81,6 @@ public class UserService {
      * @param user which should be saved or updated
      * @return saved or updated User
      */
-    @Transactional
     public User saveOrUpdate(User user){
         return userRepository.save(user);
     }
@@ -93,7 +89,6 @@ public class UserService {
      * Delete the User by login from the database
      * @param login of required User
      */
-    @Transactional
     public void deleteByLogin(String login){
         userRepository.delete(login);
     }
@@ -102,7 +97,6 @@ public class UserService {
      * Delete the User by username from the database
      * @param username of required User
      */
-    @Transactional
     public void deleteByUsername(String username){
         userRepository.deleteByUsername(username);
     }
@@ -111,7 +105,6 @@ public class UserService {
      * Delete the required User from the database
      * @param user which should be deleted
      */
-    @Transactional
     public void delete(User user){
         userRepository.delete(user);
     }

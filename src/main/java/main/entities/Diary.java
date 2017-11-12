@@ -1,6 +1,7 @@
 package main.entities;
 
 import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.util.Collection;
 

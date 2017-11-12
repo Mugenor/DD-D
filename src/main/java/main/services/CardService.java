@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CardService {
     private CardRepository cardRepository;
 
@@ -22,10 +23,8 @@ public class CardService {
      * @param id of required Card
      * @return one Card
      */
-    @Transactional
     public Card getById(long id){
-        Card card = cardRepository.findOne(id);
-        return card;
+        return cardRepository.findOne(id);
     }
 
     /**
@@ -33,10 +32,8 @@ public class CardService {
      * @param name of required Card
      * @return one Card
      */
-    @Transactional
     public Card getByName(String name){
-        Card card = cardRepository.findByName(name);
-        return card;
+        return cardRepository.findByName(name);
     }
 
     /**
@@ -44,20 +41,16 @@ public class CardService {
      * @param number of required Card
      * @return one Card
      */
-    @Transactional
     public Card getByCubeNumber(int number){
-        Card card = cardRepository.findByCubeNumber(number);
-        return card;
+        return cardRepository.findByCubeNumber(number);
     }
 
     /**
      * Return all Cards from the database
      * @return Cards
      */
-    @Transactional
     public Iterable<Card> getAllCards(){
-        Iterable<Card> cards = cardRepository.findAll();
-        return cards;
+        return cardRepository.findAll();
     }
 
     /**
@@ -65,7 +58,6 @@ public class CardService {
      * @param card which should be saved or updated
      * @return saved or updated Card
      */
-    @Transactional
     public Card saveOrUpdate(Card card){
         return cardRepository.save(card);
     }
@@ -74,7 +66,6 @@ public class CardService {
      * Delete the Card by id from the database
      * @param id of required Card
      */
-    @Transactional
     public void deleteById(Long id){
         cardRepository.delete(id);
     }
@@ -83,7 +74,6 @@ public class CardService {
      * Delete the Card by name from the database
      * @param name of the required Card
      */
-    @Transactional
     public void deleteByName(String name){
         cardRepository.deleteByName(name);
     }
@@ -92,7 +82,6 @@ public class CardService {
      * Delete the required Card from the database
      * @param card which should be deleted
      */
-    @Transactional
     public void delete(Card card){
         cardRepository.delete(card);
     }

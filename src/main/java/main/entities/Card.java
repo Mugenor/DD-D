@@ -3,6 +3,7 @@ package main.entities;
 import javax.persistence.*;
 
 @Entity(name = "card")
+@Table(name = "card")
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cardSeq")

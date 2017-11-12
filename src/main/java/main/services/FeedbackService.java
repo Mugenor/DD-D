@@ -6,10 +6,12 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class FeedbackService {
     private FeedbackRepository feedbackRepository;
 
@@ -25,7 +27,6 @@ public class FeedbackService {
      * @param id of required Feedback
      * @return one Feedback
      */
-    @Transactional
     public Feedback getById(Long id){
         Feedback feedback = feedbackRepository.findOne(id);
         Hibernate.initialize(feedback.getUser());
@@ -37,9 +38,8 @@ public class FeedbackService {
      * @param username of required Feedback
      * @return one Feedback
      */
-    @Transactional
     public List<Feedback> getByUserName(String username){
-        List<Feedback> feedbacks = feedbackRepository.findByUser_Username(username);
+        List<Feedback> feedbacks = feedbackRepository.findByUserUsername(username);
         for(Feedback feedback: feedbacks){
             Hibernate.initialize(feedback.getUser());
         }
@@ -50,7 +50,6 @@ public class FeedbackService {
      * Find and return all unanswered Feedbacks from the database
      * @return the list of unanswered Feedbacks
      */
-    @Transactional
     public List<Feedback> getUnanswered(){
         List<Feedback> feedbacks = feedbackRepository.findByResponseIsNull();
         for(Feedback feedback: feedbacks){
@@ -76,7 +75,6 @@ public class FeedbackService {
      * @param feedback which should be saved or updated
      * @return saved or updated feedback
      */
-    @Transactional
     public Feedback saveOrUpdate(Feedback feedback){
         return feedbackRepository.save(feedback);
     }
@@ -85,7 +83,6 @@ public class FeedbackService {
      * Delete the feedback by id from the database
      * @param id of required Feedback
      */
-    @Transactional
     public void deleteById(Long id){
         feedbackRepository.delete(id);
     }
@@ -94,7 +91,6 @@ public class FeedbackService {
      * Delete all feedbacks which were created before the required date from the database
      * @param date all feedbacks which were created before this date will be deleted
      */
-    @Transactional
     public void deleteAllBeforeDate(Date date){
         feedbackRepository.deleteAllByDateBefore(date);
     }
@@ -103,7 +99,6 @@ public class FeedbackService {
      * Delete the required Feedback from the database
      * @param feedback which should be deleted
      */
-    @Transactional
     public void delete(Feedback feedback){
         feedbackRepository.delete(feedback);
     }

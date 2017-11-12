@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CharacterRepository extends CrudRepository<Character, Long> {
-    public Character findByName(String name);
-    public Character deleteByName (String name);
+    Character findByName(String name);
+
+    void deleteByName (String name);
 }

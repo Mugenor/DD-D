@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class DiaryService {
     private DiaryRepository diaryRepository;
 
@@ -22,7 +23,6 @@ public class DiaryService {
      * @param id of required Diary
      * @return one Diary
      */
-    @Transactional
     public Diary getById(Integer id){
         Diary diary = diaryRepository.findOne(id);
         Hibernate.initialize(diary.getAuthor());
@@ -51,7 +51,6 @@ public class DiaryService {
      * @param diary which should be saved or updated
      * @return saved or updated Diary
      */
-    @Transactional
     public Diary saveOrUpdate(Diary diary){
         return diaryRepository.save(diary);
     }
@@ -60,7 +59,6 @@ public class DiaryService {
      * Delete the Diary by id from the database
      * @param id of required Diary
      */
-    @Transactional
     public void deleteById(Integer id){
         diaryRepository.delete(id);
     }
@@ -69,7 +67,6 @@ public class DiaryService {
      * Delete the required Diary from the database
      * @param diary which should be deleted
      */
-    @Transactional
     public void delete(Diary diary){
         diaryRepository.delete(diary);
     }

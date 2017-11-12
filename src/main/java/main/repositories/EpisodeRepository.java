@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EpisodeRepository extends CrudRepository<Episode, Long> {
-    public Episode findBySeries(int series);
-    public void deleteBySeries(int series);
+    Episode findBySeries(int series);
+    void deleteBySeries(int series);
 }

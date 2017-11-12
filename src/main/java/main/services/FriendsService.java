@@ -5,9 +5,11 @@ import main.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
+@Transactional
 public class FriendsService {
     private UserRepository userRepository;
     @Autowired
@@ -21,9 +23,8 @@ public class FriendsService {
      * @param user of required User
      * @return list of awaitingFriends
      */
-    @Transactional
     public List<User> getAllAwaitingFriends(User user){
-        return userRepository.getAllAwaitingFriends(user.getUsername());
+        return userRepository.findAwaitingFriendsByUsername(user.getUsername());
     }
 
     /**
@@ -31,9 +32,8 @@ public class FriendsService {
      * @param username of required User
      * @return list of awaitingFriends
      */
-    @Transactional
     public List<User> getAllAwaitingFriends(String username){
-        return userRepository.getAllAwaitingFriends(username);
+        return userRepository.findAwaitingFriendsByUsername(username);
     }
 
 
@@ -41,9 +41,8 @@ public class FriendsService {
      * Return all Friends from the database
      * @return thelist of friends
      */
-    @Transactional
     public List<User> getAllFriends(String username){
-        return userRepository.getAllFriends(username);
+        return userRepository.findFriendsByUsername(username);
     }
 
 
@@ -53,7 +52,6 @@ public class FriendsService {
      * @param friend who want to be a friend for required user
      * @return true if successfully, false if unsuccessfully
      */
-    @Transactional
     public boolean addFriendToUser(User user, User friend){
         if(user.getAwaitingFriends().remove(friend)) {
             if (user.getFriends().add(friend)) {
@@ -82,7 +80,6 @@ public class FriendsService {
      * @param friend which will be removed
      * @return true if successfully, false if unsuccessfully
      */
-    @Transactional
     public boolean removeFriendFromUser(User user, User friend){
         if(user.getFriends().remove(friend)){
             if(friend.getFriends().remove(user)) {
@@ -104,7 +101,6 @@ public class FriendsService {
      * @param friend which requested in friends
      * @return true if successfully, false if unsuccessfully
      */
-    @Transactional
     public boolean addRequestForFriends(User user, User friend){
         if(user.getAwaitingFriends().add(friend)){
             userRepository.save(user);
@@ -120,7 +116,6 @@ public class FriendsService {
      * @param friend whose request were rejected
      * @return true if successfully, false if unsuccessfully
      */
-    @Transactional
     public boolean rejectRequestForFriends(User user, User friend){
         if(user.getAwaitingFriends().remove(friend)){
             userRepository.save(user);

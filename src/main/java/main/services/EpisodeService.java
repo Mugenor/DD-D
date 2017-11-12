@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class EpisodeService {
     private EpisodeRepository episodeRepository;
     @Autowired
@@ -21,7 +22,6 @@ public class EpisodeService {
      * @param series of required Episode
      * @return one Episode
      */
-    @Transactional
     public Episode getBySeries(int series){
         Episode episode = episodeRepository.findBySeries(series);
             Hibernate.initialize(episode.getCreature());
@@ -36,7 +36,6 @@ public class EpisodeService {
      * @param id of required Episode
      * @return one Episode
      */
-    @Transactional
     public Episode getById(Long id){
         Episode episode = episodeRepository.findOne(id);
         Hibernate.initialize(episode.getCreature());
@@ -50,7 +49,6 @@ public class EpisodeService {
      * Return all Episodes without Creatures, Solvers, Places and Participants from the database
      * @return Episodes with minimum information
      */
-    @Transactional
     public Iterable<Episode> getAllEpisodes(){
         return episodeRepository.findAll();
     }
@@ -60,7 +58,6 @@ public class EpisodeService {
      * @param episode which should be saved or updated
      * @return saved or updated Episode
      */
-    @Transactional
     public Episode saveOrUpdate(Episode episode){
         return episodeRepository.save(episode);
     }
@@ -69,7 +66,6 @@ public class EpisodeService {
      * Delete the Episode by series from the database
      * @param series of required Episode
      */
-    @Transactional
     public void deleteBySeries(int series){
         episodeRepository.deleteBySeries(series);
     }
@@ -78,7 +74,6 @@ public class EpisodeService {
      * Delete the Episode by id from the database
      * @param id of required Episode
      */
-    @Transactional
     public void deleteById(Long id){
         episodeRepository.delete(id);
     }
@@ -87,6 +82,5 @@ public class EpisodeService {
      * Delete the required Episode from the database
      * @param episode which should be deleted
      */
-    @Transactional
     public void delete(Episode episode){episodeRepository.delete(episode);}
 }

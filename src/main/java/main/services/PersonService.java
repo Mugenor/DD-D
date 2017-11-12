@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class PersonService {
     private PersonRepository personRepository;
 
@@ -22,7 +23,6 @@ public class PersonService {
      * @param id of required Person
      * @return one Person
      */
-    @Transactional
     public Person getById(long id){
         Person person = personRepository.findOne(id);
         Hibernate.initialize(person.getFeatures());
@@ -35,7 +35,6 @@ public class PersonService {
      * @param name of required Person
      * @return one Person
      */
-    @Transactional
     public Person getByName(String name){
         Person person = personRepository.findByName(name);
             Hibernate.initialize(person.getFeatures());
@@ -47,7 +46,6 @@ public class PersonService {
      * Return all Persons without Features and Positions from the database
      * @return Persons with minimum information
      */
-    @Transactional
     public Iterable<Person> getAllPersons(){
         Iterable<Person> people = personRepository.findAll();
         for(Person person: people){
@@ -62,7 +60,6 @@ public class PersonService {
      * @param person which should be saved or updated
      * @return saved or updated Person
      */
-    @Transactional
     public Person saveOrUpdate(Person person){
         return personRepository.save(person);
     }
@@ -71,7 +68,6 @@ public class PersonService {
      * Delete the Person by id from the database
      * @param id of required Person
      */
-    @Transactional
     public void deleteById(Long id){
         personRepository.delete(id);
     }
@@ -80,7 +76,6 @@ public class PersonService {
      * Delete the required Person from the database
      * @param person which should be deleted
      */
-    @Transactional
     public void delete(Person person){
         personRepository.delete(person);
     }
@@ -89,7 +84,7 @@ public class PersonService {
      * Delete the Person by name from the database
      * @param name of required Person
      */
-    @Transactional void deleteByName(String name){
+    public void deleteByName(String name){
         personRepository.deleteByName(name);
     }
 }

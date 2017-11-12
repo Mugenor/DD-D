@@ -4,9 +4,7 @@ import main.entities.Feature;
 import main.entities.Person;
 import main.entities.Place;
 import main.entities.Position;
-import main.repositories.*;
 import main.services.PersonService;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -31,7 +29,7 @@ public class Main {
             Position position = new Position();
             Place place = new Place();
             place.setPlace("Shop");
-            position.setName("Assistent");
+            position.setName("Assistant");
             position.setPlace(place);
             person.setAge(10);
             person.setName("Ilya");

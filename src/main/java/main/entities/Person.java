@@ -1,6 +1,9 @@
 package main.entities;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -26,11 +29,14 @@ public class Person {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "pers_feat", joinColumns = @JoinColumn(name = "person", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "feature", referencedColumnName = "id"))
+    @LazyCollection(LazyCollectionOption.TRUE)
     private Collection<Feature> features;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "position_id")
     private Position position;
 
+
+    public void setId(Long id){this.id = id;}
     public Long getId() {
         return id;
     }

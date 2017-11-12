@@ -1,5 +1,8 @@
 package main.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity(name = "character")
@@ -15,11 +18,13 @@ public class Character {
     private int health;
     @Column(name = "description", nullable = false)
     private String description;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "skill_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Skill skill;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id", unique = true, nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Person person;
 
     public Long getId() {

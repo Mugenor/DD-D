@@ -7,9 +7,11 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
+@Transactional
 public class CreatureService {
     private CreatureRepository creatureRepository;
     private DiaryRepository diaryRepository;
@@ -27,7 +29,6 @@ public class CreatureService {
      * @param id of required Creature
      * @return one Creature
      */
-    @Transactional
     public Creature getById(long id){
         Creature creature = creatureRepository.findOne(id);
         Hibernate.initialize(creature.getDiary());
@@ -40,7 +41,6 @@ public class CreatureService {
      * @param name of required Creature
      * @return one Creature
      */
-    @Transactional
     public Creature getByName(String name){
         Creature creature = creatureRepository.findByName(name);
         Hibernate.initialize(creature.getDiary());
@@ -53,9 +53,8 @@ public class CreatureService {
      * @param id of required Diary
      * @return list of Creatures
      */
-    @Transactional
     public List<Creature> getByIdDiary(int id) {
-        List<Creature> creatures = diaryRepository.findCreaturesByDiaryId(id);
+        List<Creature> creatures = diaryRepository.findCreaturesById(id);
         for(Creature creature: creatures){
             Hibernate.initialize(creature.getDiary());
             Hibernate.initialize(creature.getEpisode());
@@ -67,7 +66,6 @@ public class CreatureService {
      * Return all Creatures without Diaries and Episodes from the database
      * @return Creatures with minimum information
      */
-    @Transactional
     public Iterable<Creature> getAllCreatures(){
         Iterable<Creature> creatures = creatureRepository.findAll();
         for(Creature creature: creatures){
@@ -82,7 +80,6 @@ public class CreatureService {
      * @param creature which should be saved or updated
      * @return saved or updated Creature
      */
-    @Transactional
     public Creature saveOrUpdate(Creature creature){
         return creatureRepository.save(creature);
     }
@@ -91,7 +88,6 @@ public class CreatureService {
      * Delete the Creature by id from the database
      * @param id of required Creature
      */
-    @Transactional
     public void deleteById(Long id){
         creatureRepository.delete(id);
     }
@@ -100,7 +96,6 @@ public class CreatureService {
      * Delete the required Creature from the database
      * @param creature which should be deleted
      */
-    @Transactional
     public void delete(Creature creature){
         creatureRepository.delete(creature);
     }

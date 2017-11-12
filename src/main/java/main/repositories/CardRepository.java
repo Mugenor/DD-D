@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CardRepository extends CrudRepository<Card, Long> {
-    public Card findByName (String name);
-    public Card findByCubeNumber (int number);
-    public void deleteByName (String name);
+    Card findByName (String name);
+    Card findByCubeNumber (int number);
+    void deleteByName (String name);
 }
