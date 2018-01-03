@@ -1,11 +1,11 @@
 package main;
 
-import main.entities.*;
 import main.entities.Character;
+import main.entities.*;
 import main.services.CharacterService;
-import main.services.FeedbackService;
 import main.services.PersonService;
 import org.hibernate.Hibernate;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.List;

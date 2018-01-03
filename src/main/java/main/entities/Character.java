@@ -18,7 +18,13 @@ public class Character {
     private int health;
     @Column(name = "description", nullable = false)
     private String description;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @OneToOne(fetch = FetchType.EAGER)
+
     @JoinColumn(name = "skill_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Skill skill;
@@ -74,6 +80,22 @@ public class Character {
     }
 
     public Character() {}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Character character = (Character) o;
+
+        return id.equals(character.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
     public Character(String name, int health, String description, Skill skill, Person person) {
         this.name = name;
         this.description = description;

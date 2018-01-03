@@ -25,8 +25,10 @@ public class PersonService {
      */
     public Person getById(long id){
         Person person = personRepository.findOne(id);
-        Hibernate.initialize(person.getFeatures());
-        Hibernate.initialize(person.getPosition());
+        if(person!=null) {
+            Hibernate.initialize(person.getFeatures());
+            Hibernate.initialize(person.getPosition());
+        }
         return person;
     }
 
@@ -37,8 +39,10 @@ public class PersonService {
      */
     public Person getByName(String name){
         Person person = personRepository.findByName(name);
+        if(person!=null) {
             Hibernate.initialize(person.getFeatures());
             Hibernate.initialize(person.getPosition());
+        }
         return person;
     }
 

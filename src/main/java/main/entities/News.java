@@ -5,11 +5,15 @@ import java.util.Date;
 
 @Entity (name = "news")
 public class News {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "newsSeq")
     @SequenceGenerator(name = "newsSeq", sequenceName = "newsSeq")
     @Column
-    private long id;
+    private Long id;
     @Column(nullable = false)
     private String news;
     @Column (nullable = false)
@@ -55,5 +59,20 @@ public class News {
         this.news = news;
         this.topic = topic;
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        News news = (News) o;
+
+        return id.equals(news.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

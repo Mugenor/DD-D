@@ -29,7 +29,9 @@ public class FeedbackService {
      */
     public Feedback getById(Long id){
         Feedback feedback = feedbackRepository.findOne(id);
-        Hibernate.initialize(feedback.getUser());
+        if(feedback!=null) {
+            Hibernate.initialize(feedback.getUser());
+        }
         return feedback;
     }
 

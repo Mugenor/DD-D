@@ -74,4 +74,8 @@ public class Diary {
         this.finder = finder;
         this.creatures = creatures;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

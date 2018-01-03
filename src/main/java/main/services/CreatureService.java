@@ -31,8 +31,10 @@ public class CreatureService {
      */
     public Creature getById(long id){
         Creature creature = creatureRepository.findOne(id);
-        Hibernate.initialize(creature.getDiary());
-        Hibernate.initialize(creature.getEpisode());
+        if(creature!=null) {
+            Hibernate.initialize(creature.getDiary());
+            Hibernate.initialize(creature.getEpisode());
+        }
         return creature;
     }
 
@@ -43,8 +45,10 @@ public class CreatureService {
      */
     public Creature getByName(String name){
         Creature creature = creatureRepository.findByName(name);
-        Hibernate.initialize(creature.getDiary());
-        Hibernate.initialize(creature.getEpisode());
+        if(creature!=null) {
+            Hibernate.initialize(creature.getDiary());
+            Hibernate.initialize(creature.getEpisode());
+        }
         return creature;
     }
 

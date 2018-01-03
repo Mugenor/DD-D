@@ -25,10 +25,12 @@ public class DiaryService {
      */
     public Diary getById(Integer id){
         Diary diary = diaryRepository.findOne(id);
-        Hibernate.initialize(diary.getAuthor());
-        Hibernate.initialize(diary.getFinder());
-        Hibernate.initialize(diary.getWhere());
-        Hibernate.initialize(diary.getCreatures());
+        if(diary!=null) {
+            Hibernate.initialize(diary.getAuthor());
+            Hibernate.initialize(diary.getFinder());
+            Hibernate.initialize(diary.getWhere());
+            Hibernate.initialize(diary.getCreatures());
+        }
         return diary;
     }
 

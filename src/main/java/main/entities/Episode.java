@@ -30,9 +30,15 @@ public class Episode {
     @JoinTable(name = "epis_place", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "place", referencedColumnName = "id"))
     private Collection<Place> places;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "epis_person", joinColumns = @JoinColumn(name = "episode", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="person", referencedColumnName = "id"))
+
     private Collection<Person> participants;
 
     public Long getId() {
@@ -118,5 +124,20 @@ public class Episode {
         this.series = series;
         this.places = places;
         this.participants = participants;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Episode episode = (Episode) o;
+
+        return id.equals(episode.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

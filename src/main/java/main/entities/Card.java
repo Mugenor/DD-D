@@ -1,10 +1,26 @@
 package main.entities;
 
+
 import javax.persistence.*;
 
 @Entity(name = "card")
 @Table(name = "card")
 public class Card {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Card card = (Card) o;
+
+        return id.equals(card.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cardSeq")
     @SequenceGenerator(name = "cardSeq", sequenceName = "cardSeq")
@@ -22,6 +38,10 @@ public class Card {
     private Skill skill;
     @Column(name = "cube_number", unique = true, nullable = false)
     private int cubeNumber;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;

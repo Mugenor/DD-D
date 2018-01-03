@@ -74,6 +74,12 @@ public class FriendsService {
         }
     }
 
+    public boolean addFriendToUser(String username, String friendsUsername){
+        User user = userRepository.findByUsername(username);
+        User friend = userRepository.findByUsername(friendsUsername);
+        return user!=null && friend!=null && addFriendToUser(user, friend);
+    }
+
     /**
      * Remove friend from user's friends
      * @param user who remove a friend
@@ -95,6 +101,11 @@ public class FriendsService {
         }
     }
 
+    public boolean removeFriendFromUser(String username, String friendsUsername){
+        User user = userRepository.findByUsername(username);
+        User friend = userRepository.findByUsername(friendsUsername);
+        return user!=null && friend!=null && removeFriendFromUser(user, friend);
+    }
     /**
      * Add a friend request to user from new friend
      * @param user who have new request
@@ -110,6 +121,11 @@ public class FriendsService {
         }
     }
 
+    public boolean addRequestForFriends(String username, String friendsUsername){
+        User user = userRepository.findByUsername(username);
+        User friend = userRepository.findByUsername(friendsUsername);
+        return user!=null && friend!=null && addRequestForFriends(user, friend);
+    }
     /**
      * User reject a request from friend
      * @param user who rejected request
@@ -123,5 +139,11 @@ public class FriendsService {
         } else {
             return false;
         }
+    }
+
+    public boolean rejectRequestForFriends(String username, String friendsUsername){
+        User user = userRepository.findByUsername(username);
+        User friend = userRepository.findByUsername(friendsUsername);
+        return user!=null && friend!=null && rejectRequestForFriends(user, friend);
     }
 }

@@ -36,4 +36,23 @@ public class Top {
         this.position = position;
         this.user = user;
     }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Top top = (Top) o;
+
+        return position.equals(top.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return position.hashCode();
+    }
 }

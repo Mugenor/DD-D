@@ -10,8 +10,8 @@ public class User {
     @Id
     @Column
     private String login;
-    @Column (unique = true, nullable = false)
-    private long password;
+    @Column (nullable = false)
+    private String password;
     @Column (unique = true, nullable = false)
     private String username;
     @Column (nullable = false)
@@ -46,10 +46,10 @@ public class User {
         return login;
     }
     public void setLogin (String login) { this.login = login; }
-    public long getPassword() {
+    public String getPassword() {
         return password;
     }
-    public void setPassword(long password) {
+    public void setPassword(String password) {
         this.password = password;
     }
     public String getUsername() {
@@ -107,11 +107,12 @@ public class User {
         this.awaitingFriends = awaitingFriends;
     }
 
+
+
     @Override
     public String toString() {
         String str = "{login:\"" + login + "\", password:\"******\"" + "\", username:\"" + username +
                 "\", status:" + status + ", winrate:" + winrate + ", amountGames:" + amountGames + ", amountWin:" + amountWin;
-        if (Hibernate.isInitialized(friends)) str = str + ", friends:" + friends;
         if (Hibernate.isInitialized(awaitingFriends)) str = str + ", awaitingFriends:" + awaitingFriends;
         if (Hibernate.isInitialized(cardsCanUse)) str = str + ", cardsCanUse:" + cardsCanUse;
         if (Hibernate.isInitialized(cardsInUse)) str = str + ", cardsInUse:" + cardsInUse;
@@ -121,7 +122,7 @@ public class User {
 
     public User() {}
 
-    public User(String login, long password, String username, int status, double winrate, long amountGames, long amountWin,
+    public User(String login, String password, String username, int status, double winrate, long amountGames, long amountWin,
                 Collection<User> friends, Collection<User> awaitingFriends){
         this.login = login;
         this.password = password;
@@ -134,7 +135,7 @@ public class User {
         this.awaitingFriends = awaitingFriends;
     }
 
-    public User(String login, long password, String username, int status, double winrate, long amountGames, long amountWin,
+    public User(String login, String password, String username, int status, double winrate, long amountGames, long amountWin,
                 Collection<User> friends,  Collection<User> awaitingFriends, Collection<Card> canUse, Collection<Card> inUse){
         this.login = login;
         this.password = password;
@@ -147,5 +148,22 @@ public class User {
         this.awaitingFriends = awaitingFriends;
         this.cardsCanUse = canUse;
         this.cardsInUse = inUse;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!login.equals(user.login)) return false;
+        return username.equals(user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = login.hashCode();
+        result = 31 * result + username.hashCode();
+        return result;
     }
 }

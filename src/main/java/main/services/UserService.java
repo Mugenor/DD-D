@@ -28,9 +28,11 @@ public class UserService {
      */
     public User getByLogin(String login){
         User user = userRepository.findOne(login);
-        Hibernate.initialize(user.getFriends());
-        Hibernate.initialize(user.getCardsCanUse());
-        Hibernate.initialize(user.getCardsInUse());
+        if(user!=null) {
+            Hibernate.initialize(user.getFriends());
+            Hibernate.initialize(user.getCardsCanUse());
+            Hibernate.initialize(user.getCardsInUse());
+        }
         return user;
     }
 
@@ -41,9 +43,11 @@ public class UserService {
      */
     public User getByUsername(String username){
         User user = userRepository.findByUsername(username);
-        Hibernate.initialize(user.getFriends());
-        Hibernate.initialize(user.getCardsCanUse());
-        Hibernate.initialize(user.getCardsInUse());
+        if(user!=null) {
+            Hibernate.initialize(user.getFriends());
+            Hibernate.initialize(user.getCardsCanUse());
+            Hibernate.initialize(user.getCardsInUse());
+        }
         return user;
     }
 

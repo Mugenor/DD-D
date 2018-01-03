@@ -24,10 +24,7 @@ public class EpisodeService {
      */
     public Episode getBySeries(int series){
         Episode episode = episodeRepository.findBySeries(series);
-            Hibernate.initialize(episode.getCreature());
-            Hibernate.initialize(episode.getSolver());
-            Hibernate.initialize(episode.getPlaces());
-            Hibernate.initialize(episode.getParticipants());
+        initializeEpisode(episode);
         return episode;
     }
 
@@ -38,10 +35,7 @@ public class EpisodeService {
      */
     public Episode getById(Long id){
         Episode episode = episodeRepository.findOne(id);
-        Hibernate.initialize(episode.getCreature());
-        Hibernate.initialize(episode.getSolver());
-        Hibernate.initialize(episode.getPlaces());
-        Hibernate.initialize(episode.getParticipants());
+        initializeEpisode(episode);
         return episode;
     }
 
@@ -83,4 +77,13 @@ public class EpisodeService {
      * @param episode which should be deleted
      */
     public void delete(Episode episode){episodeRepository.delete(episode);}
+
+    private void initializeEpisode(Episode episode){
+        if(episode!=null) {
+            Hibernate.initialize(episode.getCreature());
+            Hibernate.initialize(episode.getSolver());
+            Hibernate.initialize(episode.getPlaces());
+            Hibernate.initialize(episode.getParticipants());
+        }
+    }
 }
