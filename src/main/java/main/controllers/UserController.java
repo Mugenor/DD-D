@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
@@ -17,7 +19,7 @@ public class UserController {
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public Iterable<User> getAllUsers(){
+    public Iterable<User> getAllUsers(HttpServletRequest request){
         return userService.getAllUsers();
     }
 

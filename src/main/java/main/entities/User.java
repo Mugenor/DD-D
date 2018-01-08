@@ -8,14 +8,16 @@ import java.util.Collection;
 @Entity (name = "ourUser")
 public class User {
     @Id
-    @Column
+    @Column (name = "login", nullable = false, unique = true)
     private String login;
+    @Column (nullable = false, unique = true)
+    private String mail;
     @Column (nullable = false)
     private String password;
     @Column (unique = true, nullable = false)
     private String username;
-    @Column (nullable = false)
-    private int status;
+    @Column (name = "status")
+    private String status;
     @Column (nullable = false)
     private double winrate;
     @Column (nullable = false)
@@ -58,10 +60,10 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
     public double getWinrate() {
@@ -107,6 +109,14 @@ public class User {
         this.awaitingFriends = awaitingFriends;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
 
 
     @Override
@@ -122,7 +132,7 @@ public class User {
 
     public User() {}
 
-    public User(String login, String password, String username, int status, double winrate, long amountGames, long amountWin,
+    public User(String login, String password, String username, String status, double winrate, long amountGames, long amountWin,
                 Collection<User> friends, Collection<User> awaitingFriends){
         this.login = login;
         this.password = password;
@@ -135,7 +145,7 @@ public class User {
         this.awaitingFriends = awaitingFriends;
     }
 
-    public User(String login, String password, String username, int status, double winrate, long amountGames, long amountWin,
+    public User(String login, String password, String username, String status, double winrate, long amountGames, long amountWin,
                 Collection<User> friends,  Collection<User> awaitingFriends, Collection<Card> canUse, Collection<Card> inUse){
         this.login = login;
         this.password = password;

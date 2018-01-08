@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping(path = "/news", produces = MediaType.APPLICATION_JSON_VALUE)
 public class NewsController {
@@ -13,7 +15,7 @@ public class NewsController {
     private NewsService newsService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Iterable<News> getAllNews(){
+    public Iterable<News> getAllNews() {
         return newsService.getAllNews();
     }
 
