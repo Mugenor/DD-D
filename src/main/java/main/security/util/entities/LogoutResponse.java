@@ -6,4 +6,9 @@ public class LogoutResponse {
     public String getResult() {
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "{\"result\":\"" + result + "\"}";
+    }
 }

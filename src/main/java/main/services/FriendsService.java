@@ -32,7 +32,7 @@ public class FriendsService {
      * @param username of required User
      * @return list of awaitingFriends
      */
-    public List<User> getAllAwaitingFriends(String username){
+    public List<User> getAllAwaitingFriends(java.lang.String username){
         return userRepository.findAwaitingFriendsByUsername(username);
     }
 
@@ -41,7 +41,7 @@ public class FriendsService {
      * Return all Friends from the database
      * @return thelist of friends
      */
-    public List<User> getAllFriends(String username){
+    public List<User> getAllFriends(java.lang.String username){
         return userRepository.findFriendsByUsername(username);
     }
 
@@ -74,7 +74,7 @@ public class FriendsService {
         }
     }
 
-    public boolean addFriendToUser(String username, String friendsUsername){
+    public boolean addFriendToUser(java.lang.String username, java.lang.String friendsUsername){
         User user = userRepository.findByUsername(username);
         User friend = userRepository.findByUsername(friendsUsername);
         return user!=null && friend!=null && addFriendToUser(user, friend);
@@ -87,6 +87,9 @@ public class FriendsService {
      * @return true if successfully, false if unsuccessfully
      */
     public boolean removeFriendFromUser(User user, User friend){
+        if(!user.getFriends().contains(friend)){
+            return false;
+        }
         if(user.getFriends().remove(friend)){
             if(friend.getFriends().remove(user)) {
                 userRepository.save(user);
@@ -101,7 +104,7 @@ public class FriendsService {
         }
     }
 
-    public boolean removeFriendFromUser(String username, String friendsUsername){
+    public boolean removeFriendFromUser(java.lang.String username, java.lang.String friendsUsername){
         User user = userRepository.findByUsername(username);
         User friend = userRepository.findByUsername(friendsUsername);
         return user!=null && friend!=null && removeFriendFromUser(user, friend);
@@ -113,6 +116,9 @@ public class FriendsService {
      * @return true if successfully, false if unsuccessfully
      */
     public boolean addRequestForFriends(User user, User friend){
+        if(user.getFriends().contains(friend) || user.getAwaitingFriends().contains(friend)){
+            return false;
+        }
         if(user.getAwaitingFriends().add(friend)){
             userRepository.save(user);
             return true;
@@ -121,7 +127,7 @@ public class FriendsService {
         }
     }
 
-    public boolean addRequestForFriends(String username, String friendsUsername){
+    public boolean addRequestForFriends(java.lang.String username, java.lang.String friendsUsername){
         User user = userRepository.findByUsername(username);
         User friend = userRepository.findByUsername(friendsUsername);
         return user!=null && friend!=null && addRequestForFriends(user, friend);
@@ -141,7 +147,7 @@ public class FriendsService {
         }
     }
 
-    public boolean rejectRequestForFriends(String username, String friendsUsername){
+    public boolean rejectRequestForFriends(java.lang.String username, java.lang.String friendsUsername){
         User user = userRepository.findByUsername(username);
         User friend = userRepository.findByUsername(friendsUsername);
         return user!=null && friend!=null && rejectRequestForFriends(user, friend);

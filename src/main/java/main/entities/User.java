@@ -1,6 +1,7 @@
 package main.entities;
 
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -8,62 +9,60 @@ import java.util.Collection;
 @Entity (name = "ourUser")
 public class User {
     @Id
-    @Column (name = "login", nullable = false, unique = true)
-    private String login;
+    @Column (name = "username", nullable = false, unique = true)
+    private java.lang.String username;
     @Column (nullable = false, unique = true)
-    private String mail;
+    private java.lang.String mail;
     @Column (nullable = false)
-    private String password;
-    @Column (unique = true, nullable = false)
-    private String username;
+    private java.lang.String password;
     @Column (name = "status")
-    private String status;
+    @ColumnDefault("0.0")
+    private java.lang.String status;
     @Column (nullable = false)
+    @ColumnDefault("0.0")
     private double winrate;
     @Column (nullable = false)
+    @ColumnDefault("0.0")
     private long amountGames;
     @Column (nullable = false)
+    @ColumnDefault("0.0")
     private long amountWin;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable (name = "friends",
-            joinColumns = @JoinColumn (name = "user1", referencedColumnName = "login"),
-            inverseJoinColumns = @JoinColumn (name = "user2", referencedColumnName = "login"))
+            joinColumns = @JoinColumn (name = "user1", referencedColumnName = "username"),
+            inverseJoinColumns = @JoinColumn (name = "user2", referencedColumnName = "username"))
     private Collection<User> friends;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "awaitingFriends", joinColumns = @JoinColumn(name = "user1", referencedColumnName = "login"),
-        inverseJoinColumns = @JoinColumn(name = "user2", referencedColumnName = "login"))
+    @JoinTable(name = "awaitingFriends", joinColumns = @JoinColumn(name = "user1", referencedColumnName = "username"),
+        inverseJoinColumns = @JoinColumn(name = "user2", referencedColumnName = "username"))
     private Collection<User> awaitingFriends;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "canUse",
-        joinColumns = @JoinColumn (name = "ourUser", referencedColumnName = "login"),
+        joinColumns = @JoinColumn (name = "ourUser", referencedColumnName = "username"),
         inverseJoinColumns = @JoinColumn(name = "card", referencedColumnName = "id"))
     private Collection<Card> cardsCanUse;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "inUse",
-        joinColumns = @JoinColumn(name = "ourUser", referencedColumnName = "login"),
+        joinColumns = @JoinColumn(name = "ourUser", referencedColumnName = "username"),
         inverseJoinColumns = @JoinColumn(name = "card", referencedColumnName = "id"))
     private Collection<Card> cardsInUse;
 
-    public String getLogin() {
-        return login;
-    }
-    public void setLogin (String login) { this.login = login; }
-    public String getPassword() {
+    public java.lang.String getPassword() {
         return password;
     }
-    public void setPassword(String password) {
+    public void setPassword(java.lang.String password) {
         this.password = password;
     }
-    public String getUsername() {
+    public java.lang.String getUsername() {
         return username;
     }
-    public void setUsername(String username) {
+    public void setUsername(java.lang.String username) {
         this.username = username;
     }
-    public String getStatus() {
+    public java.lang.String getStatus() {
         return status;
     }
-    public void setStatus(String status) {
+    public void setStatus(java.lang.String status) {
         this.status = status;
     }
     public double getWinrate() {
@@ -109,19 +108,19 @@ public class User {
         this.awaitingFriends = awaitingFriends;
     }
 
-    public String getMail() {
+    public java.lang.String getMail() {
         return mail;
     }
 
-    public void setMail(String mail) {
+    public void setMail(java.lang.String mail) {
         this.mail = mail;
     }
 
 
 
     @Override
-    public String toString() {
-        String str = "{login:\"" + login + "\", password:\"******\"" + "\", username:\"" + username +
+    public java.lang.String toString() {
+        java.lang.String str = "{password:\"******\"" + "\", username:\"" + username +
                 "\", status:" + status + ", winrate:" + winrate + ", amountGames:" + amountGames + ", amountWin:" + amountWin;
         if (Hibernate.isInitialized(awaitingFriends)) str = str + ", awaitingFriends:" + awaitingFriends;
         if (Hibernate.isInitialized(cardsCanUse)) str = str + ", cardsCanUse:" + cardsCanUse;
@@ -132,9 +131,8 @@ public class User {
 
     public User() {}
 
-    public User(String login, String password, String username, String status, double winrate, long amountGames, long amountWin,
+    public User(java.lang.String username, java.lang.String password, java.lang.String status, double winrate, long amountGames, long amountWin,
                 Collection<User> friends, Collection<User> awaitingFriends){
-        this.login = login;
         this.password = password;
         this.username = username;
         this.status = status;
@@ -145,9 +143,8 @@ public class User {
         this.awaitingFriends = awaitingFriends;
     }
 
-    public User(String login, String password, String username, String status, double winrate, long amountGames, long amountWin,
-                Collection<User> friends,  Collection<User> awaitingFriends, Collection<Card> canUse, Collection<Card> inUse){
-        this.login = login;
+    public User(java.lang.String username, java.lang.String password, java.lang.String status, double winrate, long amountGames, long amountWin,
+                Collection<User> friends, Collection<User> awaitingFriends, Collection<Card> canUse, Collection<Card> inUse){
         this.password = password;
         this.username = username;
         this.status = status;
@@ -166,13 +163,13 @@ public class User {
 
         User user = (User) o;
 
-        if (!login.equals(user.login)) return false;
-        return username.equals(user.username);
+        if (!this.username.equals(user.getUsername())) return false;
+        return username.equals(user.getUsername());
     }
 
     @Override
     public int hashCode() {
-        int result = login.hashCode();
+        int result = username.hashCode();
         result = 31 * result + username.hashCode();
         return result;
     }

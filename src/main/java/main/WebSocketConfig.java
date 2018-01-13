@@ -1,6 +1,9 @@
 package main;
 
-import main.web.socket.handlers.WebSocketHandler;
+import main.web.socket.handlers.ChatWebSocketHandler;
+import main.web.socket.handlers.GameWebSocketHandler;
+import main.web.socket.handlers.QueueWebSocketHandler;
+import main.web.socket.handshake.WebSocketHandshakeHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -11,6 +14,9 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class WebSocketConfig implements WebSocketConfigurer{
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(new WebSocketHandler(), "/messages");
+        webSocketHandlerRegistry.addHandler(new ChatWebSocketHandler(), "/messages")
+            .addHandler(new QueueWebSocketHandler(), "/queue")
+            .addHandler(new GameWebSocketHandler(), "/game").setAllowedOrigins("http://website.mydomain.com")
+            .addInterceptors(new WebSocketHandshakeHandler());
     }
 }

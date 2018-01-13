@@ -14,14 +14,14 @@ public class Feedback {
     @JoinColumn (name = "ourUser", nullable = false)
     private User user;
     @Column
-    private String message;
+    private java.lang.String message;
     @Column (name = "is_card")
     private boolean isCard;
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @Column
-    private String response;
+    private java.lang.String response;
 
     public Long getId() {
         return id;
@@ -32,10 +32,10 @@ public class Feedback {
     public void setUser(User user) {
         this.user = user;
     }
-    public String getMessage() {
+    public java.lang.String getMessage() {
         return message;
     }
-    public void setMessage(String message) {
+    public void setMessage(java.lang.String message) {
         this.message = message;
     }
     public boolean isCard() {
@@ -50,15 +50,15 @@ public class Feedback {
     public void setDate(Date date) {
         this.date = date;
     }
-    public String getResponse() {
+    public java.lang.String getResponse() {
         return response;
     }
-    public void setResponse(String response) {
+    public void setResponse(java.lang.String response) {
         this.response = response;
     }
 
     @Override
-    public String toString() {
+    public java.lang.String toString() {
         return "{" +
                 "id:" + id +
                 ", user:" + user +
@@ -70,13 +70,13 @@ public class Feedback {
     }
 
     public Feedback() {}
-    public Feedback (User user, String message, boolean isCard, Date date) {
+    public Feedback (User user, java.lang.String message, boolean isCard, Date date) {
         this.user = user;
         this.message = message;
         this.isCard = isCard;
         this.date = date;
     }
-    public Feedback (User user, String message, boolean isCard, Date date, String response) {
+    public Feedback (User user, java.lang.String message, boolean isCard, Date date, java.lang.String response) {
         this.user = user;
         this.message = message;
         this.isCard = isCard;

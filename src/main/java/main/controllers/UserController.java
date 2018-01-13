@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -19,17 +20,17 @@ public class UserController {
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public Iterable<User> getAllUsers(HttpServletRequest request){
+    public Iterable<User> getAllUsers(){
         return userService.getAllUsers();
     }
 
-    @RequestMapping(value = "/by-login/{login}", method = RequestMethod.GET)
-    public User getUserByLogin(@PathVariable String login){
-        return userService.getByLogin(login);
+    @RequestMapping(value = "/search/{username}", method = RequestMethod.GET)
+    public Set<User> getUserByUsernameLike(@PathVariable java.lang.String username){
+        return userService.getByUsernameLike(username);
     }
 
-    @RequestMapping(value = "/by-username/{username}", method = RequestMethod.GET)
-    public User getUserByUsername(@PathVariable String username){
+    @RequestMapping(value = "/username/{username}", method = RequestMethod.GET)
+    public User getUserByUsername(@PathVariable java.lang.String username){
         return userService.getByUsername(username);
     }
 }

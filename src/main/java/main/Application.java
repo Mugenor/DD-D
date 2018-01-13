@@ -7,10 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@ComponentScan
+@EnableScheduling
 public class Application {
+    public final static String openamDomain = "http://openam.mydomain.com:8081/openam";
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
@@ -19,10 +21,8 @@ public class Application {
     @Bean
     public FilterRegistrationBean tokenIdFilterRegistrationBean(){
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(new TokenFilter("http://openam.mydomain.com:8081/openam"));
-        registrationBean.addUrlPatterns("/protected.html",
-                "/user",
-                "/user/*");
+        registrationBean.setFilter(new TokenFilter(openamDomain));
+        registrationBean.addUrlPatterns("/protected.html", "/messages");
         registrationBean.setOrder(0);
         return registrationBean;
     }

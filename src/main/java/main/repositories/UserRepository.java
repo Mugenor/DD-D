@@ -5,16 +5,19 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, String>{
+public interface UserRepository extends CrudRepository<User, java.lang.String>{
     User findByUsername(String username);
 
-    List<User> findByStatus(int status);
+    Set<User> findAllByUsernameContainingIgnoreCase(String username);
 
     void deleteByUsername (String username);
 
     List<User> findFriendsByUsername(String username);
 
     List<User> findAwaitingFriendsByUsername(String username);
+
+    List<User> findAllByUsernameOrMail(String username, String mail);
 }

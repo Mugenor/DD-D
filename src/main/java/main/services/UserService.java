@@ -8,42 +8,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
 public class UserService {
     private UserRepository userRepository;
 
-    public UserService () {}
+    public UserService() {
+    }
 
     @Autowired
-    public UserService (UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     /**
-     * Find and return one User by login from the database
-     * @param login of required User
-     * @return one User
-     */
-    public User getByLogin(String login){
-        User user = userRepository.findOne(login);
-        if(user!=null) {
-            Hibernate.initialize(user.getFriends());
-            Hibernate.initialize(user.getCardsCanUse());
-            Hibernate.initialize(user.getCardsInUse());
-        }
-        return user;
-    }
-
-    /**
      * Find and return one User by username from the database
+     *
      * @param username of required User
      * @return one User
      */
-    public User getByUsername(String username){
+    public User getByUsername(String username) {
         User user = userRepository.findByUsername(username);
-        if(user!=null) {
+        if (user != null) {
             Hibernate.initialize(user.getFriends());
             Hibernate.initialize(user.getCardsCanUse());
             Hibernate.initialize(user.getCardsInUse());
@@ -51,13 +39,8 @@ public class UserService {
         return user;
     }
 
-    /**
-     * Find and return all Users by status from the database
-     * @param status of required Users
-     * @return Users
-     */
-    public List<User> getByStatus(int status){
-        List<User> users = userRepository.findByStatus(status);
+    public Set<User> getByUsernameLike(String username) {
+        Set<User> users = userRepository.findAllByUsernameContainingIgnoreCase(username);
         for (User user : users) {
             Hibernate.initialize(user.getFriends());
             Hibernate.initialize(user.getCardsCanUse());
@@ -80,6 +63,16 @@ public class UserService {
         return users;
     }
 
+    public List<User> getUsersByUsernameOrMail(String username, String mail){
+        List<User> users = userRepository.findAllByUsernameOrMail(username, mail);
+        for(User user: users){
+            Hibernate.initialize(user.getFriends());
+            Hibernate.initialize(user.getCardsCanUse());
+            Hibernate.initialize(user.getCardsInUse());
+        }
+        return users;
+    }
+
     /**
      * Save the User if it's a new or update if it already exists
      * @param user which should be saved or updated
@@ -90,18 +83,10 @@ public class UserService {
     }
 
     /**
-     * Delete the User by login from the database
-     * @param login of required User
-     */
-    public void deleteByLogin(String login){
-        userRepository.delete(login);
-    }
-
-    /**
      * Delete the User by username from the database
      * @param username of required User
      */
-    public void deleteByUsername(String username){
+    public void deleteByUsername(java.lang.String username){
         userRepository.deleteByUsername(username);
     }
 
@@ -113,3 +98,4 @@ public class UserService {
         userRepository.delete(user);
     }
 }
+

@@ -6,21 +6,6 @@ import javax.persistence.*;
 @Entity(name = "card")
 @Table(name = "card")
 public class Card {
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Card card = (Card) o;
-
-        return id.equals(card.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cardSeq")
     @SequenceGenerator(name = "cardSeq", sequenceName = "cardSeq")
@@ -47,7 +32,7 @@ public class Card {
         return id;
     }
     public void setName (String name) {this.name = name;}
-    public String getName () {return name;}
+    public String  getName () {return name;}
     public void setDescription (String description) {this.description = description;}
     public String getDescription () {return description;}
     public Creature getCreature() {
@@ -79,6 +64,20 @@ public class Card {
                 ", skill:" + skill +
                 ", cubeNumber:" + cubeNumber +
                 "}";
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Card card = (Card) o;
+
+        return id.equals(card.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
     public Card() {}

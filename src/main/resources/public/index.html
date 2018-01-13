@@ -11,7 +11,7 @@
 <body id="body">
 <h1>Hello world!</h1>
 <script>
-    var ws = new WebSocket('ws://localhost:8080/messages');
+    var ws = new WebSocket('ws://website.mydomain.com:8080/messages');
     ws.onopen = function (event) {
         console.log("Opened");
     };

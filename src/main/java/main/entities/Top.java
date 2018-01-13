@@ -24,7 +24,7 @@ public class Top {
     }
 
     @Override
-    public String toString() {
+    public java.lang.String toString() {
         return "{" +
                 "position:" + position +
                 ", user:" + user +

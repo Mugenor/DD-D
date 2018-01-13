@@ -1,16 +1,7 @@
 package main.controllers.util;
 
-public class LoginResponse {
+public class LoginResponse extends LoginCredential {
     private String status;
-    private String tokenId;
-
-    public String getTokenId() {
-        return tokenId;
-    }
-
-    public void setTokenId(String tokenId) {
-        this.tokenId = tokenId;
-    }
 
     public String getStatus() {
         return status;

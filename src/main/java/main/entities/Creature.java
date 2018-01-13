@@ -83,7 +83,7 @@ public class Creature {
     }
 
     public Creature() {}
-    public Creature (String name, int amount, String picture, String description, Diary diary, Episode episode) {
+    public Creature (String  name, int amount, String picture, String description, Diary diary, Episode episode) {
         this.name = name;
         this.amount = amount;
         this.picture = picture;
