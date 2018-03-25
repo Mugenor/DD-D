@@ -4,24 +4,29 @@ import main.security.util.entities.LoginResponse;
 import main.security.util.entities.LogoutResponse;
 import main.security.util.entities.ValidateResponse;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class OpenAMRestConsumer {
     private static final String authenticationURI = "/json/authenticate";
     private static final String sessionsURI = "/json/sessions";
     private static final String logoutAction = "/?_action=logout";
     private static final String validateAction = "?_action=validate";
-    private static final String usernameHeader = "X-OpenAM-Username";
+        private static final String usernameHeader = "X-OpenAM-Username";
     private static final String passwordHeader = "X-OpenAM-Password";
     public static final String cookieName = "iplanetDirectoryPro";
     private static final Logger logger = Logger.getLogger(OpenAMRestConsumer.class);
 
     private String openAMDomainName;
 
-    public OpenAMRestConsumer(String openAMDomainName){
+    public OpenAMRestConsumer(@Value("${openam.domain}") String openAMDomainName){
         this.openAMDomainName = openAMDomainName;
         System.out.println("---------- " + openAMDomainName + " -------------");
     }
@@ -35,7 +40,7 @@ public class OpenAMRestConsumer {
         headers.set(passwordHeader, password);
 
         HttpEntity<LoginResponse> entity = new HttpEntity<>(headers);
-
+        System.out.println(openAMDomainName + authenticationURI);
         ResponseEntity<LoginResponse> response = template.exchange(openAMDomainName + authenticationURI,
                     HttpMethod.POST, entity, LoginResponse.class);
         System.out.println("Token:" + response.getBody().getTokenId());

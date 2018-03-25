@@ -1,6 +1,5 @@
 package main.web.socket.data;
 
-import main.entities.User;
 import org.springframework.web.socket.WebSocketSession;
 
 public class WebSocketAuthorizedSession {

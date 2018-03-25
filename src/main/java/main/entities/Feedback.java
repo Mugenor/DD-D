@@ -1,5 +1,7 @@
 package main.entities;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,11 +15,11 @@ public class Feedback {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn (name = "ourUser", nullable = false)
     private User user;
-    @Column
+    @Column(nullable = false)
     private java.lang.String message;
-    @Column (name = "is_card")
+    @Column (name = "is_card", nullable = false)
     private boolean isCard;
-    @Column
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @Column

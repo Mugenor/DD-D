@@ -1,6 +1,7 @@
 package main.web.socket.handlers;
 
 import com.google.gson.Gson;
+import main.web.socket.data.Message;
 import main.web.socket.data.WebSocketAuthorizedSession;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.socket.CloseStatus;
@@ -19,11 +20,6 @@ public class QueueWebSocketHandler extends TextWebSocketHandler {
         sessions = new LinkedList<>();
     }
 
-    @Scheduled(fixedDelay = 2000)
-    public void searchPairs(){
-
-    }
-
     /**
      * Save webSocketAuthorizedSession to sessions set
      * @param session
@@ -31,7 +27,23 @@ public class QueueWebSocketHandler extends TextWebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        sessions.add(new WebSocketAuthorizedSession((String) session.getAttributes().get("user"), session));
+        if(sessions.size() != 0){
+            WebSocketAuthorizedSession secondSession = sessions.get(0);
+            Message message = new Message((String) session.getAttributes().get("user"), secondSession.getUser());
+            session.sendMessage(new TextMessage(gson.toJson(message, Message.class)));
+
+            String tmp = message.getFromUser();
+            message.setFromUser(message.getToUser());
+            message.setToUser(tmp);
+
+            secondSession.getSession().sendMessage(new TextMessage(gson.toJson(message, Message.class)));
+
+            sessions.remove(secondSession);
+            secondSession.getSession().close();
+            session.close();
+        } else {
+            sessions.add(new WebSocketAuthorizedSession((String) session.getAttributes().get("user"), session));
+        }
     }
 
     /**

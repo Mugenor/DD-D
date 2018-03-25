@@ -30,8 +30,8 @@ public class CardController {
         return cardService.getById(id);
     }
 
-    @RequestMapping(path = "cube-number/{number}", method = RequestMethod.GET)
-    public Iterable<Card> getCardsByCubeNumber(@PathVariable Integer number){
+    @RequestMapping(path = "/cube-number/{number}", method = RequestMethod.GET)
+    public Card getCardsByCubeNumber(@PathVariable Integer number){
         return cardService.getByCubeNumber(number);
     }
 }

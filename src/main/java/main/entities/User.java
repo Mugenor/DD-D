@@ -1,5 +1,6 @@
 package main.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -10,28 +11,32 @@ import java.util.Collection;
 public class User {
     @Id
     @Column (name = "username", nullable = false, unique = true)
-    private java.lang.String username;
+    protected java.lang.String username;
     @Column (nullable = false, unique = true)
+    @JsonIgnore
     private java.lang.String mail;
     @Column (nullable = false)
+    @JsonIgnore
     private java.lang.String password;
     @Column (name = "status")
     @ColumnDefault("0.0")
+    @JsonIgnore
     private java.lang.String status;
     @Column (nullable = false)
     @ColumnDefault("0.0")
-    private double winrate;
+    protected double winrate;
     @Column (nullable = false)
     @ColumnDefault("0.0")
-    private long amountGames;
+    protected long amountGames;
     @Column (nullable = false)
     @ColumnDefault("0.0")
-    private long amountWin;
+    protected long amountWin;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable (name = "friends",
             joinColumns = @JoinColumn (name = "user1", referencedColumnName = "username"),
             inverseJoinColumns = @JoinColumn (name = "user2", referencedColumnName = "username"))
-    private Collection<User> friends;
+    protected Collection<User> friends;
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "awaitingFriends", joinColumns = @JoinColumn(name = "user1", referencedColumnName = "username"),
         inverseJoinColumns = @JoinColumn(name = "user2", referencedColumnName = "username"))
@@ -40,12 +45,12 @@ public class User {
     @JoinTable(name = "canUse",
         joinColumns = @JoinColumn (name = "ourUser", referencedColumnName = "username"),
         inverseJoinColumns = @JoinColumn(name = "card", referencedColumnName = "id"))
-    private Collection<Card> cardsCanUse;
+    protected Collection<Card> cardsCanUse;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "inUse",
         joinColumns = @JoinColumn(name = "ourUser", referencedColumnName = "username"),
         inverseJoinColumns = @JoinColumn(name = "card", referencedColumnName = "id"))
-    private Collection<Card> cardsInUse;
+    protected Collection<Card> cardsInUse;
 
     public java.lang.String getPassword() {
         return password;

@@ -1,6 +1,5 @@
 package main.controllers;
 
-import main.Application;
 import main.entities.User;
 import main.security.util.OpenAMRestConsumer;
 import main.services.FriendsService;
@@ -9,15 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static main.web.socket.util.CookieParser.findCookie;
 
 @RestController
 @RequestMapping(path = "/friends", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,7 +31,8 @@ public class FriendsController {
     private UserService userService;
     @Autowired
     private JavaMailSender sender;
-    private OpenAMRestConsumer openAMRestConsumer = new OpenAMRestConsumer(Application.openamDomain);
+    @Autowired
+    private OpenAMRestConsumer openAMRestConsumer;
 
 
     @RequestMapping(path = "/awaiting/{username}", method = RequestMethod.GET)
@@ -119,15 +123,6 @@ public class FriendsController {
         }
     }
 
-
-    private String findCookie(Cookie[] cookies, String name){
-        for(Cookie cookie: cookies){
-            if(cookie.getName().equals(name)){
-                return cookie.getValue();
-            }
-        }
-        return null;
-    }
 
     private void sendMail(String mail, String text, String subject) throws MessagingException{
         MimeMessage message = sender.createMimeMessage();

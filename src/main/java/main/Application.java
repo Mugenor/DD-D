@@ -1,12 +1,10 @@
 package main;
 
 import main.security.filter.TokenFilter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
@@ -21,9 +19,10 @@ public class Application {
     @Bean
     public FilterRegistrationBean tokenIdFilterRegistrationBean(){
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(new TokenFilter(openamDomain));
+        registrationBean.setFilter(new TokenFilter());
         registrationBean.addUrlPatterns("/protected.html", "/messages");
         registrationBean.setOrder(0);
         return registrationBean;
     }
+
 }

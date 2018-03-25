@@ -3,7 +3,7 @@ package main.security.filter;
 import main.security.util.OpenAMRestConsumer;
 import main.security.util.entities.ValidateResponse;
 import org.apache.log4j.Logger;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -15,12 +15,8 @@ import java.util.List;
 
 public class TokenFilter implements Filter {
     public static final Logger logger = Logger.getLogger(TokenFilter.class);
-
+    @Autowired
     private OpenAMRestConsumer openAMRestConsumer;
-
-    public TokenFilter(String openamDomain){
-        openAMRestConsumer = new OpenAMRestConsumer(openamDomain);
-    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

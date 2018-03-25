@@ -34,16 +34,16 @@ public class RegistrationController {
 
 
     @RequestMapping(path = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public java.lang.String preregister(@RequestBody AlmostUser almostUser, HttpServletResponse response) throws IOException, MessagingException{
-        if(almostUser==null || almostUser.getUsername()==null || almostUser.getPassword()==null || almostUser.getMail()==null ||
-                almostUser.getUsername().length() <=3 || almostUser.getPassword().length() <=4
-                || !EmailValidator.getInstance().isValid(almostUser.getMail())){
+    public java.lang.String preregister(@RequestBody AlmostUser almostUser, HttpServletResponse response) throws IOException, MessagingException {
+        if (almostUser == null || almostUser.getUsername() == null || almostUser.getPassword() == null || almostUser.getMail() == null ||
+                almostUser.getUsername().length() <= 3 || almostUser.getPassword().length() <= 4
+                || !EmailValidator.getInstance().isValid(almostUser.getMail())) {
             response.sendError(400, "Invalid user");
             return null;
         }
         List<AlmostUser> almostUsersFromDB = almostUserRepository.findAllByUsernameOrMail(almostUser.getUsername(), almostUser.getMail());
         List<User> usersFromDB = userService.getUsersByUsernameOrMail(almostUser.getUsername(), almostUser.getMail());
-        if(almostUsersFromDB.size()!=0 || usersFromDB.size()!=0){
+        if (almostUsersFromDB.size() != 0 || usersFromDB.size() != 0) {
             response.sendError(400, "User already exist");
             return null;
         }
@@ -57,13 +57,14 @@ public class RegistrationController {
     }
 
     @RequestMapping(path = "/accept/{hashValue}", method = RequestMethod.GET)
-    public java.lang.String acceptRegister(@PathVariable java.lang.String hashValue){
+    public java.lang.String acceptRegister(@PathVariable java.lang.String hashValue) {
         AlmostUser almostUser = almostUserRepository.findByHashValue(hashValue);
-        if(almostUser!=null){
+        if (almostUser != null) {
             User newUser = new User();
             newUser.setUsername(almostUser.getUsername());
             newUser.setPassword(almostUser.getPassword());
             newUser.setMail(almostUser.getMail());
+            newUser.setStatus("Active");
             userService.saveOrUpdate(newUser);
             almostUserRepository.delete(almostUser);
             return "success";
@@ -74,12 +75,12 @@ public class RegistrationController {
 
     @Scheduled(fixedRate = 60000)
     @Transactional
-    public void deleteOldAlmostUsers(){
+    public void deleteOldAlmostUsers() {
         almostUserRepository.deleteAllByDateBefore(new Date(System.currentTimeMillis() - 1800000));
     }
 
 
-    private void sendHashValueToMail(java.lang.String hashValue, java.lang.String mail) throws MessagingException{
+    private void sendHashValueToMail(java.lang.String hashValue, java.lang.String mail) throws MessagingException {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 

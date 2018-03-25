@@ -20,4 +20,6 @@ public interface UserRepository extends CrudRepository<User, java.lang.String>{
     List<User> findAwaitingFriendsByUsername(String username);
 
     List<User> findAllByUsernameOrMail(String username, String mail);
+
+    List<String> findUsernameByStatus(String status);
 }

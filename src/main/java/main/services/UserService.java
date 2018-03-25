@@ -39,6 +39,10 @@ public class UserService {
         return user;
     }
 
+    public List<String> getAllUsernames(String status){
+        return userRepository.findUsernameByStatus(status);
+    }
+
     public Set<User> getByUsernameLike(String username) {
         Set<User> users = userRepository.findAllByUsernameContainingIgnoreCase(username);
         for (User user : users) {

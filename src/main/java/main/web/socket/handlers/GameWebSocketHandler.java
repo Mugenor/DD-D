@@ -1,7 +1,6 @@
 package main.web.socket.handlers;
 
 import com.google.gson.Gson;
-import main.web.socket.data.ChatMessage;
 import main.web.socket.data.Message;
 import main.web.socket.data.WebSocketAuthorizedSession;
 import org.springframework.web.socket.CloseStatus;
@@ -19,7 +18,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
     public GameWebSocketHandler(){
         sessions = new LinkedList<>();
     }
-    //TO-DO normal classes for game
+    //TODO normal classes for game (GameMessage.class)
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         Message gameMessageToUser = gson.fromJson(message.getPayload(), Message.class);
@@ -43,7 +42,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
      * @throws Exception
      */
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session) {
         sessions.add(new WebSocketAuthorizedSession((String) session.getAttributes().get("user"), session));
     }
 
@@ -54,7 +53,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
      * @throws Exception
      */
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         sessions.remove(new WebSocketAuthorizedSession(session));
     }
 }
