@@ -47,9 +47,9 @@ public class AuthenticationController {
         List<Cookie> cookies = Arrays.asList(request.getCookies());
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(OpenAMRestConsumer.cookieName)) {
-                String tokeId = cookie.getValue();
+                String tokenId = cookie.getValue();
                 try {
-                    openAMRestConsumer.logoutUserByToken(tokeId);
+                    openAMRestConsumer.logoutUserByToken(tokenId);
                     response.setStatus(200);
                     return;
                 } catch (HttpClientErrorException e) {

@@ -34,18 +34,18 @@ public class RegistrationController {
 
 
     @RequestMapping(path = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public java.lang.String preregister(@RequestBody AlmostUser almostUser, HttpServletResponse response) throws IOException, MessagingException {
+    public void preregister(@RequestBody AlmostUser almostUser, HttpServletResponse response) throws IOException, MessagingException {
         if (almostUser == null || almostUser.getUsername() == null || almostUser.getPassword() == null || almostUser.getMail() == null ||
                 almostUser.getUsername().length() <= 3 || almostUser.getPassword().length() <= 4
                 || !EmailValidator.getInstance().isValid(almostUser.getMail())) {
             response.sendError(400, "Invalid user");
-            return null;
+            return;
         }
         List<AlmostUser> almostUsersFromDB = almostUserRepository.findAllByUsernameOrMail(almostUser.getUsername(), almostUser.getMail());
         List<User> usersFromDB = userService.getUsersByUsernameOrMail(almostUser.getUsername(), almostUser.getMail());
         if (almostUsersFromDB.size() != 0 || usersFromDB.size() != 0) {
             response.sendError(400, "User already exist");
-            return null;
+            return;
         }
         almostUser.setHashValue(encoder.encodeToString((almostUser.getUsername()
                 + almostUser.getPassword() + almostUser.getMail()).getBytes()));
@@ -53,11 +53,11 @@ public class RegistrationController {
         almostUser.setDate(new Date());
         almostUserRepository.save(almostUser);
         sendHashValueToMail(almostUser.getHashValue(), almostUser.getMail());
-        return "Success";
     }
 
     @RequestMapping(path = "/accept/{hashValue}", method = RequestMethod.GET)
-    public java.lang.String acceptRegister(@PathVariable java.lang.String hashValue) {
+    public void acceptRegister(@PathVariable java.lang.String hashValue, HttpServletResponse response)
+        throws IOException{
         AlmostUser almostUser = almostUserRepository.findByHashValue(hashValue);
         if (almostUser != null) {
             User newUser = new User();
@@ -67,9 +67,9 @@ public class RegistrationController {
             newUser.setStatus("Active");
             userService.saveOrUpdate(newUser);
             almostUserRepository.delete(almostUser);
-            return "success";
+            response.setStatus(200);
         } else {
-            return "fail";
+            response.sendError(400, "Invalid hashValue.");
         }
     }
 

@@ -1,7 +1,7 @@
 body {
     /*background: #020755;*/
     background-image: url(../images/вероятник2.jpg);
-    background-attachment: scroll;
+    background-attachment: fixed;
     background-size: 100%;
 }
 
