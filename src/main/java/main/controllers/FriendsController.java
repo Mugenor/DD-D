@@ -25,15 +25,20 @@ import static main.web.socket.util.CookieParser.findCookie;
 @RestController
 @RequestMapping(path = "/friends", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FriendsController {
-    @Autowired
     private FriendsService friendsService;
-    @Autowired
     private UserService userService;
-    @Autowired
     private JavaMailSender sender;
-    @Autowired
     private OpenAMRestConsumer openAMRestConsumer;
 
+    public FriendsController(){}
+
+    @Autowired
+    public FriendsController(FriendsService friendsService, UserService userService, JavaMailSender sender, OpenAMRestConsumer openAMRestConsumer) {
+        this.friendsService = friendsService;
+        this.userService = userService;
+        this.sender = sender;
+        this.openAMRestConsumer = openAMRestConsumer;
+    }
 
     @RequestMapping(path = "/awaiting/{username}", method = RequestMethod.GET)
     public Iterable<User> getAllAwaitingFriends(@PathVariable String username){

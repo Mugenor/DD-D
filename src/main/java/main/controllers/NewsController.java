@@ -12,8 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/news", produces = MediaType.APPLICATION_JSON_VALUE)
 public class NewsController {
-    @Autowired
     private NewsService newsService;
+
+    public NewsController(){}
+
+    @Autowired
+    public NewsController(NewsService newsService) {
+        this.newsService = newsService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<News> getAllNews() {
@@ -21,7 +27,7 @@ public class NewsController {
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public News getNewsById(@PathVariable long id){
+    public News getNewsById(@PathVariable Integer id){
         return newsService.getNewsById(id);
     }
 

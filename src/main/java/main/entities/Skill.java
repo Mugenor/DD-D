@@ -8,7 +8,7 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "skillSeq")
     @SequenceGenerator(name = "skillSeq", sequenceName = "skillSeq")
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Column(name = "description", unique = true, nullable = false)
     private String description;
     @Column(name = "shortDescription", unique = true, nullable = false)
@@ -18,7 +18,7 @@ public class Skill {
     @Column(name = "distance", nullable = false)
     private int distance;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     public String getDescription() {
@@ -65,7 +65,7 @@ public class Skill {
         this.distance = distance;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

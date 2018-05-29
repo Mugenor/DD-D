@@ -12,8 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/character", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CharacterController {
-    @Autowired
     private CharacterService characterService;
+
+    public CharacterController() {}
+
+    @Autowired
+    public CharacterController(CharacterService characterService) {
+        this.characterService = characterService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<Character> getAllCharacters(){
@@ -21,7 +27,7 @@ public class CharacterController {
     }
 
     @RequestMapping(path = "/id/{id}", method = RequestMethod.GET)
-    public Character getCharacterById(@PathVariable Long id){
+    public Character getCharacterById(@PathVariable Integer id){
         return characterService.getById(id);
     }
 

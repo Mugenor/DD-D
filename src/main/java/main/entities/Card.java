@@ -10,7 +10,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cardSeq")
     @SequenceGenerator(name = "cardSeq", sequenceName = "cardSeq")
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Column(name = "name", unique = true, nullable = false)
     private String name;
     @Column(name = "description", unique = true, nullable = false)
@@ -24,11 +24,11 @@ public class Card {
     @Column(name = "cube_number", unique = true, nullable = false)
     private int cubeNumber;
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     public void setName (String name) {this.name = name;}

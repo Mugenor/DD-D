@@ -11,7 +11,7 @@ public class Episode {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "episodeSeq")
     @SequenceGenerator(name = "episodeSeq", sequenceName = "episodeSeq")
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "creature_id", unique = true, nullable = false)
     private Creature creature;
@@ -31,7 +31,7 @@ public class Episode {
             inverseJoinColumns = @JoinColumn(name = "place", referencedColumnName = "id"))
     private Collection<Place> places;
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -41,7 +41,7 @@ public class Episode {
 
     private Collection<Person> participants;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     public Creature getCreature() {

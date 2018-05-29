@@ -4,6 +4,7 @@ import main.security.util.OpenAMRestConsumer;
 import main.security.util.entities.ValidateResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -13,21 +14,27 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+
+@Component
 public class TokenFilter implements Filter {
     public static final Logger logger = Logger.getLogger(TokenFilter.class);
-    @Autowired
     private OpenAMRestConsumer openAMRestConsumer;
+
+    @Autowired
+    public TokenFilter(OpenAMRestConsumer openAMRestConsumer) {
+        this.openAMRestConsumer = openAMRestConsumer;
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         if(httpRequest.getCookies()!=null) {
             logger.info("Cookies is not null");
-            List<Cookie> cookies = Arrays.asList(httpRequest.getCookies());
 
-            for (Cookie cookie : cookies) {
+            for (Cookie cookie : httpRequest.getCookies()) {
                 if (cookie.getName().equals(OpenAMRestConsumer.cookieName)) {
                     logger.info("Found " + OpenAMRestConsumer.cookieName);
+                    logger.info("openAMRestConsumer: " + openAMRestConsumer);
                     ValidateResponse userSession = openAMRestConsumer.validateSessionByToken(cookie.getValue());
 
                     if (userSession.isValid()) {

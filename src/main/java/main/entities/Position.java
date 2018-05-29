@@ -8,14 +8,14 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "positionSeq")
     @SequenceGenerator(name = "positionSeq", sequenceName = "positionSeq")
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Column(name = "name", unique = true, nullable = false)
     private String name;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "place_id")
     private Place place;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     public String getName() {
@@ -46,7 +46,7 @@ public class Position {
         this.place = place;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

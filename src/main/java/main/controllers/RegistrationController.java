@@ -24,14 +24,19 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/register")
 public class RegistrationController {
-    @Autowired
     private AlmostUserRepository almostUserRepository;
-    @Autowired
     private UserService userService;
-    @Autowired
     private JavaMailSender sender;
     private Base64.Encoder encoder = Base64.getEncoder();
 
+    public RegistrationController() {}
+
+    @Autowired
+    public RegistrationController(AlmostUserRepository almostUserRepository, UserService userService, JavaMailSender sender) {
+        this.almostUserRepository = almostUserRepository;
+        this.userService = userService;
+        this.sender = sender;
+    }
 
     @RequestMapping(path = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void preregister(@RequestBody AlmostUser almostUser, HttpServletResponse response) throws IOException, MessagingException {

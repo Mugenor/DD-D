@@ -24,18 +24,25 @@ import static main.web.socket.util.CookieParser.findCookie;
 @RestController
 @RequestMapping(path = "/feedback")
 public class FeedbackController {
-    @Autowired
     private FeedbackService feedbackService;
-    @Autowired
     private UserService userService;
-    @Autowired
     private OpenAMRestConsumer openAMRestConsumer;
+
+    public FeedbackController() {}
+
+    @Autowired
+    public FeedbackController(FeedbackService feedbackService, UserService userService, OpenAMRestConsumer openAMRestConsumer) {
+        this.feedbackService = feedbackService;
+        this.userService = userService;
+        this.openAMRestConsumer = openAMRestConsumer;
+    }
 
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public void postFeedback(@RequestBody FeedbackRequest feedbackRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException{
         if(feedbackRequest == null || feedbackRequest.getMessage()==null){
            response.sendError(400,"Message must not be null.");
+           return;
         }
         try {
             String username = openAMRestConsumer.validateSessionByToken

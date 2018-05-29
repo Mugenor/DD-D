@@ -19,7 +19,7 @@ public class OpenAMRestConsumer {
     private static final String sessionsURI = "/json/sessions";
     private static final String logoutAction = "/?_action=logout";
     private static final String validateAction = "?_action=validate";
-        private static final String usernameHeader = "X-OpenAM-Username";
+    private static final String usernameHeader = "X-OpenAM-Username";
     private static final String passwordHeader = "X-OpenAM-Password";
     public static final String cookieName = "iplanetDirectoryPro";
     private static final Logger logger = Logger.getLogger(OpenAMRestConsumer.class);

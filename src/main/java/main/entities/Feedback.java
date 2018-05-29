@@ -1,7 +1,5 @@
 package main.entities;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,7 +9,7 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "feedbackSeq")
     @SequenceGenerator(name = "feedbackSeq", sequenceName = "feedbackSeq")
     @Column
-    private Long id;
+    private Integer id;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn (name = "ourUser", nullable = false)
     private User user;
@@ -25,7 +23,7 @@ public class Feedback {
     @Column
     private java.lang.String response;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     public User getUser() {
@@ -86,7 +84,7 @@ public class Feedback {
         this.response = response;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

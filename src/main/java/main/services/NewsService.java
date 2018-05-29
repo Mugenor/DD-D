@@ -11,10 +11,16 @@ import java.util.Date;
 @Service
 @Transactional
 public class NewsService {
-    @Autowired
     private NewsRepository newsRepository;
 
-    public News getNewsById(long id){
+    public NewsService(){}
+
+    @Autowired
+    public NewsService(NewsRepository newsRepository) {
+        this.newsRepository = newsRepository;
+    }
+
+    public News getNewsById(int id){
         return newsRepository.findOne(id);
     }
 
@@ -38,7 +44,7 @@ public class NewsService {
         return newsRepository.save(news);
     }
 
-    public void deleteNewsById(long id){
+    public void deleteNewsById(int id){
         newsRepository.delete(id);
     }
 

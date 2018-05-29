@@ -33,7 +33,7 @@ public class EpisodeService {
      * @param id of required Episode
      * @return one Episode
      */
-    public Episode getById(Long id){
+    public Episode getById(Integer id){
         Episode episode = episodeRepository.findOne(id);
         initializeEpisode(episode);
         return episode;
@@ -68,7 +68,7 @@ public class EpisodeService {
      * Delete the Episode by id from the database
      * @param id of required Episode
      */
-    public void deleteById(Long id){
+    public void deleteById(Integer id){
         episodeRepository.delete(id);
     }
 

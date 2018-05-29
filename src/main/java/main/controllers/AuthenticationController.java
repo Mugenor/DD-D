@@ -26,9 +26,15 @@ import java.util.List;
 public class AuthenticationController {
     private static final String successLogin = "Success";
     private static final String failLogin = "Fail";
-    @Autowired
     private OpenAMRestConsumer openAMRestConsumer;
     private Base64.Encoder encoder = Base64.getEncoder();
+
+    public AuthenticationController(){}
+
+    @Autowired
+    public AuthenticationController(OpenAMRestConsumer openAMRestConsumer) {
+        this.openAMRestConsumer = openAMRestConsumer;
+    }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public LoginCredential login(@RequestBody UserCredentials userCredentials, HttpServletResponse response)
@@ -44,8 +50,7 @@ public class AuthenticationController {
 
     @RequestMapping(path = "/logout", method = RequestMethod.POST)
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<Cookie> cookies = Arrays.asList(request.getCookies());
-        for (Cookie cookie : cookies) {
+        for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals(OpenAMRestConsumer.cookieName)) {
                 String tokenId = cookie.getValue();
                 try {

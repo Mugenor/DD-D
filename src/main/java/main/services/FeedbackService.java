@@ -27,7 +27,7 @@ public class FeedbackService {
      * @param id of required Feedback
      * @return one Feedback
      */
-    public Feedback getById(Long id){
+    public Feedback getById(Integer id){
         Feedback feedback = feedbackRepository.findOne(id);
         if(feedback!=null) {
             Hibernate.initialize(feedback.getUser());
@@ -85,7 +85,7 @@ public class FeedbackService {
      * Delete the feedback by id from the database
      * @param id of required Feedback
      */
-    public void deleteById(Long id){
+    public void deleteById(Integer id){
         feedbackRepository.delete(id);
     }
 

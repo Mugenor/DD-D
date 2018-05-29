@@ -8,11 +8,11 @@ public class Feature {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "featureSeq")
     @SequenceGenerator(name = "featureSeq", sequenceName = "featureSeq")
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Column(name = "description", unique = true, nullable = false)
     private String description;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     public String getDescription() {
@@ -35,7 +35,7 @@ public class Feature {
         this.description = description;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

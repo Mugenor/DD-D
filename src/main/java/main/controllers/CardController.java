@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/card", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CardController {
-    @Autowired
     private CardService cardService;
+
+    public CardController(){}
+    @Autowired
+    public CardController(CardService cardService) {
+        this.cardService = cardService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public Iterable<Card> getAllCards(){
@@ -26,7 +31,7 @@ public class CardController {
     }
 
     @RequestMapping(path = "/id/{id}", method = RequestMethod.GET)
-    public Card getCardById(@PathVariable Long id){
+    public Card getCardById(@PathVariable Integer id){
         return cardService.getById(id);
     }
 

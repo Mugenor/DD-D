@@ -11,7 +11,7 @@ public class Character {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "characterSeq")
     @SequenceGenerator(name = "characterSeq", sequenceName = "characterSeq")
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Column(name = "name", unique = true, nullable = false)
     private String name;
     @Column(name = "health", nullable = false)
@@ -19,7 +19,7 @@ public class Character {
     @Column(name = "description", nullable = false)
     private String description;
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -33,7 +33,7 @@ public class Character {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Person person;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     public String getName() {

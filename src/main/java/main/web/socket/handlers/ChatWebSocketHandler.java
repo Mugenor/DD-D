@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import main.web.socket.data.ChatMessage;
 import main.web.socket.data.WebSocketAuthorizedSession;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -12,6 +14,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.util.LinkedList;
 import java.util.List;
 
+@Component
 public class ChatWebSocketHandler extends TextWebSocketHandler {
     private static final Logger logger = Logger.getLogger(ChatWebSocketHandler.class);
     private List<WebSocketAuthorizedSession> sessions;

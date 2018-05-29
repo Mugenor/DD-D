@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity (name = "news")
 public class News {
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -13,7 +13,7 @@ public class News {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "newsSeq")
     @SequenceGenerator(name = "newsSeq", sequenceName = "newsSeq")
     @Column
-    private Long id;
+    private Integer id;
     @Column(nullable = false)
     private String news;
     @Column (nullable = false)
@@ -22,7 +22,7 @@ public class News {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
     public String getNews() {

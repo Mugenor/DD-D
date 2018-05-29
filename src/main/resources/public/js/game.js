@@ -19,131 +19,191 @@ const map = {
         ],
     directions: [RIGHT, LEFT, DOWN, UP]
 };
-let pathMap;
-let ground;
-let walls;
-let fields;
-let hero;
-let stepButton;
-let stepCountText;
-let stepCount = 0;
+let gameState = function (game) {
+};
+gameState.prototype = {
+    preload: function () {
+        this.myTurn = false;
+        this.awaitingMessage = this.game.add.text(map.x * 50 + 100, 300, 'Waiting for another player!', {font: '50px Arial'});
+        this.whoseTurnText = this.game.add.text(map.x * 50 + 100, 350, '', {font: '50px Arial'});
+        this.gameSocket = new WebSocket('ws://localhost:8080/game');
+        this.gameSocket.onopen = bind(this.socketOnOpen, this);
+        this.gameSocket.onmessage = bind(this.socketOnMessage, this);
+        this.gameSocket.onerror = bind(this.socketOnError, this);
+        this.gameSocket.onclose = bind(this.socketOnClose, this);
 
-let heroMoveTween;
-window.onload = function () {
-    pathMap = map.map.slice();
-    fields = [];
+        this.pathMap = map.map.slice();
+        this.fields = [];
+        this.game.load.image('logo', 'img/phaser.png');
+        this.game.load.image('ground', 'img/ground.png');
+        this.game.load.image('wall', 'img/wall.png');
+        this.game.load.image('hero', 'img/hero.png');
+        this.game.load.image('update_button', 'img/update.png');
+    },
+    socketOnOpen: function () {
+        console.log('GameSocket opened');
+    },
+    setWhoseTurn: function (bool) {
+        this.myTurn = bool;
+        if (this.myTurn) {
+            this.whoseTurnText.text = 'Your turn!';
+        } else {
+            this.whoseTurnText.text = 'Enemy turn!';
+        }
+    },
+    invertWhoseTurn: function () {
+        this.setWhoseTurn(!this.myTurn);
+    },
+    socketOnMessage: function (event) {
+        console.log('Got a message', event);
+        let message = JSON.parse(event.data);
 
-    let game = new Phaser.Game('100%', '100%', Phaser.AUTO, document.body, {
-        preload: preload,
-        create: create,
-        update: update
-    });
-
-    function preload() {
-        game.load.image('logo', 'img/phaser.png');
-        game.load.image('ground', 'img/ground.png');
-        game.load.image('wall', 'img/wall.png');
-        game.load.image('hero', 'img/hero.png');
-        game.load.image('update_button', 'img/update.png');
-    }
-
-    function create() {
-        game.stage.backgroundColor = "#a8aa33";
-        ground = game.add.group();
-        walls = game.add.group();
-        stepCount = 0;
+        // what enemy did
+        this.enemyMoveTween.properties.x = message.x;
+        this.enemyMoveTween.properties.y = message.y;
+        this.enemyMoveTween.start();
+    },
+    socketOnClose: function (event) {
+        console.log('Socket closed!', event);
+    },
+    socketOnError: function (event) {
+        console.log('Error with socket!', event);
+    },
+    create: function () {
+        this.game.stage.backgroundColor = '#a8aa33';
+        this.ground = this.game.add.group();
+        this.walls = this.game.add.group();
+        this.stepCount = 0;
 
         let sprite;
         for (let i = 0; i < map.x; i++) {
             for (let j = 0; j < map.y; j++) {
                 if (map.map[j][i] === WALL) {
-                    sprite = game.add.sprite(50 * i, 50 * j, 'wall');
+                    sprite = this.game.add.sprite(50 * i, 50 * j, 'wall');
                     sprite.posX = i;
                     sprite.posY = j;
 
-                    walls.add(sprite);
+                    this.walls.add(sprite);
                 } else {
-                    sprite = game.add.sprite(50 * i, 50 * j, 'ground');
+                    sprite = this.game.add.sprite(50 * i, 50 * j, 'ground');
                     sprite.posX = i;
                     sprite.posY = j;
 
-                    ground.add(sprite);
+                    this.ground.add(sprite);
                 }
-                fields.push(sprite);
+                this.fields.push(sprite);
             }
         }
-        hero = game.add.sprite(50 * 6 + 25, 50 * 5 + 25, 'hero');
-        hero.anchor.x = 0.5;
-        hero.anchor.y = 0.5;
-        hero.posX = 6;
-        hero.posY = 5;
+        this.hero = this.game.add.sprite(50 * 2 + 25, 50 * 5 + 25, 'hero');
+        this.hero.anchor.x = 0.5;
+        this.hero.anchor.y = 0.5;
+        this.hero.posX = 2;
+        this.hero.posY = 5;
+
+        this.enemy = this.game.add.sprite(50 * (map.x - 2) + 25, 50 * 5 + 25, 'hero');
+        this.enemy.anchor.x = 0.5;
+        this.enemy.anchor.y = 0.5;
+        this.enemy.posX = map.x - 2;
+        this.enemy.posY = 5;
+
+        // debugger;
+
+        let yourTurnFirst = JSON.parse(sessionStorage.getItem('yourTurnFirst'));
+        console.log(yourTurnFirst);
+        if (yourTurnFirst) {
+            let tmp = this.enemy;
+            this.enemy = this.hero;
+            this.hero = tmp;
+        }
+        this.setWhoseTurn(yourTurnFirst);
+        this.awaitingMessage.text = 'Your enemy: ' + sessionStorage.getItem('enemy');
 
 
-        ground.setAll('inputEnabled', true);
-        ground.callAll('events.onInputOver.add', 'events.onInputOver', function (event) {
-            if (canStepToField(event.posX, event.posY, pathMap)) {
-                markPath(event.posX, event.posY, 0.65, pathMap);
-            }
-        });
-        ground.callAll('events.onInputOver.add', 'events.onInputOut', function (event) {
-            markPath(event.posX, event.posY, 1, pathMap);
-        });
+        this.ground.setAll('inputEnabled', true);
+        this.ground.callAll('events.onInputOver.add', 'events.onInputOver', bind(this.highLightPath, this));
+        this.ground.callAll('events.onInputOver.add', 'events.onInputOut', bind(this.lowLightPath, this));
 
-        ground.callAll('events.onInputDown.add', 'events.onInputDown', function (event) {
+        this.ground.callAll('events.onInputDown.add', 'events.onInputDown', bind(this.moveHero, this));
+
+        this.stepButton = this.game.add.button(map.x * 50 + 10, 60, 'update_button', this.addSteps, this);
+        this.stepCountText = this.game.add.text(map.x * 50 + 10, 100, this.stepCount, {font: '20px Arial'});
+
+        this.heroMoveTween = this.game.add.tween(this.hero).to({}, 2000, null, false);
+        this.heroMoveTween.onComplete.add(this.clearMovePoints, this.heroMoveTween);
+        this.heroMoveTween.properties.x = [];
+        this.heroMoveTween.properties.y = [];
+
+        this.enemyMoveTween = this.game.add.tween(this.enemy).to({}, 2000, null, false);
+        this.enemyMoveTween.onComplete.add(this.clearMovePoints, this.enemyMoveTween);
+        this.enemyMoveTween.onComplete.add(this.invertWhoseTurn, this);
+        this.enemyMoveTween.properties.x = [];
+        this.enemyMoveTween.properties.y = [];
+    },
+    highLightPath: function (event) {
+        // debugger;
+        if (this.myTurn && this.canStepToField(event.posX, event.posY, this.pathMap)) {
+            this.markPath(event.posX, event.posY, 0.65, this.pathMap);
+        }
+    },
+    lowLightPath: function (event) {
+        // debugger;
+        if (this.myTurn) {
+            this.markPath(event.posX, event.posY, 1, this.pathMap);
+        }
+    },
+    clearMovePoints: function () {
+        console.log(this);
+        this.properties.x.length = 0;
+        this.properties.y.length = 0;
+    },
+    moveHero: function (event) {
+        if (this.myTurn) {
             console.log('Click');
-            if (stepCount > 0 && canStepToField(event.posX, event.posY, pathMap)) {
-                stepCount = stepCount - pathMap[event.posY][event.posX];
-                stepCountText.text = stepCount.toString();
-                markPath(event.posX, event.posY, 1, pathMap);
-                moveHeroByPath(hero, event.posX, event.posY, pathMap);
-                hero.posX = event.posX;
-                hero.posY = event.posY;
 
-                pathMap = slice2DimensionalArray(map.map);
-                markFieldsAroundHero(hero, stepCount, pathMap);
+            if (this.stepCount > 0 && this.canStepToField(event.posX, event.posY, this.pathMap)) {
+                this.stepCount = this.stepCount - this.pathMap[event.posY][event.posX];
+                this.stepCountText.text = this.stepCount.toString();
+                this.markPath(event.posX, event.posY, 1, this.pathMap);
+                let movement = this.moveHeroByPath(this.hero, event.posX, event.posY, this.pathMap);
+                // sending our movement to opponent
+                this.gameSocket.send(JSON.stringify(movement));
+                this.invertWhoseTurn();
+
+                this.hero.posX = event.posX;
+                this.hero.posY = event.posY;
+
+                this.pathMap = this.slice2DimensionalArray(map.map);
+                this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
             }
-        });
-
-        stepButton = game.add.button(map.x * 50 + 10, 60, 'update_button', addSteps, this);
-        stepCountText = game.add.text(map.x * 50 + 10, 100, stepCount, {font: '20px Arial'});
-
-        heroMoveTween = game.add.tween(hero).to({}, 2000, null, false);
-        heroMoveTween.onComplete.add(clearMovePoints, this);
-        heroMoveTween.properties.x = [];
-        heroMoveTween.properties.y = [];
-    }
-
-    function clearMovePoints() {
-        heroMoveTween.properties.x.length = 0;
-        heroMoveTween.properties.y.length = 0;
-        console.log(heroMoveTween);
-    }
-
-    function moveHeroByPath(hero, destX, destY, mapPath) {
+        }
+    },
+    moveHeroByPath: function (hero, destX, destY, mapPath) {
         while (destX !== hero.posX || destY !== hero.posY) {
             for (let i = 0; i < map.directions.length; ++i) {
                 if (mapPath[destY + map.directions[i].y][destX + map.directions[i].x] === (mapPath[destY][destX] - 1)) {
-                    heroMoveTween.properties.x.unshift(destX * 50 + 25);
-                    heroMoveTween.properties.y.unshift(destY * 50 + 25);
+                    this.heroMoveTween.properties.x.unshift(destX * 50 + 25);
+                    this.heroMoveTween.properties.y.unshift(destY * 50 + 25);
                     destX += map.directions[i].x;
                     destY += map.directions[i].y;
                     break;
                 }
             }
         }
-        heroMoveTween.properties.x.unshift(destX * 50 + 25);
-        heroMoveTween.properties.y.unshift(destY * 50 + 25);
-        heroMoveTween.start();
-    }
-
-    function addSteps() {
-        stepCount = 5;
-        stepCountText.text = stepCount.toString();
-        pathMap = slice2DimensionalArray(map.map);
-        markFieldsAroundHero(hero, stepCount, pathMap);
-    }
-
-    function markFieldsAroundHero(hero, stepCount, mapPath) {
+        this.heroMoveTween.properties.x.unshift(destX * 50 + 25);
+        this.heroMoveTween.properties.y.unshift(destY * 50 + 25);
+        this.heroMoveTween.start();
+        return {x: this.heroMoveTween.properties.x, y: this.heroMoveTween.properties.y};
+    },
+    addSteps: function () {
+        if (this.myTurn) {
+            this.stepCount = 5;
+            this.stepCountText.text = this.stepCount.toString();
+            this.pathMap = this.slice2DimensionalArray(map.map);
+            this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
+            console.log(this.pathMap);
+        }
+    },
+    markFieldsAroundHero: function (hero, stepCount, mapPath) {
         mapPath[hero.posY][hero.posX] = 0;
         if (stepCount < 1) return;
         let queue = [];
@@ -165,15 +225,10 @@ window.onload = function () {
                 }
             }
         }
-    }
-
-    function canStepToField(destX, destY, mapPath) {
-        return mapPath[destY][destX] > 0;
-    }
-
-    function markPath(destX, destY, alpha, mapPath) {
+    },
+    markPath: function (destX, destY, alpha, mapPath) {
         if (mapPath[destY][destX] <= 0) return;
-        fields[destX * map.y + destY].alpha = alpha;
+        this.fields[destX * map.y + destY].alpha = alpha;
         while (mapPath[destY][destX] !== 0) {
             for (let i = 0; i < map.directions.length; ++i) {
                 if (mapPath[destY + map.directions[i].y][destX + map.directions[i].x] === (mapPath[destY][destX] - 1)) {
@@ -182,18 +237,26 @@ window.onload = function () {
                     break;
                 }
             }
-            fields[destX * map.y + destY].alpha = alpha;
+            this.fields[destX * map.y + destY].alpha = alpha;
         }
-    }
-
-    function slice2DimensionalArray(arr) {
+    },
+    canStepToField: function (destX, destY, mapPath) {
+        return mapPath[destY][destX] > 0;
+    },
+    slice2DimensionalArray: function (arr) {
         let newArr = [];
         arr.forEach(function (value) {
             newArr.push(value.slice());
         });
         return newArr;
+    },
+    update: function () {
     }
+};
+window.onload = function () {
+    let game = new Phaser.Game('100%', '100%', Phaser.AUTO, document.body);
+    game.state.add('Queue', queueState);
+    game.state.add('Game', gameState);
+    game.state.start('Queue');
 
-    function update() {
-    }
 };

@@ -23,7 +23,7 @@ public class CharacterService {
      * @param id of required Character
      * @return one Character
      */
-    public Character getById(long id){
+    public Character getById(int id){
         return characterRepository.findOne(id);
     }
 
@@ -57,7 +57,7 @@ public class CharacterService {
      * Delete the Character by id from the database
      * @param id of required Character
      */
-    public void deleteById(Long id){
+    public void deleteById(Integer id){
         characterRepository.delete(id);
     }
 

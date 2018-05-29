@@ -10,7 +10,7 @@ public class Creature {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "creatureSeq")
     @SequenceGenerator(name = "creatureSeq", sequenceName = "creatureSeq")
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Column(name = "name", unique = true, nullable = false)
     private String name;
     @Column(name = "amount", nullable = false)
@@ -27,7 +27,7 @@ public class Creature {
     private Episode episode;
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
     public String getName() {
@@ -92,7 +92,7 @@ public class Creature {
         this.episode = episode;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

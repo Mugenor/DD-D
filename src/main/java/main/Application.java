@@ -4,6 +4,7 @@ import main.security.filter.TokenFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -17,9 +18,9 @@ public class Application {
     }
 
     @Bean
-    public FilterRegistrationBean tokenIdFilterRegistrationBean(){
+    public FilterRegistrationBean tokenIdFilterRegistrationBean(ApplicationContext applicationContext){
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(new TokenFilter());
+        registrationBean.setFilter(applicationContext.getBean(TokenFilter.class));
         registrationBean.addUrlPatterns("/protected.html", "/messages");
         registrationBean.setOrder(0);
         return registrationBean;

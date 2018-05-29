@@ -17,7 +17,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "personSeq")
     @SequenceGenerator(name = "personSeq", sequenceName = "personSeq")
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Column(name = "name", unique = true, nullable = false)
     private String name;
     @Column(name = "sex", nullable = false)
@@ -36,8 +36,8 @@ public class Person {
     private Position position;
 
 
-    public void setId(Long id){this.id = id;}
-    public Long getId() {
+    public void setId(Integer id){this.id = id;}
+    public Integer getId() {
         return id;
     }
     public String getName() {

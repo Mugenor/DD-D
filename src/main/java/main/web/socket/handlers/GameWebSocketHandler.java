@@ -1,59 +1,85 @@
 package main.web.socket.handlers;
 
 import com.google.gson.Gson;
-import main.web.socket.data.Message;
-import main.web.socket.data.WebSocketAuthorizedSession;
+import main.web.socket.data.PairOfWebSocketAuthorizedSession;
+import main.web.socket.handshake.WebSocketHandshakeHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+@Component("gameWebSocketHandler")
 public class GameWebSocketHandler extends TextWebSocketHandler {
-    private List<WebSocketAuthorizedSession> sessions;
-    private Gson gson = new Gson();
+    private static final String ERROR_MESSAGE = "{\"error\": \"You are not in game!\"}";
+    private static final String GAME_MATCH_ATTRIBUTE_NAME = "gameMatchId";
+    private HashMap<Integer, PairOfWebSocketAuthorizedSession> sessionPairs;
+    private Gson gson;
 
-    public GameWebSocketHandler(){
-        sessions = new LinkedList<>();
+    @Autowired
+    public GameWebSocketHandler(@Qualifier("gameMatchHashMap") HashMap<Integer, PairOfWebSocketAuthorizedSession> sessionPairs) {
+        gson = new Gson();
+        this.sessionPairs = sessionPairs;
     }
-    //TODO normal classes for game (GameMessage.class)
-    @Override
+
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        Message gameMessageToUser = gson.fromJson(message.getPayload(), Message.class);
-        if(gameMessageToUser == null || gameMessageToUser.getToUser()==null){
-            session.sendMessage(new TextMessage("Bad request"));
-            return;
-        }
-        for (WebSocketAuthorizedSession webSocketAuthorizedSession: sessions){
-            if(gameMessageToUser.getToUser().equals(webSocketAuthorizedSession.getUser())){
-                gameMessageToUser.setFromUser((String)session.getAttributes().get("user"));
-                webSocketAuthorizedSession.getSession().sendMessage(message);
-                return;
-            }
-        }
-        session.sendMessage(new TextMessage("No receiver online"));
+        int gameMatchId = (Integer) session.getAttributes().get(GAME_MATCH_ATTRIBUTE_NAME);
+        String username = (String) session.getAttributes().get(WebSocketHandshakeHandler.USERNAME_ATTRIBUTE_NAME);
+        PairOfWebSocketAuthorizedSession pairSession = sessionPairs.get(gameMatchId);
+        pairSession.getOppositeSessionByUsername(username).getSession().sendMessage(message);
     }
 
     /**
      * Save webSocketAuthorizedSession to sessions set
+     *
      * @param session
-     * @throws Exception
      */
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) {
-        sessions.add(new WebSocketAuthorizedSession((String) session.getAttributes().get("user"), session));
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        String username = (String) session.getAttributes().get("user");
+
+        for (Map.Entry<Integer, PairOfWebSocketAuthorizedSession> entry : sessionPairs.entrySet()) {
+            if (entry.getValue().getFirstSession().getUser().equals(username)) {
+                entry.getValue().getFirstSession().setSession(session);
+                session.getAttributes().put(GAME_MATCH_ATTRIBUTE_NAME, entry.getKey());
+                return;
+            } else if (entry.getValue().getSecondSession().getUser().equals(username)) {
+                entry.getValue().getSecondSession().setSession(session);
+                session.getAttributes().put(GAME_MATCH_ATTRIBUTE_NAME, entry.getKey());
+                return;
+            }
+        }
+        session.close(new CloseStatus(CloseStatus.BAD_DATA.getCode(), ERROR_MESSAGE));
     }
+
+
 
     /**
      * Remove webSocketAuthorizedSession from sessions set
+     *
      * @param session
      * @param status
-     * @throws Exception
      */
+    // TODO save info about ended game match
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        sessions.remove(new WebSocketAuthorizedSession(session));
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        String username = (String) session.getAttributes().get(WebSocketHandshakeHandler.USERNAME_ATTRIBUTE_NAME);
+        for (Map.Entry<Integer, PairOfWebSocketAuthorizedSession> entry : sessionPairs.entrySet()) {
+            if (entry.getValue().getSessionByUsername(username) != null) {
+                if (entry.getValue().getFirstSession().getSession() != null && entry.getValue().getFirstSession().getSession().isOpen()) {
+                    entry.getValue().getFirstSession().getSession().close();
+                }
+                if (entry.getValue().getSecondSession().getSession() != null && entry.getValue().getSecondSession().getSession().isOpen()) {
+                    entry.getValue().getSecondSession().getSession().close();
+                }
+                return;
+            }
+        }
     }
+
 }

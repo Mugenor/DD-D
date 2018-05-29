@@ -23,7 +23,7 @@ public class PersonService {
      * @param id of required Person
      * @return one Person
      */
-    public Person getById(long id){
+    public Person getById(int id){
         Person person = personRepository.findOne(id);
         if(person!=null) {
             Hibernate.initialize(person.getFeatures());
@@ -72,7 +72,7 @@ public class PersonService {
      * Delete the Person by id from the database
      * @param id of required Person
      */
-    public void deleteById(Long id){
+    public void deleteById(Integer id){
         personRepository.delete(id);
     }
 

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface FeedbackRepository extends CrudRepository<Feedback, Long> {
+public interface FeedbackRepository extends CrudRepository<Feedback, Integer> {
 
     List<Feedback> findByUserUsername(@Param("username") String username);
     List<Feedback> findByResponseIsNull();

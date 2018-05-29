@@ -6,6 +6,10 @@ public class WebSocketAuthorizedSession {
     private String user;
     private WebSocketSession session;
 
+    public WebSocketAuthorizedSession(String user) {
+        this.user = user;
+    }
+
     public WebSocketAuthorizedSession(String user, WebSocketSession session){
         this.user = user;
         this.session = session;

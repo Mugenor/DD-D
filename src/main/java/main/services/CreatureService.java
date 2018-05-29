@@ -29,7 +29,7 @@ public class CreatureService {
      * @param id of required Creature
      * @return one Creature
      */
-    public Creature getById(long id){
+    public Creature getById(int id){
         Creature creature = creatureRepository.findOne(id);
         if(creature!=null) {
             Hibernate.initialize(creature.getDiary());
@@ -92,7 +92,7 @@ public class CreatureService {
      * Delete the Creature by id from the database
      * @param id of required Creature
      */
-    public void deleteById(Long id){
+    public void deleteById(Integer id){
         creatureRepository.delete(id);
     }
 

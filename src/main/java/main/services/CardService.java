@@ -23,7 +23,7 @@ public class CardService {
      * @param id of required Card
      * @return one Card
      */
-    public Card getById(long id){
+    public Card getById(int id){
         return cardRepository.findOne(id);
     }
 
@@ -66,7 +66,7 @@ public class CardService {
      * Delete the Card by id from the database
      * @param id of required Card
      */
-    public void deleteById(Long id){
+    public void deleteById(Integer id){
         cardRepository.delete(id);
     }
 
