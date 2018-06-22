@@ -6,7 +6,7 @@ let bind = function (func, context){
 };
 queueState.prototype = {
     preload: function () {
-        this.game.load.image('queueButton', 'img/joinButton.png');
+        this.game.load.image('queueButton', 'img/game/joinButton.png');
         this.isSocketOpened = false;
     },
     create: function () {

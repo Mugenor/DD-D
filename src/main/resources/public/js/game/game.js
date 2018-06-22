@@ -15,12 +15,13 @@ const map = {
             [WALL, FIELD, FIELD, WALL, FIELD, FIELD, FIELD, FIELD, FIELD, WALL, FIELD, FIELD, WALL],
             [WALL, FIELD, FIELD, WALL, FIELD, FIELD, FIELD, FIELD, FIELD, WALL, FIELD, FIELD, WALL],
             [WALL, FIELD, FIELD, WALL, FIELD, FIELD, FIELD, FIELD, FIELD, WALL, FIELD, FIELD, WALL],
-            [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
+            [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL]
         ],
     directions: [RIGHT, LEFT, DOWN, UP]
 };
-let gameState = function (game) {
-};
+var enemy;
+let gameState = function (game) {//
+     };
 gameState.prototype = {
     preload: function () {
         this.myTurn = false;
@@ -34,11 +35,11 @@ gameState.prototype = {
 
         this.pathMap = map.map.slice();
         this.fields = [];
-        this.game.load.image('logo', 'img/phaser.png');
-        this.game.load.image('ground', 'img/ground.png');
-        this.game.load.image('wall', 'img/wall.png');
-        this.game.load.image('hero', 'img/hero.png');
-        this.game.load.image('update_button', 'img/update.png');
+        this.game.load.image('logo', 'img/game/phaser.png');
+        this.game.load.image('ground', 'img/game/ground.png');
+        this.game.load.image('wall', 'img/game/wall.png');
+        this.game.load.image('hero', 'img/game/hero.png');
+        this.game.load.image('update_button', 'img/game/update.png');
     },
     socketOnOpen: function () {
         console.log('GameSocket opened');
@@ -55,19 +56,25 @@ gameState.prototype = {
         this.setWhoseTurn(!this.myTurn);
     },
     socketOnMessage: function (event) {
+        debugger;
         console.log('Got a message', event);
         let message = JSON.parse(event.data);
+        console.log('Message', message);
 
         // what enemy did
         this.enemyMoveTween.properties.x = message.x;
         this.enemyMoveTween.properties.y = message.y;
+        console.log('Before enemy tween start', this.enemyMoveTween);
         this.enemyMoveTween.start();
+        console.log('After enemy tween start', this.enemyMoveTween);
+        // this.enemy.movePoint.x = message.x;
+        // this.enemy.movePoint.y = message.y;
     },
     socketOnClose: function (event) {
         console.log('Socket closed!', event);
     },
     socketOnError: function (event) {
-        console.log('Error with socket!', event);
+        console.log("Error with socket!", event);
     },
     create: function () {
         this.game.stage.backgroundColor = '#a8aa33';
@@ -105,6 +112,9 @@ gameState.prototype = {
         this.enemy.anchor.y = 0.5;
         this.enemy.posX = map.x - 2;
         this.enemy.posY = 5;
+        // this.enemy.movePoint.x = [];
+
+        enemy = this.enemy;
 
         // debugger;
 
@@ -251,6 +261,19 @@ gameState.prototype = {
         return newArr;
     },
     update: function () {
+        if(isNaN(this.enemy.x) || isNaN(this.enemy.y)) {
+            this.enemy.x = this.enemy.lastX;
+            this.enemy.y = this.enemy.lastY;
+        }
+        if(isNaN(this.hero.x) || isNaN(this.hero.y)){
+            this.hero.x = this.hero.lastX;
+            this.hero.y = this.hero.lastY;
+        }
+        this.enemy.lastX = this.enemy.x;
+        this.enemy.lastY = this.enemy.y;
+
+        this.hero.lastX = this.hero.x;
+        this.hero.lastY = this.hero.y;
     }
 };
 window.onload = function () {

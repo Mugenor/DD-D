@@ -74,4 +74,5 @@ public class OpenAMRestConsumer {
         System.out.println("Result:" + response.getBody().isValid());
         return response.getBody();
     }
+
 }
