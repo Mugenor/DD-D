@@ -1,0 +1,39 @@
+#center {
+    width: 35%;
+}
+
+#connection {
+    text-align: center;
+    margin: 1% 0;
+}
+
+textarea {
+    width: 99%;
+    margin: 1% 0;
+    resize: none;
+}
+
+#button_div {
+    display: flex;
+    justify-content: center;
+}
+
+#submit {
+    background: #86addb;
+    border: 1px solid #151751;
+    border-radius: 7px;
+    font-family: "Arial Rounded MT Bold";
+    color: #151751;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1%;
+    font-size: 105%;
+}
+
+#submit:hover {
+    background: #99b2d1;
+}
+
+#submit:focus {
+    outline: none;
+}
