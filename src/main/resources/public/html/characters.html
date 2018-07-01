@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>DD&D</title>
+    <link rel="stylesheet" href="../css/general_style.css"/>
+    <link rel="stylesheet" href="../css/characters_style.css"/>
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/png" />
+</head>
+<body>
+<header>
+    <div id="header_person">
+        <a href="#"><img id="img_person" src="../img/person5.png" alt="Person"></a><br>
+        <a href="login.html"><div id="login_person">Войти</div></a>
+    </div>
+    <div id="official_name" class="inHeader">
+        Dungeons, Dungeons and more Dungeons
+    </div>
+    <div id="russian_name" class="inHeader">
+        Подземелья, Подземелья и ещё Подземелья
+    </div>
+</header>
+<div id="menu">
+    <div id="search">
+        <input id="search_field" type="search" placeholder="Поиск игрока" size="15">
+        <img id="search_img" src="../img/search.png" alt="Search">
+    </div>
+    <div id="only_menu">
+        <ul>
+            <li id="leftEdge"><a class="in_menu" href="game.html">Играть</a></li>
+            <li><a class="in_menu" href="rules.html">Правила</a></li>
+            <li><a class="in_menu" href="characters.html">Герои</a></li>
+            <li><a class="in_menu" href="cards.html">Карточки</a></li>
+            <li id="rightEdge"><a class="in_menu" href="connection.html">Обратная связь</a></li>
+        </ul>
+    </div>
+</div>
+<div id="general">
+    <div id="center" class="block">
+        <script type="text/template" id="characters">
+            <img id="<%= id_image %>" src="<%= image %>" alt="Picture"><br>
+            <span class="character_name"><b><%= name %></b></span><br>
+            <b>Способность: </b><%= feature %>
+        </script>
+    </div>
+</div>
+
+<script type="text/javascript" src="../js/lib/jquery.js"></script>
+<script type="text/javascript" src="../js/lib/underscore.js"></script>
+<script type="text/javascript" src="../js/lib/backbone.js"></script>
+<script type="text/javascript" src="../js/backbone_character.js"></script>
+</body>
+</html>
+
+<!-- <script type="text/template" id="charactersTemplate">
+            <label><%= title %></label>
+        </script>-->

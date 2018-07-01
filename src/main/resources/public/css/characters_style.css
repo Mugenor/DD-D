@@ -1,0 +1,33 @@
+#center {
+    width: 70%;
+}
+.character {
+    background: #86addb;
+    border: 3px solid #151751;
+    border-radius: 15px;
+    padding: 1%;
+    font-family: "Arial Rounded MT Bold";
+    font-size: 100%;
+    color: #151751;
+    width: 18%;
+    text-align: center;
+    margin: 1%;
+}
+
+.character > img {
+    width: 100%;
+    background: #d5e4f1;
+    border: 1px solid #151751;
+    border-radius: 10px;
+    margin-bottom: 5%;
+}
+
+.character_name {
+    margin-bottom: 10%;
+}
+
+#all_characters {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,51 @@
+#center {
+    width: 30%;
+}
+
+#center > div {
+    padding: 1% 0;
+    text-align: right;
+    width: 90%;
+}
+
+#loginButton {
+    background: #86addb;
+    border: 1px solid #151751;
+    border-radius: 7px;
+    font-family: "Arial Rounded MT Bold";
+    color: #151751;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 20%;
+    margin-right: 10%;
+}
+
+#loginButton:hover {
+    background: #99b2d1;
+}
+
+#loginButton:focus {
+    outline: none;
+}
+
+.login_input {
+    margin-left: 1%;
+    border: 1px solid #151751;
+    border-radius: 4px;
+    font-family: "Arial Rounded MT Bold";
+    color: #151751;
+}
+
+a {
+    color: #151751;
+}
+
+a:hover {
+    color: #304d90;
+}
+
+/*#button_div {*/
+    /*display: flex;*/
+    /*justify-content: space-around;*/
+    /*width: 90% !important;*/
+/*}*/

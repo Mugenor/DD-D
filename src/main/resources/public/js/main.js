@@ -9,15 +9,16 @@ $(function() {
         return _.template($('#' + id).html());
     };
 
-    App.Models.Menu = Backbone.Model.extend({
+    App.Models.Character = Backbone.Model.extend({
         initialize: function () {
-            console.log('Модель создана')
+            console.log('Модель Character создана')
         }
     });
 
-    App.Views.Menu = Backbone.View.extend({
-        tagName: 'li',
-        template: template('menuTemplate'),
+    App.Views.Character = Backbone.View.extend({
+        tagName: 'div',
+        className: 'character',
+        template: template('charactersTemplate'),
         initialize: function() {
             this.$el.addClass(this.model.get('className'));
         },
@@ -25,21 +26,15 @@ $(function() {
             var template = this.template(this.model.toJSON());
             this.$el.html(template);
             return this;
-        },
-        events: {
-            'click': 'clickOn'
-        },
-        clickOn: function() {
-            this.model.attributes.clickOnMenu();
         }
     });
 
-    App.Collections.MenuCollection = Backbone.Collection.extend({
-        model: App.Models.Menu
+    App.Collections.CharactersCollection = Backbone.Collection.extend({
+        model: App.Models.Character
     });
 
-    App.Views.Menus = Backbone.View.extend({
-        tagName: 'ul',
+    App.Views.Characters = Backbone.View.extend({
+        tagName: 'div',
         initialize: function() {
             this.$el.addClass(this.className);
         },
@@ -47,58 +42,35 @@ $(function() {
             this.collection.each(this.addOne, this);
             return this;
         },
-        addOne: function(menu) {
-            var menuView = new App.Views.Menu({ model: menu});
-            this.$el.append(menuView.render().el);
+        addOne: function(character) {
+            var characterView = new App.Views.Character({ model: character});
+            this.$el.append(characterView.render().el);
         }
     });
 
-    window.menuCollection = new App.Collections.MenuCollection([
+    window.charactersCollection = new App.Collections.CharactersCollection([
         {
-            title: 'Главная',
-            className: 'leftEdge',
-            clickOnMenu: function() {
-                alert('Hello');
-            }
+            title: 'Герой 1'
         },
         {
-            title: 'Новости'
+            title: 'Герой 2'
         },
         {
-            title: 'Игра',
-            className: 'forSubmenu'
+            title: 'Герой 3'
         },
         {
-            title: 'Обратная связь'
+            title: 'Герой 4'
         },
         {
-            title: 'О нас',
-            className: 'rightEdge'
+            title: 'Герой 5'
         }
     ]);
 
-    window.submenuCollection = new App.Collections.MenuCollection([
-        {
-            title: 'Сыграем'
-        },
-        {
-            title: 'Правила'
-        },
-        {
-            title: 'Герои'
-        },
-        {
-            title: 'Карточки'
-        }
-    ]);
-
-    window.menusView = new App.Views.Menus({ collection: menuCollection, className: 'main_menu'});
-    window.submenusView = new App.Views.Menus({ collection: submenuCollection, className: 'submenu'});
-    $('#menu').html(menusView.render().el);
-    $('.forSubmenu').append(submenusView.render().el);
-    console.log(menusView.el);
-    console.log(submenusView.el);
+    window.charactersView = new App.Views.Characters({ collection: charactersCollection});
+    $('#center').html(charactersView.render().el);
+    console.log(charactersView.el);
 
     //   $('.tasks').append(tasksView.render().el);
     // console.log(tasksView.el);
+
 });
