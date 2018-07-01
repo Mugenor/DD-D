@@ -23,7 +23,7 @@
 <div id="menu">
     <div id="search">
         <input id="search_field" type="search" placeholder="Поиск игрока" size="15">
-        <img id="search_img" src="img/search.png" alt="Search">
+        <image id="search_img" src="img/search.png" alt="Search">
     </div>
     <div id="only_menu">
         <ul>
@@ -39,8 +39,9 @@
     <div id="center" class="block">
         <script type="text/template" id="characters">
             <span class="character_name"><b><%= name %></b></span><br>
-            <img src="<%= image %>" alt="Picture"><br>
-            <b>Способность: </b><%= feature %>
+            <image src="<%= image %>" alt="Picture"><br>
+            <b>Способность: </b><%= description %><br>
+                <b>Здоровье: </b><%= health %>
         </script>
     </div>
 </div>
@@ -51,7 +52,3 @@
 <script type="text/javascript" src="js/backbone_character.js"></script>
 </body>
 </html>
-
-<!-- <script type="text/template" id="charactersTemplate">
-            <label><%= title %></label>
-        </script>-->
