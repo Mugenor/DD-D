@@ -3,34 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>DD&D</title>
-    <link rel="stylesheet" href="../css/general_style.css"/>
-    <link rel="stylesheet" href="../css/registration_style.css"/>
-    <link rel="shortcut icon" href="../img/favicon.png" type="image/png" />
-    <!-- <script src="webjars/js-cookie/2.1.4/js.cookie.js"></script>
-     <script src="webjars/jquery/3.3.1/jquery.min.js"></script>
-   --<script>
-         $(window).ready(function () {
-             $("#loginButton").click(function () {
-                 let userCredentials = { username: $("#userName").val(), password: $("#password").val()};
-                 $.ajax({
-                     url: "/auth/login",
-                     contentType: "application/json",
-                     method: "POST",
-                     data: JSON.stringify(userCredentials),
-                     success: function(resp){
-                         alert(resp.tokenId);
-                         Cookies.set('iplanetDirectoryPro', resp.tokenId);
-                         window.location.href = '//localhost:8080/protected.html';
-                     }
-                 });
-             })
-         });
-     </script>-->
+    <link rel="stylesheet" href="css/general_style.css"/>
+    <link rel="stylesheet" href="css/registration_style.css"/>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
 </head>
 <body>
 <header>
     <div id="header_person">
-        <a href="#"><img id="img_person" src="../img/person5.png" alt="Person"></a><br>
+        <a href="#"><img id="img_person" src="img/person5.png" alt="Person"></a><br>
         <a href="login.html"><div id="login_person">Войти</div></a>
     </div>
     <div id="official_name" class="inHeader">
@@ -43,7 +23,7 @@
 <div id="menu">
     <div id="search">
         <input id="search_field" type="search" placeholder="Поиск игрока" size="15">
-        <img id="search_img" src="../img/search.png" alt="Search">
+        <img id="search_img" src="img/search.png" alt="Search">
     </div>
     <div id="only_menu">
         <ul>
@@ -80,9 +60,9 @@
     </div>
 </div>
 
-<script type="text/javascript" src="../js/lib/jquery.js"></script>
-<script type="text/javascript" src="../js/lib/underscore.js"></script>
-<script type="text/javascript" src="../js/lib/backbone.js"></script>
-<script type="text/javascript" src="../js/backbone_character.js"></script>
+<script type="text/javascript" src="js/lib/jquery.js"></script>
+<script type="text/javascript" src="js/lib/underscore.js"></script>
+<script type="text/javascript" src="js/lib/backbone.js"></script>
+<script type="text/javascript" src="js/backbone_character.js"></script>
 </body>
 </html>
