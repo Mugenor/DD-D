@@ -46,6 +46,7 @@
         addOne: function(card) {
             let personView = new App.Views.CardView({model: card});
             this.$el.append(personView.render().el);
+
         },
         onError: function () {
             console.log('ERROR FETCH IN CARDS');
