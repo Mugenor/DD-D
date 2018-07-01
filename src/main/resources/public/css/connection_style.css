@@ -11,6 +11,8 @@ textarea {
     width: 99%;
     margin: 1% 0;
     resize: none;
+    border: 1px solid #151751;
+    border-radius: 7px;
 }
 
 #button_div {
