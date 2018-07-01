@@ -6,13 +6,13 @@ $(function () {
     let errorMessage = $('<p/>').html('Неправильный логин или пароль!');
     errorDiv.append(errorMessage.html());
     $("#loginButton").click(function () {
-        let userCredentials = { username: $("#userName").val(), password: $("#password").val()};
+        let userCredentials = {username: $("#userName").val(), password: $("#password").val()};
         $.ajax({
             url: "/auth/login",
             contentType: "application/json",
             method: "POST",
             data: JSON.stringify(userCredentials),
-            success: function(resp){
+            success: function (resp) {
                 Cookies.set('iplanetDirectoryPro', resp.tokenId);
                 window.location.href = '//localhost:8080/game.html';
             },
@@ -20,5 +20,10 @@ $(function () {
                 errorDiv.appendTo('#password-div');
             }
         });
-    })
+    });
+
+    $("#registrationButton").click(function (event) {
+        console.log(event);
+        window.location.href = '//localhost:8080/registration.html';
+    });
 });
