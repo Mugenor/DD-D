@@ -41,7 +41,7 @@ public class RegistrationController {
     @RequestMapping(path = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void preregister(@RequestBody AlmostUser almostUser, HttpServletResponse response) throws IOException, MessagingException {
         if (almostUser == null || almostUser.getUsername() == null || almostUser.getPassword() == null || almostUser.getMail() == null ||
-                almostUser.getUsername().length() <= 3 || almostUser.getPassword().length() <= 4
+                almostUser.getUsername().length() <= 3 || almostUser.getUsername().length() > 10 || almostUser.getPassword().length() <= 4
                 || !EmailValidator.getInstance().isValid(almostUser.getMail())) {
             response.sendError(400, "Invalid user");
             return;
