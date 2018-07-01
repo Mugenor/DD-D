@@ -57,24 +57,22 @@
 </div>
 <div id="general">
     <div id="center" class="block">
-        <div>
-            <b>Имя пользователя</b>
-            <input id="userName" class="login_input" type="text" placeholder="Введите ник">
-        </div>
-        <div>
-            <b>Пароль</b>
-            <input id="password" class="login_input" type="text" placeholder="Введите пароль"><br>
+        <div id="login">
+            <div id="name_login">
+                <div>Имя пользователя:</div>
+                <div>Пароль:</div>
+            </div>
+            <div id="person_login">
+                <input id="userName" class="login_input" type="text" placeholder="Введите ник">
+                <input id="password" class="login_input" type="password" placeholder="Введите пароль"><br>
+            </div>
         </div>
         <div id="button_div">
-            <a href="registration.html">Зарегистрироваться</a>
-            <button id="loginButton" type="button">Войти</button>
+            <button id="registrationButton" class="button_login" type="button">Зарегистрироваться</button>
+            <button id="loginButton" class="button_login" type="button">Войти</button>
         </div>
     </div>
 </div>
 
-<script type="text/javascript" src="../js/lib/jquery.js"></script>
-<script type="text/javascript" src="../js/lib/underscore.js"></script>
-<script type="text/javascript" src="../js/lib/backbone.js"></script>
-<script type="text/javascript" src="../js/backbone_character.js"></script>
 </body>
 </html>

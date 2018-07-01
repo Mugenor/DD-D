@@ -1,7 +1,7 @@
 #center {
-    width: 70%;
+    width: 90%;
 }
-.character {
+.card {
     background: #86addb;
     border: 3px solid #151751;
     border-radius: 15px;
@@ -9,12 +9,12 @@
     font-family: "Arial Rounded MT Bold";
     font-size: 100%;
     color: #151751;
-    width: 27%;
+    width: 15%;
     text-align: center;
     margin: 1%;
 }
 
-.character > img {
+.card > img {
     width: 98%;
     background: #d5e4f1;
     border: 2px solid #151751;
@@ -22,11 +22,7 @@
     margin: 2% 0;
 }
 
-.character_name {
-    font-size: 160%;
-}
-
-#all_characters {
+#all_cards {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;

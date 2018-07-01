@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>DD&D</title>
     <link rel="stylesheet" href="../css/general_style.css"/>
+    <link rel="stylesheet" href="../css/cards_style.css"/>
     <link rel="shortcut icon" href="../img/favicon.png" type="image/png" />
 </head>
 <body>
@@ -35,17 +36,20 @@
     </div>
 </div>
 <div id="general">
-    <div id="left" class="block">
-        <label>Hello</label>
-    </div>
     <div id="center" class="block">
-        <label>Cards</label>
-    </div>
-    <div id="right" class="block">
-        <label>Hello</label>
+        <script type="text/template" id="cards">
+            <b>Номер на кости:</b> <%= id %><br>
+            <b>Название:</b> <%= name %><br>
+            <img src="<%= image %>" alt="Picture"><br>
+            <b>Описание:</b> <%= description %><br>
+            <b>Урон:</b> <%= damage %> ед.
+        </script>
     </div>
 </div>
 
 <script type="text/javascript" src="../js/lib/jquery.js"></script>
+<script type="text/javascript" src="../js/lib/underscore.js"></script>
+<script type="text/javascript" src="../js/lib/backbone.js"></script>
+<script type="text/javascript" src="../js/backbone_cards.js"></script>
 </body>
 </html>

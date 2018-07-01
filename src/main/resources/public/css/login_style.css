@@ -5,10 +5,23 @@
 #center > div {
     padding: 1% 0;
     text-align: right;
-    width: 90%;
 }
 
-#loginButton {
+#login {
+    display: flex;
+    justify-content: space-around;
+}
+
+#name_login, #person_login {
+    width: 40%;
+}
+
+#name_login > div {
+    margin: 3% 0;
+    font-weight: bold;
+}
+
+.button_login {
     background: #86addb;
     border: 1px solid #151751;
     border-radius: 7px;
@@ -16,32 +29,28 @@
     color: #151751;
     font-weight: bold;
     cursor: pointer;
-    margin-left: 20%;
-    margin-right: 10%;
+    width: 40%;
 }
 
-#loginButton:hover {
+.button_login:hover {
     background: #99b2d1;
 }
 
-#loginButton:focus {
+.button_login:focus {
     outline: none;
 }
 
 .login_input {
-    margin-left: 1%;
+    margin: 2% 0;
     border: 1px solid #151751;
     border-radius: 4px;
     font-family: "Arial Rounded MT Bold";
     color: #151751;
 }
 
-a {
-    color: #151751;
-}
-
-a:hover {
-    color: #304d90;
+#button_div {
+    display: flex;
+    justify-content: space-around;
 }
 
 /*#button_div {*/
