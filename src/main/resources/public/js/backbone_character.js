@@ -26,12 +26,18 @@
     });
 
     App.Collections.PeopleCollection = Backbone.Collection.extend({
+        url: '/character',
         model: App.Models.Person
     });
 
     App.Views.PeopleView = Backbone.View.extend({
         id: 'all_characters',
         initialize: function() {
+            this.collection.fetch({
+                context: this,
+                success: this.render,
+                error: this.onError
+            })
         },
         render: function() {
             this.collection.each(this.addOne, this);
@@ -40,45 +46,12 @@
         addOne: function(person) {
             var personView = new App.Views.PersonView({model: person});
             this.$el.append(personView.render().el);
+        },
+        onError: function () {
+            console.log('ERROR FETCH IN CHARACTERS');
         }
     });
 
-//var people = []; - с сервера
-//var peopleCollection = new PeopleCollection(people);
-
-    window.peopleCollection = new App.Collections.PeopleCollection([
-        {
-            image: '../img/Диппер2.png',
-            name: 'Диппер',
-            feature: 'Очень умный'
-        },
-        {
-            image: '../img/Мэйбл2.png',
-            name: 'Мэйбл',
-            feature: 'Безнадежная оптимистка'
-        },
-        {
-            image: '../img/Дядя Стэн2.png',
-            name: 'Дядя Стэн',
-            feature: 'Жулик и мошенник'
-        },
-        {
-            image: '../img/Венди2.png',
-            name: 'Венди',
-            feature: 'Хладнокровность'
-        },
-        {
-            image: '../img/Зус2.png',
-            name: 'Зус',
-            feature: 'Доброта'
-        },
-        {
-            image: '../img/Дядя Форд2.png',
-            name: 'Дедушка Форд',
-            feature: 'Гений и изобретатель'
-        }
-    ]);
-
-    window.peopleView = new App.Views.PeopleView({collection: peopleCollection});
+    window.peopleView = new App.Views.PeopleView({collection: new App.Collections.PeopleCollection});
     $('#center').html(peopleView.render().el);
 }());
