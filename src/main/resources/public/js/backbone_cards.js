@@ -48,56 +48,56 @@
 
     window.cardsCollection = new App.Collections.CardsCollection([
         {
-            id: 1,
+            cubeNumber: 1,
             name: 'Some name',
             image: '../img/favicon.png',
             description: 'Some description',
             damage: 0
         },
         {
-            id: 2,
+            cubeNumber: 2,
             name: 'Some name',
             image: '../img/favicon.png',
             description: 'Some description',
             damage: 0
         },
         {
-            id: 3,
+            cubeNumber: 3,
             name: 'Some name',
             image: '../img/favicon.png',
             description: 'Some description',
             damage: 0
         },
         {
-            id: 4,
+            cubeNumber: 4,
             name: 'Some name',
             image: '../img/favicon.png',
             description: 'Some description',
             damage: 0
         },
         {
-            id: 5,
+            cubeNumber: 5,
             name: 'Some name',
             image: '../img/favicon.png',
             description: 'Some description',
             damage: 0
         },
         {
-            id: 6,
+            cubeNumber: 6,
             name: 'Меч-резанец',
             image: '../img/favicon.png',
             description: 'Отрубает сопернику мезинец правой руки',
             damage: 1
         },
         {
-            id: 13,
+            cubeNumber: 13,
             name: 'Атака орков',
             image: '../img/орг.jpg',
             description: 'Топорами и булавами наносят противнику многочисленные удары в голову',
             damage: 3
         },
         {
-            id: 14,
+            cubeNumber: 14,
             name: 'Щит из щитов',
             image: '../img/favicon.png',
             description: 'сносит всё на своём пути – убирает первое препятствие на своём пути по прямой от игрока, ' +
@@ -106,21 +106,21 @@
             damage: 4
         },
         {
-            id: 20,
+            cubeNumber: 20,
             name: 'Прыгающие ботинки',
             image: '../img/favicon.png',
             description: 'Способны переместить игрока на любую клетку поля',
             damage: 1
         },
         {
-            id: 24,
+            cubeNumber: 24,
             name: 'Супер меч-резанец',
             image: '../img/favicon.png',
             description: 'Отрубает сопернику левую руку',
             damage: 5
         },
         {
-            id: 38,
+            cubeNumber: 38,
             name: 'Кексы смерти',
             image: '../img/favicon.png',
             description: 'Автоматическая победа в игре',
