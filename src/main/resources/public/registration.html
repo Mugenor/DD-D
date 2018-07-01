@@ -36,32 +36,24 @@
 </div>
 <div id="general">
     <div id="center" class="block">
-        <div>
-            <b>Имя пользователя</b>
-            <input id="userName" class="reg_input" type="text" placeholder="Введите ник">
-        </div>
-        <div>
-            <b>E-mail</b>
-            <input id="email" class="reg_input" type="text" placeholder="Введите e-mail"><br>
-        </div>
-        <div>
-            <b>Пароль</b>
-            <input id="password" class="reg_input" type="text" placeholder="Введите пароль"><br>
-        </div>
-        <div>
-            <b>Повторите пароль</b>
-            <input id="double_password" class="reg_input" type="text" placeholder="Введите пароль еще раз"><br>
+        <div id="registration">
+            <div id="name_reg">
+                <div>Имя пользователя:</div>
+                <div>E-mail:</div>
+                <div>Пароль:</div>
+                <div>Повторите пароль:</div>
+            </div>
+            <div id="person_reg">
+                <input id="userName" class="reg_input" type="text" placeholder="Введите ник">
+                <input id="email" class="reg_input" type="text" placeholder="Введите e-mail">
+                <input id="password" class="reg_input" type="password" placeholder="Введите пароль"><br>
+                <input id="repeat_password" class="reg_input" type="password" placeholder="Введите пароль">
+            </div>
         </div>
         <div id="button_div">
-            <a href="registration.html">Зарегистрироваться</a>
-            <button id="loginButton" type="button">Войти</button>
+            <button id="registrationButton" class="button_reg" type="button">Зарегистрироваться</button>
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="js/lib/jquery.js"></script>
-<script type="text/javascript" src="js/lib/underscore.js"></script>
-<script type="text/javascript" src="js/lib/backbone.js"></script>
-<script type="text/javascript" src="js/backbone_character.js"></script>
 </body>
 </html>
