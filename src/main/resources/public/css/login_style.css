@@ -16,9 +16,9 @@
 }
 
 #name_login > div {
-    margin: 3% 0;
+    margin: 2% 0;
     font-weight: bold;
-    font-size: 120%;
+    font-size: 110%;
 }
 
 .button_login {
@@ -53,4 +53,9 @@
 #button_div {
     display: flex;
     justify-content: space-around;
+}
+
+#error_login {
+    text-align: center;
+    color: red;
 }
