@@ -1,12 +1,12 @@
 $(function () {
     let errorDiv = $('<div/>', {
-        id: 'error',
-        class: 'alert alert-danger',
-    });
-    let errorMessage = $('<p/>').html('Неправильный логин или пароль!');
-    errorDiv.append(errorMessage.html());
+        id: 'error_login',
+    }).html('Неверный логин или пароль!');
     $("#loginButton").click(function () {
         let userCredentials = {username: $("#userName").val(), password: $("#password").val()};
+        if(userCredentials.username.length === 0 || userCredentials.password.length === 0) {
+            return;
+        }
         $.ajax({
             url: "/auth/login",
             contentType: "application/json",
@@ -17,7 +17,7 @@ $(function () {
                 window.location.href = '//localhost:8080/game.html';
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                errorDiv.appendTo('#password-div');
+                $('#login').after(errorDiv);
             }
         });
     });
