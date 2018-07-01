@@ -1,3 +1,57 @@
 #center {
     width: 30%;
 }
+
+#name_reg {
+    text-align: right;
+}
+
+#registration {
+    display: flex;
+    justify-content: space-around;
+}
+
+#name_reg, #person_reg {
+    width: 45%;
+}
+
+#name_reg > div {
+    margin: 3% 0;
+    font-weight: bold;
+    font-size: 110%;
+}
+
+.button_reg {
+    background: #86addb;
+    border: 1px solid #151751;
+    border-radius: 7px;
+    font-family: "Arial Rounded MT Bold";
+    color: #151751;
+    font-weight: bold;
+    cursor: pointer;
+    width: 45%;
+    margin-top: 1%;
+    font-size: 110%;
+}
+
+.button_reg:hover {
+    background: #99b2d1;
+}
+
+.button_reg:focus {
+    outline: none;
+}
+
+.reg_input {
+    margin: 2% 0;
+    border: 1px solid #151751;
+    border-radius: 4px;
+    font-family: "Arial Rounded MT Bold";
+    color: #151751;
+    width: 100%;
+}
+
+#button_div {
+    display: flex;
+    justify-content: space-around;
+}
