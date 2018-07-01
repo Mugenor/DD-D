@@ -56,17 +56,20 @@ gameState.prototype = {
         this.setWhoseTurn(!this.myTurn);
     },
     socketOnMessage: function (event) {
-        debugger;
         console.log('Got a message', event);
         let message = JSON.parse(event.data);
         console.log('Message', message);
 
         // what enemy did
-        this.enemyMoveTween.properties.x = message.x;
-        this.enemyMoveTween.properties.y = message.y;
-        console.log('Before enemy tween start', this.enemyMoveTween);
+        this.makeNumArrFromStrArr(message.x);
+        this.makeNumArrFromStrArr(message.y);
+
+        // this.enemyMoveTween.properties.x = message.x;
+        // this.enemyMoveTween.properties.y = message.y;
+        this.addArrayAtBeginning(message.x, this.enemyMoveTween.properties.x);
+        this.addArrayAtBeginning(message.y, this.enemyMoveTween.properties.y);
+        debugger;
         this.enemyMoveTween.start();
-        console.log('After enemy tween start', this.enemyMoveTween);
         // this.enemy.movePoint.x = message.x;
         // this.enemy.movePoint.y = message.y;
     },
@@ -201,6 +204,7 @@ gameState.prototype = {
         }
         this.heroMoveTween.properties.x.unshift(destX * 50 + 25);
         this.heroMoveTween.properties.y.unshift(destY * 50 + 25);
+        debugger;
         this.heroMoveTween.start();
         return {x: this.heroMoveTween.properties.x, y: this.heroMoveTween.properties.y};
     },
@@ -261,20 +265,31 @@ gameState.prototype = {
         return newArr;
     },
     update: function () {
-        if(isNaN(this.enemy.x) || isNaN(this.enemy.y)) {
-            this.enemy.x = this.enemy.lastX;
-            this.enemy.y = this.enemy.lastY;
+        // if(isNaN(this.enemy.x) || isNaN(this.enemy.y)) {
+        //     this.enemy.x = this.enemy.lastX;
+        //     this.enemy.y = this.enemy.lastY;
+        // }
+        // if(isNaN(this.hero.x) || isNaN(this.hero.y)){
+        //     this.hero.x = this.hero.lastX;
+        //     this.hero.y = this.hero.lastY;
+        // }
+        // this.enemy.lastX = this.enemy.x;
+        // this.enemy.lastY = this.enemy.y;
+        //
+        // this.hero.lastX = this.hero.x;
+        // this.hero.lastY = this.hero.y;
+    },
+    makeNumArrFromStrArr: function (arr) {
+        for(let i=0;i<arr.length; ++i) {
+            arr[i] = Number.parseInt(arr[i]);
         }
-        if(isNaN(this.hero.x) || isNaN(this.hero.y)){
-            this.hero.x = this.hero.lastX;
-            this.hero.y = this.hero.lastY;
+    },
+    addArrayAtBeginning(arr, result) {
+        for(let i=arr.length - 1; i >= 0; --i) {
+            result.unshift(arr[i]);
         }
-        this.enemy.lastX = this.enemy.x;
-        this.enemy.lastY = this.enemy.y;
-
-        this.hero.lastX = this.hero.x;
-        this.hero.lastY = this.hero.y;
     }
+
 };
 window.onload = function () {
     let game = new Phaser.Game('100%', '100%', Phaser.AUTO, document.body);
