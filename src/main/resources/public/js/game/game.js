@@ -292,7 +292,9 @@ gameState.prototype = {
 
 };
 window.onload = function () {
-    let game = new Phaser.Game('100%', '100%', Phaser.AUTO, '#center');
+    let width = 800;
+    let height = 600;
+    let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');
     game.state.add('Queue', queueState);
     game.state.add('Game', gameState);
     game.state.start('Queue');
