@@ -1,0 +1,10 @@
+insert into character (id, name, image, health, description) values
+(1, 'Диппер', 'img/dipper.png', 30, ''),
+(2, 'Мэйбл', 'img/mabel.png', 30, ''),
+(3, 'Дядя Стэн', 'img/stan.png', 30, ''),
+(4, 'Венди', 'img/vendy.png', 30, ''),
+(5, 'Зус', 'img/zoos.png', 30, ''),
+(6, 'Дедушка Форд', 'img/ford.png', 30, '');
+
+insert into character (id, cube_number, name, image, description, damage) values
+(1, 1, 
