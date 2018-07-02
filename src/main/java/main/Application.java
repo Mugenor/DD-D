@@ -21,7 +21,7 @@ public class Application {
     public FilterRegistrationBean tokenIdFilterRegistrationBean(ApplicationContext applicationContext){
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(applicationContext.getBean(TokenFilter.class));
-        registrationBean.addUrlPatterns("/protected.html", "/messages");
+        registrationBean.addUrlPatterns("/protected.html", "/messages", "/game.html", "/connection.html");
         registrationBean.setOrder(0);
         return registrationBean;
     }

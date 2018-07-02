@@ -41,7 +41,7 @@ public class RegistrationController {
     @RequestMapping(path = "/user", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void preregister(@RequestBody AlmostUser almostUser, HttpServletResponse response) throws IOException, MessagingException {
         if (almostUser == null || almostUser.getUsername() == null || almostUser.getPassword() == null || almostUser.getMail() == null ||
-                almostUser.getUsername().length() <= 3 || almostUser.getPassword().length() <= 4
+                almostUser.getUsername().length() <= 3 || almostUser.getUsername().length() > 10 || almostUser.getPassword().length() <= 4
                 || !EmailValidator.getInstance().isValid(almostUser.getMail())) {
             response.sendError(400, "Invalid user");
             return;
@@ -49,7 +49,7 @@ public class RegistrationController {
         List<AlmostUser> almostUsersFromDB = almostUserRepository.findAllByUsernameOrMail(almostUser.getUsername(), almostUser.getMail());
         List<User> usersFromDB = userService.getUsersByUsernameOrMail(almostUser.getUsername(), almostUser.getMail());
         if (almostUsersFromDB.size() != 0 || usersFromDB.size() != 0) {
-            response.sendError(400, "User already exist");
+            response.sendError(400, "Пользователь уже существует!");
             return;
         }
         almostUser.setHashValue(encoder.encodeToString((almostUser.getUsername()
@@ -73,6 +73,7 @@ public class RegistrationController {
             userService.saveOrUpdate(newUser);
             almostUserRepository.delete(almostUser);
             response.setStatus(200);
+            response.sendRedirect("/login.html");
         } else {
             response.sendError(400, "Invalid hashValue.");
         }
@@ -90,7 +91,7 @@ public class RegistrationController {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         helper.setTo(mail);
-        helper.setText("Перейдите по <a href=\"http://website.mydomain.com:8080/register" +
+        helper.setText("Перейдите по <a href=\"http://localhost:8080/register" +
                 "/accept/" + hashValue + "\">ссылке</a>, чтобы подтвердить регистрацию.", true);
         helper.setSubject("Подтверждение регистрации.");
 
