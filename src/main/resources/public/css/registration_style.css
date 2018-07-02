@@ -47,6 +47,11 @@
     cursor: default;
 }
 
+.answer_reg {
+    width: 30%;
+    text-align: center;
+}
+
 .reg_input {
     margin: 2% 0;
     border: 1px solid #151751;

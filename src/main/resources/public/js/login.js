@@ -16,6 +16,7 @@ $(function () {
             method: "POST",
             data: JSON.stringify(userCredentials),
             success: function (resp) {
+                debugger;
                 Cookies.set('iplanetDirectoryPro', resp.tokenId);
                 window.location.href = '//localhost:8080/game.html';
             },

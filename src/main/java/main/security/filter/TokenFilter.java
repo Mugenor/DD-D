@@ -51,7 +51,8 @@ public class TokenFilter implements Filter {
             }
         }
         logger.info("User get error");
-        ((HttpServletResponse)servletResponse).sendError(403, "You need to login to access this resource.");
+        ((HttpServletResponse)servletResponse).sendRedirect("/login.html");
+//        ((HttpServletResponse)servletResponse).sendError(403, "You need to login to access this resource.");
     }
 
     @Override

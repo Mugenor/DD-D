@@ -36,6 +36,11 @@ textarea {
     background: #99b2d1;
 }
 
+#submit:disabled {
+    background: #849090;
+    cursor: default;
+}
+
 #submit:focus {
     outline: none;
 }

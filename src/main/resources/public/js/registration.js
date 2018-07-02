@@ -12,8 +12,14 @@ $(function () {
         let password = $('#password').val();
         let repeatPassword = $('#repeat_password').val();
 
-        if(!usernameRegexp.test(username) || username.length < 4 || username.left > 10) {
-            errorDiv.html('Имя пользователя должно состоять только из цифр, букв и должна быть в промежутке от 4 до 10 букв!');
+        if(!usernameRegexp.test(username)) {
+            errorDiv.html('Имя пользователя должно состоять только из цифр, букв!');
+            $('#button_div').before(errorDiv);
+            return;
+        }
+
+        if(username.length < 4 || username.length > 10) {
+            errorDiv.html('Имя пользователя должно быть быть в промежутке от 4 до 10 букв!');
             $('#button_div').before(errorDiv);
             return;
         }
@@ -24,8 +30,14 @@ $(function () {
             return;
         }
 
-        if(password !== repeatPassword || password.length <=4) {
-            errorDiv.html('Пароли не совпадают и пароль должен быть больше 5 символов!');
+        if(password.length <= 4) {
+            errorDiv.html('Пароль должен быть больше 5 символов!');
+            $('#button_div').before(errorDiv);
+            return;
+        }
+
+        if(password !== repeatPassword) {
+            errorDiv.html('Пароли не совпадают!');
             $('#button_div').before(errorDiv);
             return
         }
@@ -43,11 +55,13 @@ $(function () {
             data: JSON.stringify(userData),
             success: function (resp) {
                 $('#registration, .error_reg, #button_div').remove();
-                errorDiv.removeClass('error_reg').html('Проверьте вашу почту!')
-                    .appendTo($('#center'));
+                $('#center').addClass('answer_reg')
+                    .html('Перейдите по ссылке в письме, которое было выслано вам на почту, чтобы закончить регистрацию.');
             },
             error: function (jqXHR, status, error) {
                 console.log(jqXHR, status, error);
+                errorDiv.html(jqXHR.responseJSON.message);
+                $('#button_div').before(errorDiv);
                 $('#registrationButton').prop('disabled', false);
             },
             beforeSend: function () {
