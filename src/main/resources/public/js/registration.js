@@ -33,9 +33,10 @@ $(function () {
 
         let userData = {
             username: username,
-            email: email,
+            mail: email,
             password: password
         };
+
         $.ajax('/register/user',{
             contentType: 'application/json',
             method: "POST",
@@ -47,6 +48,10 @@ $(function () {
             },
             error: function (jqXHR, status, error) {
                 console.log(jqXHR, status, error);
+                $('#registrationButton').prop('disabled', false);
+            },
+            beforeSend: function () {
+                $('#registrationButton').prop('disabled', true);
             }
         });
     })

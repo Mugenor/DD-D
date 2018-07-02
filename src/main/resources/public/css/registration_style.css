@@ -42,6 +42,11 @@
     outline: none;
 }
 
+.button_reg:disabled {
+    background: #849090;
+    cursor: default;
+}
+
 .reg_input {
     margin: 2% 0;
     border: 1px solid #151751;
