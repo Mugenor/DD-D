@@ -1,32 +1,44 @@
+let bind = function (func, context) {
+    return function () {
+        func.apply(context, arguments);
+    }
+};
 const WALL = -10;
-const FIELD = -9;
+const FIELD1 = -9;
+const FIELD2 = -8;
+const FIELD3 = -7;
+const CELL_SIZE = 64;
+const HALF_CELL_SIZE = CELL_SIZE / 2;
 const RIGHT = {x: 1, y: 0};
 const LEFT = {x: -1, y: 0};
 const DOWN = {x: 0, y: 1};
 const UP = {x: 0, y: -1};
 const map = {
     x: 13, y: 10, map:
-        [[WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
-            [WALL, FIELD, FIELD, WALL, FIELD, FIELD, FIELD, FIELD, FIELD, WALL, FIELD, FIELD, WALL],
-            [WALL, FIELD, FIELD, WALL, FIELD, FIELD, FIELD, FIELD, FIELD, WALL, FIELD, FIELD, WALL],
-            [WALL, FIELD, FIELD, WALL, FIELD, FIELD, FIELD, FIELD, FIELD, WALL, FIELD, FIELD, WALL],
-            [WALL, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, WALL],
-            [WALL, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, FIELD, WALL],
-            [WALL, FIELD, FIELD, WALL, FIELD, FIELD, FIELD, FIELD, FIELD, WALL, FIELD, FIELD, WALL],
-            [WALL, FIELD, FIELD, WALL, FIELD, FIELD, FIELD, FIELD, FIELD, WALL, FIELD, FIELD, WALL],
-            [WALL, FIELD, FIELD, WALL, FIELD, FIELD, FIELD, FIELD, FIELD, WALL, FIELD, FIELD, WALL],
-            [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL]
+        [[WALL, WALL, WALL, WALL, WALL, FIELD2, FIELD1, FIELD2, WALL, WALL, WALL, WALL, WALL],
+            [WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL],
+            [WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL],
+            [WALL, FIELD1, FIELD2, WALL, FIELD2, WALL, FIELD2, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL],
+            [WALL, FIELD2, FIELD1, FIELD2, FIELD1, WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, WALL],
+            [WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, WALL],
+            [WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL],
+            [WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL, WALL, FIELD2, WALL, FIELD2, FIELD1, WALL],
+            [WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL],
+            [WALL, WALL, WALL, WALL, WALL, FIELD1, FIELD2, FIELD1, WALL, WALL, WALL, WALL, WALL]
         ],
     directions: [RIGHT, LEFT, DOWN, UP]
 };
 var enemy;
 let gameState = function (game) {//
-     };
+};
+
 gameState.prototype = {
     preload: function () {
         this.myTurn = false;
-        this.awaitingMessage = this.game.add.text(map.x * 50 + 100, 300, 'Waiting for another player!', {font: '50px Arial'});
-        this.whoseTurnText = this.game.add.text(map.x * 50 + 100, 350, '', {font: '50px Arial'});
+        // Remove
+        // this.awaitingMessage = this.game.add.text(map.x * CELL_SIZE + 100, 300, 'Waiting for another player!', {font: '50px Arial'});
+        // this.whoseTurnText = this.game.add.text(map.x * CELL_SIZE + 100, 350, '', {font: '50px Arial'});
+
         this.gameSocket = new WebSocket('ws://localhost:8080/game');
         this.gameSocket.onopen = bind(this.socketOnOpen, this);
         this.gameSocket.onmessage = bind(this.socketOnMessage, this);
@@ -36,9 +48,11 @@ gameState.prototype = {
         this.pathMap = map.map.slice();
         this.fields = [];
         this.game.load.image('logo', 'img/game/phaser.png');
-        this.game.load.image('ground', 'img/game/ground.png');
-        this.game.load.image('wall', 'img/game/wall.png');
-        this.game.load.image('hero', 'img/game/hero.png');
+        this.game.load.image('field1', '/img/game/field1.jpg');
+        this.game.load.image('field2', '/img/game/field3.jpg');
+        this.game.load.image('wall', 'img/game/field5.jpg');
+        this.game.load.image('hero1', 'img/game/mabel_transparency.png');
+        this.game.load.image('hero2', 'img/game/stan_transparency.png');
         this.game.load.image('update_button', 'img/game/update.png');
     },
     socketOnOpen: function () {
@@ -47,9 +61,9 @@ gameState.prototype = {
     setWhoseTurn: function (bool) {
         this.myTurn = bool;
         if (this.myTurn) {
-            this.whoseTurnText.text = 'Your turn!';
+            this.whoseTurnText.html('Теперь твой ход!');
         } else {
-            this.whoseTurnText.text = 'Enemy turn!';
+            this.whoseTurnText.html('Ход противника!!');
         }
     },
     invertWhoseTurn: function () {
@@ -68,8 +82,12 @@ gameState.prototype = {
         // this.enemyMoveTween.properties.y = message.y;
         this.addArrayAtBeginning(message.x, this.enemyMoveTween.properties.x);
         this.addArrayAtBeginning(message.y, this.enemyMoveTween.properties.y);
-        debugger;
+        // debugger;
         this.enemyMoveTween.start();
+        this.enemy.posX = (message.x[message.x.length - 1] - HALF_CELL_SIZE) / CELL_SIZE;
+        this.enemy.posY = (message.y[message.y.length - 1] - HALF_CELL_SIZE) / CELL_SIZE;
+        console.log(this.enemy);
+        this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
         // this.enemy.movePoint.x = message.x;
         // this.enemy.movePoint.y = message.y;
     },
@@ -84,38 +102,47 @@ gameState.prototype = {
         this.ground = this.game.add.group();
         this.walls = this.game.add.group();
         this.stepCount = 0;
+        this.gameDiv = $('#center');
 
         let sprite;
         for (let i = 0; i < map.x; i++) {
             for (let j = 0; j < map.y; j++) {
                 if (map.map[j][i] === WALL) {
-                    sprite = this.game.add.sprite(50 * i, 50 * j, 'wall');
+                    sprite = this.game.add.sprite(CELL_SIZE * i, CELL_SIZE * j, 'wall');
                     sprite.posX = i;
                     sprite.posY = j;
 
                     this.walls.add(sprite);
-                } else {
-                    sprite = this.game.add.sprite(50 * i, 50 * j, 'ground');
+                } else if (map.map[j][i] === FIELD1) {
+                    sprite = this.game.add.sprite(CELL_SIZE * i, CELL_SIZE * j, 'field1');
+                    sprite.posX = i;
+                    sprite.posY = j;
+
+                    this.ground.add(sprite);
+                } else if (map.map[j][i] === FIELD2) {
+                    sprite = this.game.add.sprite(CELL_SIZE * i, CELL_SIZE * j, 'field2');
                     sprite.posX = i;
                     sprite.posY = j;
 
                     this.ground.add(sprite);
                 }
+                sprite.scale.set(CELL_SIZE / sprite.texture.width, CELL_SIZE / sprite.texture.height);
                 this.fields.push(sprite);
             }
         }
-        this.hero = this.game.add.sprite(50 * 2 + 25, 50 * 5 + 25, 'hero');
+        this.hero = this.game.add.sprite(CELL_SIZE * 6 + HALF_CELL_SIZE, CELL_SIZE * 0 + HALF_CELL_SIZE, 'hero1');
         this.hero.anchor.x = 0.5;
         this.hero.anchor.y = 0.5;
-        this.hero.posX = 2;
-        this.hero.posY = 5;
+        this.hero.posX = 6;
+        this.hero.posY = 0;
+        this.hero.scale.set(CELL_SIZE / this.hero.texture.width / 2, CELL_SIZE / this.hero.texture.height);
 
-        this.enemy = this.game.add.sprite(50 * (map.x - 2) + 25, 50 * 5 + 25, 'hero');
+        this.enemy = this.game.add.sprite(CELL_SIZE * 6 + HALF_CELL_SIZE, CELL_SIZE * 9 + HALF_CELL_SIZE, 'hero2');
         this.enemy.anchor.x = 0.5;
         this.enemy.anchor.y = 0.5;
-        this.enemy.posX = map.x - 2;
-        this.enemy.posY = 5;
-        // this.enemy.movePoint.x = [];
+        this.enemy.posX = 6;
+        this.enemy.posY = 9;
+        this.enemy.scale.set(CELL_SIZE / this.enemy.texture.width, CELL_SIZE / this.enemy.texture.height);
 
         enemy = this.enemy;
 
@@ -128,8 +155,6 @@ gameState.prototype = {
             this.enemy = this.hero;
             this.hero = tmp;
         }
-        this.setWhoseTurn(yourTurnFirst);
-        this.awaitingMessage.text = 'Your enemy: ' + sessionStorage.getItem('enemy');
 
 
         this.ground.setAll('inputEnabled', true);
@@ -138,8 +163,23 @@ gameState.prototype = {
 
         this.ground.callAll('events.onInputDown.add', 'events.onInputDown', bind(this.moveHero, this));
 
-        this.stepButton = this.game.add.button(map.x * 50 + 10, 60, 'update_button', this.addSteps, this);
-        this.stepCountText = this.game.add.text(map.x * 50 + 10, 100, this.stepCount, {font: '20px Arial'});
+        // debugger;
+        $('<button/>', {
+            id: 'stepsButton',
+        }).html("Хочу 5 шагов!").click(bind(this.addSteps, this)).prependTo(this.gameDiv);
+        this.stepCountText = $('<p/>', {
+            id: 'stepCountText'
+        }).prependTo(this.gameDiv);
+        this.whoseTurnText = $('<p/>', {
+            id: 'whoseTurnText'
+        }).prependTo(this.gameDiv);
+        this.setWhoseTurn(yourTurnFirst);
+
+        this.awaitingMessage = $('<p/>', {
+            id: 'awaitingMessage'
+        }).html('Твой противник: ' + sessionStorage.getItem('enemy')).prependTo(this.gameDiv);
+        // this.stepButton = this.game.add.button(map.x * CELL_SIZE + 10, 60, 'update_button', this.addSteps, this);
+        // this.stepCountText = this.game.add.text(map.x * CELL_SIZE + 10, 100, this.stepCount, {font: '20px Arial'});
 
         this.heroMoveTween = this.game.add.tween(this.hero).to({}, 2000, null, false);
         this.heroMoveTween.onComplete.add(this.clearMovePoints, this.heroMoveTween);
@@ -154,12 +194,14 @@ gameState.prototype = {
     },
     highLightPath: function (event) {
         // debugger;
+        // console.log('HighLight: ', event);
         if (this.myTurn && this.canStepToField(event.posX, event.posY, this.pathMap)) {
             this.markPath(event.posX, event.posY, 0.65, this.pathMap);
         }
     },
     lowLightPath: function (event) {
         // debugger;
+        // console.log('LowLight: ', event);
         if (this.myTurn) {
             this.markPath(event.posX, event.posY, 1, this.pathMap);
         }
@@ -175,7 +217,7 @@ gameState.prototype = {
 
             if (this.stepCount > 0 && this.canStepToField(event.posX, event.posY, this.pathMap)) {
                 this.stepCount = this.stepCount - this.pathMap[event.posY][event.posX];
-                this.stepCountText.text = this.stepCount.toString();
+                this.stepCountText.html(this.stepCount.toString());
                 this.markPath(event.posX, event.posY, 1, this.pathMap);
                 let movement = this.moveHeroByPath(this.hero, event.posX, event.posY, this.pathMap);
                 // sending our movement to opponent
@@ -186,32 +228,34 @@ gameState.prototype = {
                 this.hero.posY = event.posY;
 
                 this.pathMap = this.slice2DimensionalArray(map.map);
-                this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
             }
         }
     },
     moveHeroByPath: function (hero, destX, destY, mapPath) {
         while (destX !== hero.posX || destY !== hero.posY) {
             for (let i = 0; i < map.directions.length; ++i) {
-                if (mapPath[destY + map.directions[i].y][destX + map.directions[i].x] === (mapPath[destY][destX] - 1)) {
-                    this.heroMoveTween.properties.x.unshift(destX * 50 + 25);
-                    this.heroMoveTween.properties.y.unshift(destY * 50 + 25);
+                let newY = destY + map.directions[i].y;
+                let newX = destX + map.directions[i].x;
+                if (newY >= 0 && newX >= 0 && newY < map.y && newX < map.x &&
+                    mapPath[newY][newX] === (mapPath[destY][destX] - 1)) {
+                    this.heroMoveTween.properties.x.unshift(destX * CELL_SIZE + HALF_CELL_SIZE);
+                    this.heroMoveTween.properties.y.unshift(destY * CELL_SIZE + HALF_CELL_SIZE);
                     destX += map.directions[i].x;
                     destY += map.directions[i].y;
                     break;
                 }
             }
         }
-        this.heroMoveTween.properties.x.unshift(destX * 50 + 25);
-        this.heroMoveTween.properties.y.unshift(destY * 50 + 25);
-        debugger;
+        this.heroMoveTween.properties.x.unshift(destX * CELL_SIZE + HALF_CELL_SIZE);
+        this.heroMoveTween.properties.y.unshift(destY * CELL_SIZE + HALF_CELL_SIZE);
         this.heroMoveTween.start();
         return {x: this.heroMoveTween.properties.x, y: this.heroMoveTween.properties.y};
     },
     addSteps: function () {
+        console.log('In add steps');
         if (this.myTurn) {
             this.stepCount = 5;
-            this.stepCountText.text = this.stepCount.toString();
+            this.stepCountText.html(this.stepCount.toString());
             this.pathMap = this.slice2DimensionalArray(map.map);
             this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
             console.log(this.pathMap);
@@ -224,6 +268,7 @@ gameState.prototype = {
         let depth = 1;
         const MARKER = {};
         queue.push({x: hero.posX, y: hero.posY}, MARKER);
+        debugger;
         while (queue.length !== 0) {
             let curPos = queue.shift();
             if (curPos === MARKER) {
@@ -232,9 +277,14 @@ gameState.prototype = {
                 queue.push(MARKER);
             } else {
                 for (let i = 0; i < map.directions.length; ++i) {
-                    if (mapPath[curPos.y + map.directions[i].y][curPos.x + map.directions[i].x] === FIELD) {
-                        mapPath[curPos.y + map.directions[i].y][curPos.x + map.directions[i].x] = depth;
-                        queue.push({x: curPos.x + map.directions[i].x, y: curPos.y + map.directions[i].y})
+                    let newY = curPos.y + map.directions[i].y;
+                    let newX = curPos.x + map.directions[i].x;
+                    if (newY >= 0 && newX >= 0 && newY < map.y && newX < map.x &&
+                        (mapPath[newY][newX] === FIELD1 ||
+                            mapPath[newY][newX] === FIELD2)
+                        && !(newX === this.enemy.posX && newY === this.enemy.posY)) {
+                        mapPath[newY][newX] = depth;
+                        queue.push({x: newX, y: newY})
                     }
                 }
             }
@@ -245,7 +295,10 @@ gameState.prototype = {
         this.fields[destX * map.y + destY].alpha = alpha;
         while (mapPath[destY][destX] !== 0) {
             for (let i = 0; i < map.directions.length; ++i) {
-                if (mapPath[destY + map.directions[i].y][destX + map.directions[i].x] === (mapPath[destY][destX] - 1)) {
+                let newY = destY + map.directions[i].y;
+                let newX = destX + map.directions[i].x;
+                if (newY >= 0 && newX >= 0 && newY < map.y && newX < map.x &&
+                    mapPath[newY][newX] === (mapPath[destY][destX] - 1)) {
                     destX += map.directions[i].x;
                     destY += map.directions[i].y;
                     break;
@@ -265,38 +318,25 @@ gameState.prototype = {
         return newArr;
     },
     update: function () {
-        // if(isNaN(this.enemy.x) || isNaN(this.enemy.y)) {
-        //     this.enemy.x = this.enemy.lastX;
-        //     this.enemy.y = this.enemy.lastY;
-        // }
-        // if(isNaN(this.hero.x) || isNaN(this.hero.y)){
-        //     this.hero.x = this.hero.lastX;
-        //     this.hero.y = this.hero.lastY;
-        // }
-        // this.enemy.lastX = this.enemy.x;
-        // this.enemy.lastY = this.enemy.y;
-        //
-        // this.hero.lastX = this.hero.x;
-        // this.hero.lastY = this.hero.y;
     },
     makeNumArrFromStrArr: function (arr) {
-        for(let i=0;i<arr.length; ++i) {
+        for (let i = 0; i < arr.length; ++i) {
             arr[i] = Number.parseInt(arr[i]);
         }
     },
     addArrayAtBeginning(arr, result) {
-        for(let i=arr.length - 1; i >= 0; --i) {
+        for (let i = arr.length - 1; i >= 0; --i) {
             result.unshift(arr[i]);
         }
     }
 
 };
-window.onload = function () {
-    let width = 800;
-    let height = 600;
-    let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');
-    game.state.add('Queue', queueState);
-    game.state.add('Game', gameState);
-    game.state.start('Queue');
-
-};
+// window.onload = function () {
+//     let width = CELL_SIZE * map.x;
+//     let height = CELL_SIZE * map.y;
+//     let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');
+//     // game.state.add('Queue', queueState);
+//     game.state.add('Game', gameState);
+//     game.state.start('Queue');
+//
+// };
