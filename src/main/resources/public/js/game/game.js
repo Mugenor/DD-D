@@ -98,7 +98,7 @@ gameState.prototype = {
         console.log("Error with socket!", event);
     },
     create: function () {
-        this.game.stage.backgroundColor = '#a8aa33';
+        this.game.stage.backgroundColor = '#deedfa';
         this.ground = this.game.add.group();
         this.walls = this.game.add.group();
         this.stepCount = 0;
@@ -166,14 +166,20 @@ gameState.prototype = {
         // debugger;
         $('<button/>', {
             id: 'stepsButton',
-        }).html("Хочу 5 шагов!").click(bind(this.addSteps, this)).prependTo(this.gameDiv);
-        this.stepCountText = $('<p/>', {
+        }).html("Получить шаги").click(bind(this.addSteps, this)).prependTo(this.gameDiv);
+        this.stepCountText = $('<span/>', {
             id: 'stepCountText'
         }).prependTo(this.gameDiv);
-        this.whoseTurnText = $('<p/>', {
+        this.whoseTurnText = $('<span/>', {
             id: 'whoseTurnText'
         }).prependTo(this.gameDiv);
         this.setWhoseTurn(yourTurnFirst);
+        $('<button/>', {
+            id: 'cardsButton',
+        }).html("Получить карточку").click(bind(this.addCard, this)).prependTo(this.gameDiv);
+        this.cardText = $('<span/>', {
+            id: 'cardText'
+        }).prependTo(this.gameDiv);
 
         this.awaitingMessage = $('<p/>', {
             id: 'awaitingMessage'
@@ -251,14 +257,28 @@ gameState.prototype = {
         this.heroMoveTween.start();
         return {x: this.heroMoveTween.properties.x, y: this.heroMoveTween.properties.y};
     },
+    randomInteger: function (min, max) {
+        let rand = min - 0.5 + Math.random() * (max - min + 1);
+        rand = Math.round(rand);
+        return rand;
+    },
     addSteps: function () {
         console.log('In add steps');
         if (this.myTurn) {
-            this.stepCount = 5;
+            this.stepCount = this.randomInteger(1, 6);
             this.stepCountText.html(this.stepCount.toString());
             this.pathMap = this.slice2DimensionalArray(map.map);
             this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
             console.log(this.pathMap);
+        }
+    },
+    addCard: function () {
+        console.log('In add card');
+        if (this.myTurn) {
+            this.cardNumber = this.randomInteger(1,38);
+            this.cardText.html(this.cardNumber.toString());
+
+            console.log('Пора достать карточку из БД');
         }
     },
     markFieldsAroundHero: function (hero, stepCount, mapPath) {
