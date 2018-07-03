@@ -11,11 +11,8 @@ $(function () {
             sessionStorage.setItem('yourTurnFirst', message.yourTurnFirst);
             queueSocket.close();
             queueButton.remove();
-            let width = CELL_SIZE * map.x;
-            let height = CELL_SIZE * map.y;
-            let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');
-            game.state.add('Game', gameState);
-            game.state.start('Game');
+            chooseHero();
+
         }
     });
 });

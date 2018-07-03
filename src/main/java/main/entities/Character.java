@@ -16,6 +16,15 @@ public class Character {
     private int health;
     private String description;
     private String image;
+    private String gameImage;
+
+    public String getGameImage() {
+        return gameImage;
+    }
+
+    public void setGameImage(String gameImage) {
+        this.gameImage = gameImage;
+    }
 
     public Integer getId() {
         return id;

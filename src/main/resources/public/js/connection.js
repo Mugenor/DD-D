@@ -14,12 +14,12 @@ $(function () {
             data: JSON.stringify({message: message}),
             success: function (resp) {
                 $('textarea, #button_div, #connection').remove();
-                $('#center').html('Ваше сообщение успешно отправлено!');
+                $('#center').addClass('answer_con').html('Ваше сообщение успешно отправлено!');
             },
             error: function (jqXHR, status, error) {
                 console.log(jqXHR, status, error);
                 $('textarea, #button_div, #connection').remove();
-                $('#center').html('Не удалось отправить сообщение!');
+                $('#center').addClass('answer_con').html('Не удалось отправить сообщение!');
             },
             beforeSend: function () {
                 butt.prop('disabled', true);
