@@ -98,8 +98,10 @@ gameState.prototype = {
                 this.enemy.posY = (message[i].movement.y[message[i].movement.y.length - 1] - HALF_CELL_SIZE) / CELL_SIZE;
                 console.log(this.enemy);
             }
+
+
             if(message[i].card) {
-                // TODO применить урон, здоровье, лог, вывести всё это
+                // TODO применить урон, здоровье, лог, вывести всё это для противника
             }
         }
         this.enemyMoveTween.start();
@@ -224,6 +226,8 @@ gameState.prototype = {
         this.enemyMoveTween.properties.y = [];
 
         this.queue = [];
+
+        // this.playerHealthBar = $
     },
     highLightPath: function (event) {
         // debugger;
@@ -324,7 +328,7 @@ gameState.prototype = {
     applyCard: function() {
         console.log('Пора достать карточку из БД и применить');
         if(this.myTurn && this.state === CARD_STATE) {
-            // TODO применить урон, здоровье, лог, вывести всё это
+            // TODO применить урон, здоровье, лог, вывести всё это для игрока
         }
     },
     refuseCard: function() {
