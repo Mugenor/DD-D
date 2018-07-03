@@ -59,13 +59,13 @@ header {
 
 
 
-#menu_only {
+#only_menu {
     display: flex;
     justify-content: center;
     height: 25px;
 }
 
-#search {
+/*#search {
     float: right;
     display: flex;
     margin-right: 3%;
@@ -98,7 +98,7 @@ header {
     background: #d5e4f1;
     height: 24px;
     outline: none;
-}
+}*/
 
 ul {
     list-style: none;
@@ -111,7 +111,7 @@ ul {
     background: #304d90;
     width: 50%;
     border-radius: 0 0 15px 15px;
-    margin-left: 25%;
+    /*margin-left: 25%;*/
 }
 
 li {
@@ -157,4 +157,58 @@ li:hover {
     font-family: "Arial Rounded MT Bold";
     font-size: 100%;
     color: #151751;
+}
+
+@media screen and (min-width: 693px) and (max-width: 1201px) {
+    header {
+        border: 3px solid red;
+    }
+
+    #official_name {
+        font-size: 215%;
+    }
+
+    #russian_name {
+        font-size: 110%;
+    }
+
+    ul {
+        width: 60%;
+    }
+
+    .in_menu {
+        padding-top: 0.5%;
+        font-size: 90%;
+    }
+
+    #only_menu {
+        height: 20px;
+    }
+}
+
+@media screen and (max-width: 693px) {
+    header {
+        border: 3px solid green;
+    }
+
+    #official_name {
+        font-size: 140%;
+    }
+
+    #russian_name {
+        font-size: 100%;
+    }
+
+    ul {
+        width: 80%;
+    }
+
+    .in_menu {
+        padding-top: 0.5%;
+        font-size: 80%;
+    }
+
+    #only_menu {
+        height: 18px;
+    }
 }

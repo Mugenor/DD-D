@@ -4,6 +4,9 @@
 
 #left {
     width: 19%;
+    padding: 0;
+    background: none;
+    border: none;
 }
 
 #right {
@@ -18,7 +21,7 @@
     text-align: center;
 }
 
-.inRight {
+.inRight, .inLeft {
     background: rgba(223, 238, 251, 0.9);
     border: 3px solid #151751;
     border-radius: 10px;
