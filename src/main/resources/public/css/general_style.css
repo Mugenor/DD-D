@@ -160,10 +160,6 @@ li:hover {
 }
 
 @media screen and (min-width: 693px) and (max-width: 1201px) {
-    header {
-        border: 3px solid red;
-    }
-
     #official_name {
         font-size: 215%;
     }
@@ -187,10 +183,6 @@ li:hover {
 }
 
 @media screen and (max-width: 693px) {
-    header {
-        border: 3px solid green;
-    }
-
     #official_name {
         font-size: 140%;
     }
