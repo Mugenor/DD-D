@@ -75,7 +75,7 @@ function chooseHero() {
 
     let heroesView = new HeroesView({collection: new HeroesCollection});
     let center = $('#center');
-    $('<span/>', {id: 'chooseHeroText'}).html('Выбрите себе одного из предложенных героев').appendTo(center);
+    $('<span/>', {id: 'chooseHeroText'}).html('Выберите себе одного из предложенных героев').appendTo(center);
     center.html(heroesView.render().el);
     $('<button/>', {id: 'chooseHeroButton'}).html('Выбрать героя').click(function (event) {
         if(playerHero && !isChosed) {
