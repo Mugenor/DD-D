@@ -79,7 +79,7 @@ function chooseHero() {
     let heroesView = new HeroesView({collection: new HeroesCollection});
     let center = $('#center');
     center.html(heroesView.render().el);
-    $('<span/>', {id: 'chooseHeroText'}).html('Выбрите себе одного из предложенных героев').prependTo(center);
+    $('<span/>', {id: 'chooseHeroText'}).html('Выберите себе одного из предложенных героев').prependTo(center);
     $('<button/>', {id: 'chooseHero'}).html('Выбрать героя!').click(function (event) {
         if(playerHero && !isChosed) {
             gameSocket.send(JSON.stringify(playerHero));
@@ -93,7 +93,7 @@ function chooseHero() {
     }).appendTo(center);
 
     function startGame(playerHero, enemyHero) {
-    
+
         let general = $('#general');
         $('#center').children().remove();
         let playerHeroModel = new Hero(playerHero);

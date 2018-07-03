@@ -77,6 +77,7 @@ gameState.prototype = {
             this.state = ENEMY_TURN_STATE;
             this.whoseTurnText.html('Ход противника!');
         }
+        this.throwCubeButton.prop('disabled', !this.myTurn);
     },
     invertWhoseTurn: function () {
         this.setWhoseTurn(!this.myTurn);
@@ -201,7 +202,6 @@ gameState.prototype = {
         this.whoseTurnText = $('<span/>', {
             id: 'whoseTurnText'
         }).prependTo(this.gameDiv);
-        this.setWhoseTurn(yourTurnFirst);
         this.stepCountText = $('<span/>', {
             id: 'stepCountText'
         }).prependTo(this.gameDiv);
@@ -227,7 +227,11 @@ gameState.prototype = {
 
         this.queue = [];
 
-        // this.playerHealthBar = $
+        this.setWhoseTurn(yourTurnFirst);
+
+        this.refuseCardButton.prop('disabled', true);
+        this.applyCardButton.prop('disabled', true);
+        this.takeCardButton.prop('disabled', true);
     },
     highLightPath: function (event) {
         // debugger;
@@ -325,7 +329,6 @@ gameState.prototype = {
     useCard: function() {
         console.log('Пора достать карточку из БД и применить');
         if(this.myTurn && this.state === CARD_STATE) {
-            // TODO применить урон, здоровье, лог, вывести всё это для игрока
             let card = this.cards[this.cardNumber];
             this.applyCard(card);
             this.queue[this.queue.length - 1].card = card;
@@ -341,6 +344,8 @@ gameState.prototype = {
         let enemyHealth = Number.parseInt(enemyHealthEl.html());
         playerHealth += card.health;
         enemyHealth += card.damage;
+        playerHealthEl.html(playerHealth);
+        enemyHealthEl.html(enemyHealth);
     },
     refuseCard: function() {
         console.log('Ход переходит другому игроку');
