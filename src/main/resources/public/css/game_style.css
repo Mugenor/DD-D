@@ -26,10 +26,10 @@
 }
 
 .firstInRight {
-    margin-bottom: 2%;
+    margin-bottom: 3%;
 }
 
-#queueButton {
+.game_button {
     background: #86addb;
     border: 1px solid #151751;
     border-radius: 7px;
@@ -41,17 +41,21 @@
     font-size: 105%;
 }
 
-#queueButton:hover {
+.game_button:hover {
     background: #b0ceed;
 }
 
-#queueButton:disabled {
+/*#queueButton:disabled {
     background: #849090;
     cursor: default;
+}*/
+
+.game_button:focus {
+    outline: none;
 }
 
-#queueButton:focus {
-    outline: none;
+.margin_button {
+    margin-right: 2%;
 }
 
 canvas {
