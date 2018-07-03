@@ -13,6 +13,11 @@ const RIGHT = {x: 1, y: 0};
 const LEFT = {x: -1, y: 0};
 const DOWN = {x: 0, y: 1};
 const UP = {x: 0, y: -1};
+const ENEMY_TURN_STATE = 0;
+const THROW_CUBE_STATE = 1;
+const WALK_STATE = 2;
+const TAKE_CARD_STATE = 3;
+const CARD_STATE = 4;
 const map = {
     x: 13, y: 10, map:
         [[WALL, WALL, WALL, WALL, WALL, FIELD2, FIELD1, FIELD2, WALL, WALL, WALL, WALL, WALL],
@@ -66,8 +71,10 @@ gameState.prototype = {
     setWhoseTurn: function (bool) {
         this.myTurn = bool;
         if (this.myTurn) {
+            this.state = THROW_CUBE_STATE;
             this.whoseTurnText.html('Теперь твой ход!');
         } else {
+            this.state = ENEMY_TURN_STATE;
             this.whoseTurnText.html('Ход противника!');
         }
     },
@@ -78,23 +85,25 @@ gameState.prototype = {
         console.log('Got a message', event);
         let message = JSON.parse(event.data);
         console.log('Message', message);
+        for(let i=0; i < message.length; ++i) {
+            // what enemy did
+            if(message[i].movement) {
+                this.makeNumArrFromStrArr(message[i].movement.x);
+                this.makeNumArrFromStrArr(message[i].movement.y);
 
-        // what enemy did
-        this.makeNumArrFromStrArr(message.x);
-        this.makeNumArrFromStrArr(message.y);
-
-        // this.enemyMoveTween.properties.x = message.x;
-        // this.enemyMoveTween.properties.y = message.y;
-        this.addArrayAtBeginning(message.x, this.enemyMoveTween.properties.x);
-        this.addArrayAtBeginning(message.y, this.enemyMoveTween.properties.y);
-        // debugger;
+                this.addArrayAtBeginning(message[i].movement.x, this.enemyMoveTween.properties.x);
+                this.addArrayAtBeginning(message[i].movement.y, this.enemyMoveTween.properties.y);
+                // debugger;
+                this.enemy.posX = (message[i].movement.x[message[i].movement.x.length - 1] - HALF_CELL_SIZE) / CELL_SIZE;
+                this.enemy.posY = (message[i].movement.y[message[i].movement.y.length - 1] - HALF_CELL_SIZE) / CELL_SIZE;
+                console.log(this.enemy);
+            }
+            if(message[i].card) {
+                // TODO применить урон, здоровье, лог, вывести всё это
+            }
+        }
         this.enemyMoveTween.start();
-        this.enemy.posX = (message.x[message.x.length - 1] - HALF_CELL_SIZE) / CELL_SIZE;
-        this.enemy.posY = (message.y[message.y.length - 1] - HALF_CELL_SIZE) / CELL_SIZE;
-        console.log(this.enemy);
         this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
-        // this.enemy.movePoint.x = message.x;
-        // this.enemy.movePoint.y = message.y;
     },
     socketOnClose: function (event) {
         console.log('Socket closed!', event);
@@ -170,11 +179,11 @@ gameState.prototype = {
         this.ground.callAll('events.onInputDown.add', 'events.onInputDown', bind(this.moveHero, this));
 
 
-        $('<button/>', {
+        this.refuseCardButton = $('<button/>', {
             id: 'refuse',
             class: 'game_button margin_button'
         }).html("Сбросить").click(bind(this.refuseCard, this)).prependTo(this.gameDiv);
-        $('<button/>', {
+        this.applyCardButton = $('<button/>', {
             id: 'apply',
             class: 'game_button margin_button'
         }).html("Применить").click(bind(this.applyCard, this)).prependTo(this.gameDiv);
@@ -182,7 +191,7 @@ gameState.prototype = {
         this.cardText = $('<span/>', {
             id: 'cardText'
         }).prependTo(this.gameDiv);
-        $('<button/>', {
+        this.takeCardButton = $('<button/>', {
             id: 'cardsButton',
             class: 'game_button margin_button'
         }).html("Получить карточку").click(bind(this.addCard, this)).prependTo(this.gameDiv);
@@ -194,7 +203,7 @@ gameState.prototype = {
         this.stepCountText = $('<span/>', {
             id: 'stepCountText'
         }).prependTo(this.gameDiv);
-        $('<button/>', {
+        this.throwCubeButton = $('<button/>', {
             id: 'stepsButton',
             class: 'game_button margin_button'
         }).html("Получить шаги").click(bind(this.addSteps, this)).prependTo(this.gameDiv);
@@ -213,18 +222,20 @@ gameState.prototype = {
         this.enemyMoveTween.onComplete.add(this.invertWhoseTurn, this);
         this.enemyMoveTween.properties.x = [];
         this.enemyMoveTween.properties.y = [];
+
+        this.queue = [];
     },
     highLightPath: function (event) {
         // debugger;
         // console.log('HighLight: ', event);
-        if (this.myTurn && this.canStepToField(event.posX, event.posY, this.pathMap)) {
+        if (this.state === WALK_STATE && this.myTurn && this.canStepToField(event.posX, event.posY, this.pathMap)) {
             this.markPath(event.posX, event.posY, 0.65, this.pathMap);
         }
     },
     lowLightPath: function (event) {
         // debugger;
         // console.log('LowLight: ', event);
-        if (this.myTurn) {
+        if (this.myTurn && this.state === WALK_STATE) {
             this.markPath(event.posX, event.posY, 1, this.pathMap);
         }
     },
@@ -234,7 +245,7 @@ gameState.prototype = {
         this.properties.y.length = 0;
     },
     moveHero: function (event) {
-        if (this.myTurn) {
+        if (this.myTurn && this.state === WALK_STATE) {
             console.log('Click');
 
             if (this.stepCount > 0 && this.canStepToField(event.posX, event.posY, this.pathMap)) {
@@ -242,14 +253,17 @@ gameState.prototype = {
                 this.stepCountText.html(this.stepCount.toString());
                 this.markPath(event.posX, event.posY, 1, this.pathMap);
                 let movement = this.moveHeroByPath(this.hero, event.posX, event.posY, this.pathMap);
+                this.queue.push({movement: movement});
                 // sending our movement to opponent
-                gameSocket.send(JSON.stringify(movement));
-                this.invertWhoseTurn();
+                // gameSocket.send(JSON.stringify(movement));
+                // this.invertWhoseTurn();
 
                 this.hero.posX = event.posX;
                 this.hero.posY = event.posY;
 
                 this.pathMap = this.slice2DimensionalArray(map.map);
+                this.state = TAKE_CARD_STATE;
+                this.takeCardButton.prop('disabled', false);
             }
         }
     },
@@ -280,29 +294,47 @@ gameState.prototype = {
     },
     addSteps: function () {
         console.log('In add steps');
-        if (this.myTurn) {
+        if (this.myTurn && this.state === THROW_CUBE_STATE) {
             this.stepCount = this.randomInteger(1, 6);
             this.stepCountText.html(this.stepCount.toString());
             this.pathMap = this.slice2DimensionalArray(map.map);
             this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
+            this.state = WALK_STATE;
+            this.throwCubeButton.prop('disabled', true);
             console.log(this.pathMap);
         }
     },
     addCard: function () {
         console.log('In add card');
-        if (this.myTurn) {
+        if (this.myTurn && this.state === TAKE_CARD_STATE) {
             this.cardNumber = this.randomInteger(0,37);
             let card = this.cards[this.cardNumber];
             this.cardText.html(card.cubeNumber + ' - '+ card.name + ' - ' + card.action);
+
+            this.takeCardButton.prop('disabled', true);
+
+            this.applyCardButton.prop('disabled', false);
+            this.refuseCardButton.prop('disabled', false);
+
+            this.state = CARD_STATE;
 
             console.log(this.cards[this.cardNumber - 1]);
         }
     },
     applyCard: function() {
         console.log('Пора достать карточку из БД и применить');
+        if(this.myTurn && this.state === CARD_STATE) {
+            // TODO применить урон, здоровье, лог, вывести всё это
+        }
     },
     refuseCard: function() {
         console.log('Ход переходит другому игроку');
+        if(this.myTurn && this.state === CARD_STATE) {
+            this.invertWhoseTurn();
+            gameSocket.send(JSON.stringify(this.queue));
+            this.queue = [];
+            this.state = ENEMY_TURN_STATE;
+        }
     },
     markFieldsAroundHero: function (hero, stepCount, mapPath) {
         mapPath[hero.posY][hero.posX] = 0;

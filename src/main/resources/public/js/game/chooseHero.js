@@ -99,6 +99,7 @@ function chooseHero() {
         let divInLeft = $('<div/>', {
             class: 'inLeft'
         }).append(playerHeroView.render().el);
+        // playerHeroView.el.
         let divInRight = $('<div/>', {
             class: 'inRight firstInRight'
         }).append(enemyHeroView.render().el);
