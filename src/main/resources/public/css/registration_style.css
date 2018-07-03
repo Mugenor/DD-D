@@ -70,3 +70,29 @@
     text-align: center;
     color: red;
 }
+
+@media screen and (min-width: 693px) and (max-width: 1201px) {
+    #center {
+        width: 45%;
+        font-size: 90%;
+    }
+    #name_reg > div {
+        margin: 4% 0;
+    }
+    .button_reg {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 693px) {
+    #center {
+        width: 75%;
+        font-size: 80%;
+    }
+    #name_reg > div {
+        margin: 4.5% 0;
+    }
+    .button_reg {
+        width: 70%;
+    }
+}

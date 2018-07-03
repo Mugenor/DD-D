@@ -60,3 +60,22 @@
     color: red;
 }
 
+@media screen and (min-width: 693px) and (max-width: 1201px) {
+    #center {
+        width: 50%;
+        font-size: 90%;
+    }
+    #name_login > div {
+        margin: 3.5% 0;
+    }
+}
+
+@media screen and (max-width: 693px) {
+    #center {
+        width: 80%;
+        font-size: 80%;
+    }
+    #name_login > div {
+        margin: 4% 0;
+    }
+}
