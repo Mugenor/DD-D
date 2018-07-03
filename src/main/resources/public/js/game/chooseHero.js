@@ -1,4 +1,6 @@
 let gameSocket;
+let playerHealthEl;
+let enemyHealthEl;
 function chooseHero() {
     let enemyHero;
     let playerHero;
@@ -76,6 +78,7 @@ function chooseHero() {
     let heroesView = new HeroesView({collection: new HeroesCollection});
     let center = $('#center');
     center.html(heroesView.render().el);
+
     $('<button/>', {id: 'chooseHero'}).html('Выбрать героя!').click(function (event) {
         if(playerHero && !isChosed) {
             gameSocket.send(JSON.stringify(playerHero));
@@ -99,10 +102,11 @@ function chooseHero() {
         let divInLeft = $('<div/>', {
             class: 'inLeft'
         }).append(playerHeroView.render().el);
-        // playerHeroView.el.
+        playerHealthEl = playerHeroView.$el.children().last();
         let divInRight = $('<div/>', {
             class: 'inRight firstInRight'
         }).append(enemyHeroView.render().el);
+        enemyHealthEl = enemyHeroView.$el.children().last();
 
         $('<div/>',{
             id: 'left',

@@ -101,7 +101,7 @@ gameState.prototype = {
 
 
             if(message[i].card) {
-                // TODO применить урон, здоровье, лог, вывести всё это для противника
+                this.applyCard(message[i].card);
             }
         }
         this.enemyMoveTween.start();
@@ -188,7 +188,7 @@ gameState.prototype = {
         this.applyCardButton = $('<button/>', {
             id: 'apply',
             class: 'game_button margin_button'
-        }).html("Применить").click(bind(this.applyCard, this)).prependTo(this.gameDiv);
+        }).html("Применить").click(bind(this.useCard, this)).prependTo(this.gameDiv);
         $('<br>').prependTo(this.gameDiv);
         this.cardText = $('<span/>', {
             id: 'cardText'
@@ -258,9 +258,6 @@ gameState.prototype = {
                 this.markPath(event.posX, event.posY, 1, this.pathMap);
                 let movement = this.moveHeroByPath(this.hero, event.posX, event.posY, this.pathMap);
                 this.queue.push({movement: movement});
-                // sending our movement to opponent
-                // gameSocket.send(JSON.stringify(movement));
-                // this.invertWhoseTurn();
 
                 this.hero.posX = event.posX;
                 this.hero.posY = event.posY;
@@ -325,11 +322,25 @@ gameState.prototype = {
             console.log(this.cards[this.cardNumber - 1]);
         }
     },
-    applyCard: function() {
+    useCard: function() {
         console.log('Пора достать карточку из БД и применить');
         if(this.myTurn && this.state === CARD_STATE) {
             // TODO применить урон, здоровье, лог, вывести всё это для игрока
+            let card = this.cards[this.cardNumber];
+            this.applyCard(card);
+            this.queue[this.queue.length - 1].card = card;
+            if(card.gamer) {
+                // TODO ход остаётся у игрока
+            } else {
+                // TODO ход передаётся противнику
+            }
         }
+    },
+    applyCard: function(card) {
+        let playerHealth = Number.parseInt(playerHealthEl.html());
+        let enemyHealth = Number.parseInt(enemyHealthEl.html());
+        playerHealth += card.health;
+        enemyHealth += card.damage;
     },
     refuseCard: function() {
         console.log('Ход переходит другому игроку');
