@@ -32,7 +32,7 @@
     margin-bottom: 3%;
 }
 
-.game_button {
+.game_button, #chooseHeroButton {
     background: #86addb;
     border: 1px solid #151751;
     border-radius: 7px;
@@ -41,11 +41,16 @@
     font-weight: bold;
     cursor: pointer;
     margin-top: 1%;
-    font-size: 105%;
+    font-size: 110%;
 }
 
-.game_button:hover {
+.game_button:hover, #chooseHeroButton:hover {
     background: #b0ceed;
+}
+
+#chooseHeroButton:disabled {
+    background: #849090;
+    cursor: default;
 }
 
 /*#queueButton:disabled {
@@ -53,7 +58,7 @@
     cursor: default;
 }*/
 
-.game_button:focus {
+.game_button:focus, #chooseHeroButton:focus {
     outline: none;
 }
 
@@ -94,4 +99,40 @@ canvas {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+}
+
+#chooseHeroText {
+    margin: 3% 0;
+    font-size: 130%;
+}
+
+#chooseHeroButton {
+    margin: 3% 0;
+}
+
+.character:hover {
+    background: #b0ceed;
+    cursor: pointer;
+}
+
+.chosen {
+    background: #bde3fb;
+}
+
+.characterInGame {
+    background: #86addb;
+    border: 3px solid #151751;
+    border-radius: 15px;
+    padding: 1%;
+    font-family: "Arial Rounded MT Bold";
+    font-size: 100%;
+    color: #151751;
+    width: 98%;
+    text-align: center;
+    margin-bottom: 1%;
+}
+
+.character_name {
+    font-size: 130%;
+    font-weight: bold;
 }

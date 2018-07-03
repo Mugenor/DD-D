@@ -77,8 +77,8 @@ function chooseHero() {
 
     let heroesView = new HeroesView({collection: new HeroesCollection});
     let center = $('#center');
+    $('<span/>', {id: 'chooseHeroText'}).html('Выбрите себе одного из предложенных героев').appendTo(center);
     center.html(heroesView.render().el);
-
     $('<button/>', {id: 'chooseHero'}).html('Выбрать героя!').click(function (event) {
         if(playerHero && !isChosed) {
             gameSocket.send(JSON.stringify(playerHero));
