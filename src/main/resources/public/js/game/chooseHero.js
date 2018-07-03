@@ -1,7 +1,7 @@
 let gameSocket;
 function chooseHero() {
     function startGame(playerHero, enemyHero) {
-        $('#all_characters').remove();
+        $('#all_characters, #chooseHero').remove();
         let width = CELL_SIZE * map.x;
         let height = CELL_SIZE * map.y;
         let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');
@@ -13,6 +13,7 @@ function chooseHero() {
 
     let enemyHero;
     let playerHero;
+    let isChosed = false;
     gameSocket = new WebSocket('ws://localhost:8080/game');
     gameSocket.onopen = function() {
         console.log('Game socket opened');
@@ -63,12 +64,14 @@ function chooseHero() {
         render: function() {
             this.collection.each(this.addOne, this);
             let th = this;
-            $('.character').click(function (event) {
-                console.log(this, event);
-                playerHero = th.collection.models[this.id].attributes;
-                gameSocket.send(JSON.stringify(playerHero));
-                if(playerHero && enemyHero) {
-                    startGame(playerHero, enemyHero);
+            let heroesCards = $('.character');
+            heroesCards.click(function (event) {
+                if(!isChosed) {
+                    console.log(this, event);
+                    heroesCards.removeClass('.chosen');
+                    playerHero = th.collection.models[this.id].attributes;
+                    // gameSocket.send(JSON.stringify(playerHero));
+                    $(this).addClass('.chosen');
                 }
             });
             return this;
@@ -83,5 +86,16 @@ function chooseHero() {
     });
 
     let heroesView = new HeroesView({collection: new HeroesCollection});
-    $('#center').html(heroesView.render().el);
+    let center = $('#center');
+    center.html(heroesView.render().el);
+    $('<button/>', {id: 'chooseHero'}).html('Выбрать героя!').click(function (event) {
+        if(playerHero) {
+            gameSocket.send(JSON.stringify(playerHero));
+            isChosed = true;
+            $(this).prop('disabled', true);
+            if(enemyHero) {
+                startGame(playerHero, enemyHero);
+            }
+        }
+    }).appendTo(center);
 }
