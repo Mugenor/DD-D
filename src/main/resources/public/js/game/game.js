@@ -72,10 +72,10 @@ gameState.prototype = {
         this.myTurn = bool;
         if (this.myTurn) {
             this.state = THROW_CUBE_STATE;
-            this.whoseTurnText.html('Теперь твой ход!');
+            this.whoseTurnText.html('Ваш ход!');
         } else {
             this.state = ENEMY_TURN_STATE;
-            this.whoseTurnText.html('Ход противника!');
+            this.whoseTurnText.html('Ход другого игрока!');
         }
     },
     invertWhoseTurn: function () {
