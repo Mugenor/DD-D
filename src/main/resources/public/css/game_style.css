@@ -14,3 +14,33 @@ canvas {
     /*width: 100% !important;*/
     /*height: 100% !important;*/
 }
+.character {
+    background: #86addb;
+    border: 3px solid #151751;
+    border-radius: 15px;
+    padding: 1%;
+    font-family: "Arial Rounded MT Bold";
+    font-size: 100%;
+    color: #151751;
+    width: 27%;
+    text-align: center;
+    margin: 1%;
+}
+
+.character > img {
+    width: 98%;
+    background: #d5e4f1;
+    border: 2px solid #151751;
+    border-radius: 10px;
+    margin: 2% 0;
+}
+
+.character_name {
+    font-size: 160%;
+}
+
+#all_characters {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}

@@ -16,6 +16,42 @@ public class Card {
     private String image;
     private String description;
     private Integer damage;
+    private String action;
+    private Integer health;
+    private Integer length;
+    private Boolean gamer;
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public Integer getHealth() {
+        return health;
+    }
+
+    public void setHealth(Integer health) {
+        this.health = health;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
+    }
+
+    public Boolean getGamer() {
+        return gamer;
+    }
+
+    public void setGamer(Boolean gamer) {
+        this.gamer = gamer;
+    }
 
     public Integer getCubeNumber() {
         return cubeNumber;

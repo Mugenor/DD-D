@@ -35,15 +35,11 @@ let gameState = function (game) {//
 gameState.prototype = {
     preload: function () {
         this.myTurn = false;
-        // Remove
-        // this.awaitingMessage = this.game.add.text(map.x * CELL_SIZE + 100, 300, 'Waiting for another player!', {font: '50px Arial'});
-        // this.whoseTurnText = this.game.add.text(map.x * CELL_SIZE + 100, 350, '', {font: '50px Arial'});
 
-        this.gameSocket = new WebSocket('ws://localhost:8080/game');
-        this.gameSocket.onopen = bind(this.socketOnOpen, this);
-        this.gameSocket.onmessage = bind(this.socketOnMessage, this);
-        this.gameSocket.onerror = bind(this.socketOnError, this);
-        this.gameSocket.onclose = bind(this.socketOnClose, this);
+        gameSocket.onopen = bind(this.socketOnOpen, this);
+        gameSocket.onmessage = bind(this.socketOnMessage, this);
+        gameSocket.onerror = bind(this.socketOnError, this);
+        gameSocket.onclose = bind(this.socketOnClose, this);
 
         this.pathMap = map.map.slice();
         this.fields = [];
@@ -51,8 +47,8 @@ gameState.prototype = {
         this.game.load.image('field1', '/img/game/field1.jpg');
         this.game.load.image('field2', '/img/game/field3.jpg');
         this.game.load.image('wall', 'img/game/field5.jpg');
-        this.game.load.image('hero1', 'img/game/mabel_transparency.png');
-        this.game.load.image('hero2', 'img/game/stan_transparency.png');
+        this.game.load.image('player', this.playerHero.gameImage);
+        this.game.load.image('enemy', this.enemyHero.gameImage);
         this.game.load.image('update_button', 'img/game/update.png');
     },
     socketOnOpen: function () {
@@ -130,31 +126,36 @@ gameState.prototype = {
                 this.fields.push(sprite);
             }
         }
-        this.hero = this.game.add.sprite(CELL_SIZE * 6 + HALF_CELL_SIZE, CELL_SIZE * 0 + HALF_CELL_SIZE, 'hero1');
+        let yourTurnFirst = JSON.parse(sessionStorage.getItem('yourTurnFirst'));
+        console.log(yourTurnFirst);
+        let plX = 6, plY = 0, enX = 6, enY = 9, plSprite = 'player', enSprite = 'enemy';
+        if (!yourTurnFirst) {
+            let tmp = plX;
+            plX = enX;
+            enX = tmp;
+
+            tmp = plY;
+            plY = enY;
+            enY = tmp;
+
+            // tmp = plSprite;
+            // plSprite = enSprite;
+            // enSprite = tmp;
+        }
+
+        this.hero = this.game.add.sprite(CELL_SIZE * plX + HALF_CELL_SIZE, CELL_SIZE * plY + HALF_CELL_SIZE, plSprite);
         this.hero.anchor.x = 0.5;
         this.hero.anchor.y = 0.5;
         this.hero.posX = 6;
         this.hero.posY = 0;
         this.hero.scale.set(CELL_SIZE / this.hero.texture.width / 2, CELL_SIZE / this.hero.texture.height);
 
-        this.enemy = this.game.add.sprite(CELL_SIZE * 6 + HALF_CELL_SIZE, CELL_SIZE * 9 + HALF_CELL_SIZE, 'hero2');
+        this.enemy = this.game.add.sprite(CELL_SIZE * enX + HALF_CELL_SIZE, CELL_SIZE * enY + HALF_CELL_SIZE, enSprite);
         this.enemy.anchor.x = 0.5;
         this.enemy.anchor.y = 0.5;
         this.enemy.posX = 6;
         this.enemy.posY = 9;
         this.enemy.scale.set(CELL_SIZE / this.enemy.texture.width, CELL_SIZE / this.enemy.texture.height);
-
-        enemy = this.enemy;
-
-        // debugger;
-
-        let yourTurnFirst = JSON.parse(sessionStorage.getItem('yourTurnFirst'));
-        console.log(yourTurnFirst);
-        if (yourTurnFirst) {
-            let tmp = this.enemy;
-            this.enemy = this.hero;
-            this.hero = tmp;
-        }
 
 
         this.ground.setAll('inputEnabled', true);
@@ -221,7 +222,7 @@ gameState.prototype = {
                 this.markPath(event.posX, event.posY, 1, this.pathMap);
                 let movement = this.moveHeroByPath(this.hero, event.posX, event.posY, this.pathMap);
                 // sending our movement to opponent
-                this.gameSocket.send(JSON.stringify(movement));
+                gameSocket.send(JSON.stringify(movement));
                 this.invertWhoseTurn();
 
                 this.hero.posX = event.posX;

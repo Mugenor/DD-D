@@ -44,3 +44,7 @@ textarea {
 #submit:focus {
     outline: none;
 }
+.answer_con {
+    width: 25%;
+    text-align: center;
+}
