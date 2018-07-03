@@ -110,7 +110,6 @@ ul {
     list-style: none;
     display: flex;
     justify-content: space-around;
-    align-items: stretch;
     margin: 0;
     padding-left: 0;
     border: 3px solid #151751;

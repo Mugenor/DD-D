@@ -25,7 +25,7 @@
     background: rgba(223, 238, 251, 0.9);
     border: 3px solid #151751;
     border-radius: 10px;
-    padding: 3%;
+    padding: 5%;
 }
 
 .firstInRight {
@@ -60,6 +60,11 @@
 
 .game_button:focus, #chooseHero:focus {
     outline: none;
+}
+
+.game_button:disabled {
+    background: #849090;
+    cursor: default;
 }
 
 .margin_button {
@@ -124,16 +129,30 @@ canvas {
     background: #86addb;
     border: 3px solid #151751;
     border-radius: 15px;
-    padding: 1%;
+    padding: 3%;
     font-family: "Arial Rounded MT Bold";
     font-size: 100%;
     color: #151751;
-    width: 98%;
     text-align: center;
     margin-bottom: 1%;
+}
+
+.characterInGame > img {
+    width: 98%;
+    border: 2px solid #151751;
+    border-radius: 10px;
+    margin: 2% 0;
 }
 
 .character_name {
     font-size: 130%;
     font-weight: bold;
+}
+
+canvas {
+    border: 2px solid #151751;
+}
+
+#stepCountText {
+    margin: 0 3%;
 }
