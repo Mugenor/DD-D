@@ -77,6 +77,7 @@ gameState.prototype = {
             this.state = ENEMY_TURN_STATE;
             this.whoseTurnText.html('Ход другого игрока!');
         }
+        this.throwCubeButton.prop('disabled', !this.myTurn);
     },
     invertWhoseTurn: function () {
         this.setWhoseTurn(!this.myTurn);
@@ -118,7 +119,7 @@ gameState.prototype = {
         this.ground = this.game.add.group();
         this.walls = this.game.add.group();
         this.stepCount = 0;
-        this.gameDiv = $('#center');
+
 
         let sprite;
         for (let i = 0; i < map.x; i++) {
@@ -180,39 +181,48 @@ gameState.prototype = {
 
         this.ground.callAll('events.onInputDown.add', 'events.onInputDown', bind(this.moveHero, this));
 
-
+        let aboveGame = $('<div/>', {
+            id: 'aboveGame'
+        }).prependTo($('#upDiv'));
         this.refuseCardButton = $('<button/>', {
             id: 'refuse',
             class: 'game_button'
-        }).html("Сбросить").click(bind(this.refuseCard, this)).prependTo(this.gameDiv);
+        }).html("Сбросить").click(bind(this.refuseCard, this)).prependTo(aboveGame);
         this.applyCardButton = $('<button/>', {
             id: 'apply',
             class: 'game_button margin_button'
-        }).html("Применить").click(bind(this.useCard, this)).prependTo(this.gameDiv);
-        $('<br>').prependTo(this.gameDiv);
+        }).html("Применить").click(bind(this.useCard, this)).prependTo(aboveGame);
+        $('<br>').prependTo(aboveGame);
         this.cardText = $('<span/>', {
             id: 'cardText'
-        }).prependTo(this.gameDiv);
+        }).prependTo(aboveGame);
         this.takeCardButton = $('<button/>', {
             id: 'cardsButton',
             class: 'game_button margin_button'
-        }).html("Получить карточку").click(bind(this.addCard, this)).prependTo(this.gameDiv);
-        $('<br>').prependTo(this.gameDiv);
+        }).html("Получить карточку").click(bind(this.addCard, this)).prependTo(aboveGame);
+        $('<br>').prependTo(aboveGame);
         this.stepCountText = $('<span/>', {
             id: 'stepCountText'
-        }).prependTo(this.gameDiv);
+        }).prependTo(aboveGame);
         this.throwCubeButton = $('<button/>', {
             id: 'stepsButton',
             class: 'game_button margin_button'
-        }).html("Получить шаги").click(bind(this.addSteps, this)).prependTo(this.gameDiv);
-        $('<br>').prependTo(this.gameDiv);
-        this.whoseTurnText = $('<span/>', {
+        }).html("Получить шаги").click(bind(this.addSteps, this)).prependTo(aboveGame);
+        $('<br>').prependTo(aboveGame);
+        this.whoseTurnText = $('<b/>', {
             id: 'whoseTurnText'
-        }).prependTo(this.gameDiv);
+        }).prependTo(aboveGame);
         this.setWhoseTurn(yourTurnFirst);
+<<<<<<< HEAD
         this.awaitingMessage = $('<p/>', {
             id: 'awaitingMessage'
         }).html('Ваш соперник: ' + sessionStorage.getItem('enemy')).prependTo(this.gameDiv);
+=======
+        $('<br>').prependTo(aboveGame);
+        this.awaitingMessage = $('<span/>', {
+            id: 'awaitingMessage'
+        }).html('<b> Твой соперник: <i>' + sessionStorage.getItem('enemy') + '</i></b>').prependTo(aboveGame);
+>>>>>>> 3dfe7638f6a0832855640771830f72f363db1183
 
         this.heroMoveTween = this.game.add.tween(this.hero).to({}, 2000, null, false);
         this.heroMoveTween.onComplete.add(this.clearMovePoints, this.heroMoveTween);
@@ -227,7 +237,11 @@ gameState.prototype = {
 
         this.queue = [];
 
-        // this.playerHealthBar = $
+        this.setWhoseTurn(yourTurnFirst);
+
+        this.refuseCardButton.prop('disabled', true);
+        this.applyCardButton.prop('disabled', true);
+        this.takeCardButton.prop('disabled', true);
     },
     highLightPath: function (event) {
         // debugger;
@@ -325,7 +339,6 @@ gameState.prototype = {
     useCard: function() {
         console.log('Пора достать карточку из БД и применить');
         if(this.myTurn && this.state === CARD_STATE) {
-            // TODO применить урон, здоровье, лог, вывести всё это для игрока
             let card = this.cards[this.cardNumber];
             this.applyCard(card);
             this.queue[this.queue.length - 1].card = card;
@@ -341,6 +354,8 @@ gameState.prototype = {
         let enemyHealth = Number.parseInt(enemyHealthEl.html());
         playerHealth += card.health;
         enemyHealth += card.damage;
+        playerHealthEl.html(playerHealth);
+        enemyHealthEl.html(enemyHealth);
     },
     refuseCard: function() {
         console.log('Ход переходит другому игроку');
