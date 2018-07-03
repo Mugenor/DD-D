@@ -8,7 +8,7 @@
 }
 
 textarea {
-    width: 99%;
+    width: 98%;
     margin: 1% 0;
     resize: none;
     border: 1px solid #151751;
@@ -47,4 +47,18 @@ textarea {
 .answer_con {
     width: 25%;
     text-align: center;
+}
+
+@media screen and (min-width: 693px) and (max-width: 1201px) {
+    #center {
+        width: 45%;
+        font-size: 90%;
+    }
+}
+
+@media screen and (max-width: 693px) {
+    #center {
+        width: 70%;
+        font-size: 80%;
+    }
 }

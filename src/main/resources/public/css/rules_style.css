@@ -12,3 +12,29 @@
 #probable {
     float: right;
 }
+
+@media screen and (min-width: 693px) and (max-width: 1201px) {
+    #center {
+        width: 75%;
+        font-size: 90%;
+    }
+    .title {
+        font-size: 160%;
+    }
+    #probable {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 693px) {
+    #center {
+        width: 90%;
+        font-size: 80%;
+    }
+    .title {
+        font-size: 140%;
+    }
+    #probable {
+        width: 30%;
+    }
+}

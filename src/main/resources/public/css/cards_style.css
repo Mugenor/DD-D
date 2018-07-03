@@ -22,8 +22,32 @@
     margin: 2% 0;
 }
 
+.card_name {
+    font-size: 130%;
+    font-weight: bold;
+}
+
 #all_cards {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+}
+
+@media screen and (min-width: 693px) and (max-width: 1201px) {
+    #center {
+        font-size: 90%;
+    }
+    .card_name {
+        font-size: 120%;
+        font-weight: bold;
+    }
+}
+
+@media screen and (max-width: 693px) {
+    #center {
+        font-size: 80%;
+    }
+    .card_name {
+        font-size: 110%;
+    }
 }

@@ -24,10 +24,31 @@
 
 .character_name {
     font-size: 160%;
+    font-weight: bold;
 }
 
 #all_characters {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+}
+
+@media screen and (min-width: 693px) and (max-width: 1201px) {
+    #center {
+        width: 80%;
+        font-size: 90%;
+    }
+    .character_name {
+        font-size: 140%;
+    }
+}
+
+@media screen and (max-width: 693px) {
+    #center {
+        width: 90%;
+        font-size: 80%;
+    }
+    .character_name {
+        font-size: 120%;
+    }
 }
