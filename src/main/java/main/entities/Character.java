@@ -13,10 +13,30 @@ public class Character {
     @Column(name = "id")
     private Integer id;
     private String name;
-    private int health;
+    private Integer health;
     private String description;
     private String image;
     private String gameImage;
+    private String bonus;
+    private Integer card;
+
+
+
+    public String getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(String bonus) {
+        this.bonus = bonus;
+    }
+
+    public Integer getCard() {
+        return card;
+    }
+
+    public void setCard(Integer card) {
+        this.card = card;
+    }
 
     public String getGameImage() {
         return gameImage;
@@ -42,11 +62,11 @@ public class Character {
         this.name = name;
     }
 
-    public int getHealth() {
+    public Integer getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
+    public void setHealth(Integer health) {
         this.health = health;
     }
 

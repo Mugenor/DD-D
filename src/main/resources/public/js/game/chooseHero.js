@@ -1,4 +1,6 @@
 let gameSocket;
+let playerHealthEl;
+let enemyHealthEl;
 function chooseHero() {
     let enemyHero;
     let playerHero;
@@ -57,9 +59,9 @@ function chooseHero() {
             heroesCards.click(function (event) {
                 if(!isChosed) {
                     console.log(this, event);
-                    heroesCards.removeClass('.chosen');
+                    heroesCards.removeClass('chosen');
                     playerHero = th.collection.models[this.id].attributes;
-                    $(this).addClass('.chosen');
+                    $(this).addClass('chosen');
                 }
             });
             return this;
@@ -67,6 +69,7 @@ function chooseHero() {
         addOne: function(hero) {
             let personView = new HeroView({model: hero});
             this.$el.append(personView.render().el);
+            personView.$el.addClass('underCursor');
         },
         onError: function () {
             console.log('ERROR FETCH IN CHARACTERS');
@@ -75,13 +78,14 @@ function chooseHero() {
 
     let heroesView = new HeroesView({collection: new HeroesCollection});
     let center = $('#center');
-    $('<span/>', {id: 'chooseHeroText'}).html('Выберите себе одного из предложенных героев').appendTo(center);
     center.html(heroesView.render().el);
-    $('<button/>', {id: 'chooseHeroButton'}).html('Выбрать героя').click(function (event) {
+    $('<span/>', {id: 'chooseHeroText'}).html('Выбрите себе одного из предложенных героев').prependTo(center);
+    $('<button/>', {id: 'chooseHero'}).html('Выбрать героя!').click(function (event) {
         if(playerHero && !isChosed) {
             gameSocket.send(JSON.stringify(playerHero));
             isChosed = true;
             $(this).prop('disabled', true);
+            $('.underCursor').removeClass('underCursor');
             if(enemyHero) {
                 startGame(playerHero, enemyHero);
             }
@@ -89,9 +93,9 @@ function chooseHero() {
     }).appendTo(center);
 
     function startGame(playerHero, enemyHero) {
-
+    
         let general = $('#general');
-        $('#all_characters, #chooseHero').remove();
+        $('#center').children().remove();
         let playerHeroModel = new Hero(playerHero);
         let enemyHeroModel = new Hero(enemyHero);
         debugger;
@@ -100,10 +104,11 @@ function chooseHero() {
         let divInLeft = $('<div/>', {
             class: 'inLeft'
         }).append(playerHeroView.render().el);
-        // playerHeroView.el.
+        playerHealthEl = playerHeroView.$el.children().last();
         let divInRight = $('<div/>', {
             class: 'inRight firstInRight'
         }).append(enemyHeroView.render().el);
+        enemyHealthEl = enemyHeroView.$el.children().last();
 
         $('<div/>',{
             id: 'left',

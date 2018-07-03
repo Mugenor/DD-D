@@ -22,31 +22,37 @@ header {
 
 #header_person {
     float: right;
-    padding: 12px 5px;
+    padding: 10px 12px;
 }
 
 #header_person > a {
     text-decoration: none;
 }
-
-#img_person, #login_person {
+/*
+#img_person {
     background: #141760;
     border: 1px solid #151751;
     border-radius: 7px;
-}
-
-#img_person {
     width: 30px;
     margin-bottom: 5%;
 }
 
-#img_person:hover, #login_person:hover {
+#img_person:hover {
     background: #304d90;
-}
+}*/
 
 #login_person {
+    background: #141760;
+    border: 1px solid #151751;
+    border-radius: 7px;
     color: #d5e4f1;
     width: 50px;
+    cursor: pointer;
+    padding: 5%;
+}
+
+#login_person:hover {
+    background: #304d90;
 }
 
 #official_name {
@@ -104,6 +110,7 @@ ul {
     list-style: none;
     display: flex;
     justify-content: space-around;
+    align-items: stretch;
     margin: 0;
     padding-left: 0;
     border: 3px solid #151751;

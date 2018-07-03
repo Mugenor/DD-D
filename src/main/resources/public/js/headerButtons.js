@@ -4,7 +4,7 @@ $(function () {
         id: 'header_person'
     });
     if (loginCookie) {
-        divWithButtons.html('<a><img id="img_person" src="img/person5.png" alt="Person"></a><br>');
+        /*divWithButtons.html('<a><img id="img_person" src="img/person5.png" alt="Person"></a><br>');*/
         let logoutButton = $('<div/>', {
             id: "login_person",
         }).html('Выйти');
