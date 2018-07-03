@@ -120,7 +120,19 @@ function chooseHero() {
         }).appendTo(general).append(divInRight);
         let width = CELL_SIZE * map.x;
         let height = CELL_SIZE * map.y;
-        let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');
+
+        let center = $('#center');
+        let upDiv = $('<div/>', {
+            id: 'upDiv'
+        }).appendTo(center);
+        let downDiv = $('<div/>', {
+            id: 'downDiv'
+        }).appendTo(center);
+        let gameDiv = $('<div/>', {
+            id: 'gameDiv'
+        }).appendTo(downDiv);
+
+        let game = new Phaser.Game(width, height, Phaser.AUTO, 'gameDiv');
         gameState.prototype.playerHero = playerHero;
         gameState.prototype.enemyHero = enemyHero;
         game.state.add('Game', gameState);

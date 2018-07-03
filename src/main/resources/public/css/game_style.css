@@ -63,7 +63,7 @@
 }
 
 .game_button:disabled {
-    background: #849090;
+    background: #9ca8a8;
     cursor: default;
 }
 
@@ -116,13 +116,13 @@ canvas {
     font-size: 130%;
 }
 
+.chosen {
+    background: #d1f4fb;
+}
+
 .underCursor:hover {
     background: #b0ceed;
     cursor: pointer;
-}
-
-.chosen {
-    background: #d1f4fb;
 }
 
 .characterInGame {
@@ -149,10 +149,27 @@ canvas {
     font-weight: bold;
 }
 
-canvas {
-    border: 2px solid #151751;
-}
-
 #stepCountText {
     margin: 0 3%;
+}
+
+canvas {
+    border: 3px solid #6d3f15;
+}
+
+#aboveGame {
+    width: 65%;
+    font-size: 115%;
+}
+
+#upDiv {
+    display: flex;
+    justify-content: space-around;
+    padding: 2%;
+    padding-top: 0;
+}
+
+#downDiv {
+    display: flex;
+    justify-content: space-around;
 }
