@@ -62,6 +62,11 @@
     outline: none;
 }
 
+.game_button:disabled {
+    background: #849090;
+    cursor: default;
+}
+
 .margin_button {
     margin-right: 2%;
 }
@@ -146,4 +151,8 @@ canvas {
 
 canvas {
     border: 2px solid #151751;
+}
+
+#stepCountText {
+    margin: 0 3%;
 }

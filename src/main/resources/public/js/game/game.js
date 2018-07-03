@@ -183,7 +183,7 @@ gameState.prototype = {
 
         this.refuseCardButton = $('<button/>', {
             id: 'refuse',
-            class: 'game_button margin_button'
+            class: 'game_button'
         }).html("Сбросить").click(bind(this.refuseCard, this)).prependTo(this.gameDiv);
         this.applyCardButton = $('<button/>', {
             id: 'apply',
@@ -198,10 +198,6 @@ gameState.prototype = {
             class: 'game_button margin_button'
         }).html("Получить карточку").click(bind(this.addCard, this)).prependTo(this.gameDiv);
         $('<br>').prependTo(this.gameDiv);
-        this.whoseTurnText = $('<span/>', {
-            id: 'whoseTurnText'
-        }).prependTo(this.gameDiv);
-        this.setWhoseTurn(yourTurnFirst);
         this.stepCountText = $('<span/>', {
             id: 'stepCountText'
         }).prependTo(this.gameDiv);
@@ -209,10 +205,15 @@ gameState.prototype = {
             id: 'stepsButton',
             class: 'game_button margin_button'
         }).html("Получить шаги").click(bind(this.addSteps, this)).prependTo(this.gameDiv);
-
+        $('<br>').prependTo(this.gameDiv);
+        this.whoseTurnText = $('<span/>', {
+            id: 'whoseTurnText'
+        }).prependTo(this.gameDiv);
+        this.setWhoseTurn(yourTurnFirst);
+        $('<br>').prependTo(this.gameDiv);
         this.awaitingMessage = $('<p/>', {
             id: 'awaitingMessage'
-        }).html('Твой противник: ' + sessionStorage.getItem('enemy')).prependTo(this.gameDiv);
+        }).html('Твой соперник: ' + sessionStorage.getItem('enemy')).prependTo(this.gameDiv);
 
         this.heroMoveTween = this.game.add.tween(this.hero).to({}, 2000, null, false);
         this.heroMoveTween.onComplete.add(this.clearMovePoints, this.heroMoveTween);
