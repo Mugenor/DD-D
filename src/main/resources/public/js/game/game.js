@@ -94,7 +94,7 @@ gameState.prototype = {
         console.log("Error with socket!", event);
     },
     create: function () {
-        this.game.stage.backgroundColor = '#deedfa';
+        this.game.stage.backgroundColor = '#defa5b';
         this.ground = this.game.add.group();
         this.walls = this.game.add.group();
         this.stepCount = 0;
@@ -137,24 +137,20 @@ gameState.prototype = {
             tmp = plY;
             plY = enY;
             enY = tmp;
-
-            // tmp = plSprite;
-            // plSprite = enSprite;
-            // enSprite = tmp;
         }
 
         this.hero = this.game.add.sprite(CELL_SIZE * plX + HALF_CELL_SIZE, CELL_SIZE * plY + HALF_CELL_SIZE, plSprite);
         this.hero.anchor.x = 0.5;
         this.hero.anchor.y = 0.5;
-        this.hero.posX = 6;
-        this.hero.posY = 0;
-        this.hero.scale.set(CELL_SIZE / this.hero.texture.width / 2, CELL_SIZE / this.hero.texture.height);
+        this.hero.posX = plX;
+        this.hero.posY = plY;
+        this.hero.scale.set(CELL_SIZE / this.hero.texture.width, CELL_SIZE / this.hero.texture.height);
 
         this.enemy = this.game.add.sprite(CELL_SIZE * enX + HALF_CELL_SIZE, CELL_SIZE * enY + HALF_CELL_SIZE, enSprite);
         this.enemy.anchor.x = 0.5;
         this.enemy.anchor.y = 0.5;
-        this.enemy.posX = 6;
-        this.enemy.posY = 9;
+        this.enemy.posX = enX;
+        this.enemy.posY = enY;
         this.enemy.scale.set(CELL_SIZE / this.enemy.texture.width, CELL_SIZE / this.enemy.texture.height);
 
 
@@ -164,7 +160,7 @@ gameState.prototype = {
 
         this.ground.callAll('events.onInputDown.add', 'events.onInputDown', bind(this.moveHero, this));
 
-        // debugger;
+
         $('<button/>', {
             id: 'stepsButton',
         }).html("Получить шаги").click(bind(this.addSteps, this)).prependTo(this.gameDiv);
@@ -191,8 +187,6 @@ gameState.prototype = {
         this.awaitingMessage = $('<p/>', {
             id: 'awaitingMessage'
         }).html('Твой противник: ' + sessionStorage.getItem('enemy')).prependTo(this.gameDiv);
-        // this.stepButton = this.game.add.button(map.x * CELL_SIZE + 10, 60, 'update_button', this.addSteps, this);
-        // this.stepCountText = this.game.add.text(map.x * CELL_SIZE + 10, 100, this.stepCount, {font: '20px Arial'});
 
         this.heroMoveTween = this.game.add.tween(this.hero).to({}, 2000, null, false);
         this.heroMoveTween.onComplete.add(this.clearMovePoints, this.heroMoveTween);
