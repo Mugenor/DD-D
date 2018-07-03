@@ -88,23 +88,29 @@ function chooseHero() {
     }).appendTo(center);
 
     function startGame(playerHero, enemyHero) {
+
         let general = $('#general');
         $('#all_characters, #chooseHero').remove();
         let playerHeroModel = new Hero(playerHero);
         let enemyHeroModel = new Hero(enemyHero);
         debugger;
-        let playerHeroView = new HeroView({model: playerHeroModel});
-        let enemyHeroView = new HeroView({model: enemyHeroModel});
-        let divInLeft;
+        let playerHeroView = new HeroView({model: playerHeroModel, className: 'characterInGame'});
+        let enemyHeroView = new HeroView({model: enemyHeroModel, className: 'characterInGame'});
+        let divInLeft = $('<div/>', {
+            class: 'inLeft'
+        }).append(playerHeroView.render().el);
+        let divInRight = $('<div/>', {
+            class: 'inRight firstInRight'
+        }).append(enemyHeroView.render().el);
 
         $('<div/>',{
             id: 'left',
             class: 'block'
-        }).prependTo(general).append(playerHeroView.render().el);
+        }).prependTo(general).append(divInLeft);
         $('<div/>', {
             id: 'right',
             class: 'block'
-        }).appendTo(general).append(enemyHeroView.render().el);
+        }).appendTo(general).append(divInRight);
         let width = CELL_SIZE * map.x;
         let height = CELL_SIZE * map.y;
         let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');

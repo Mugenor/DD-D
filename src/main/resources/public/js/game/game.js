@@ -50,6 +50,15 @@ gameState.prototype = {
         this.game.load.image('player', this.playerHero.gameImage);
         this.game.load.image('enemy', this.enemyHero.gameImage);
         this.game.load.image('update_button', 'img/game/update.png');
+        let th = this;
+        $.ajax('/card', {
+            method: "GET",
+            contentType: 'application/json',
+            async: false,
+            success: function (resp) {
+                th.cards = resp;
+            }
+        });
     },
     socketOnOpen: function () {
         console.log('GameSocket opened');
@@ -169,6 +178,7 @@ gameState.prototype = {
             id: 'apply',
             class: 'game_button margin_button'
         }).html("Применить").click(bind(this.applyCard, this)).prependTo(this.gameDiv);
+        $('<br>').prependTo(this.gameDiv);
         this.cardText = $('<span/>', {
             id: 'cardText'
         }).prependTo(this.gameDiv);
@@ -281,10 +291,11 @@ gameState.prototype = {
     addCard: function () {
         console.log('In add card');
         if (this.myTurn) {
-            this.cardNumber = this.randomInteger(1,38);
-            this.cardText.html(this.cardNumber.toString());
+            this.cardNumber = this.randomInteger(0,37);
+            let card = this.cards[this.cardNumber];
+            this.cardText.html(card.cubeNumber + ' - '+ card.name + ' - ' + card.action);
 
-            console.log('Пора достать карточку из БД');
+            console.log(this.cards[this.cardNumber - 1]);
         }
     },
     applyCard: function() {
