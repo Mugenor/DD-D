@@ -1,16 +1,5 @@
 let gameSocket;
 function chooseHero() {
-    function startGame(playerHero, enemyHero) {
-        $('#all_characters, #chooseHero').remove();
-        let width = CELL_SIZE * map.x;
-        let height = CELL_SIZE * map.y;
-        let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');
-        gameState.prototype.playerHero = playerHero;
-        gameState.prototype.enemyHero = enemyHero;
-        game.state.add('Game', gameState);
-        game.state.start('Game');
-    }
-
     let enemyHero;
     let playerHero;
     let isChosed = false;
@@ -19,9 +8,8 @@ function chooseHero() {
         console.log('Game socket opened');
     };
     gameSocket.onmessage = function(event) {
-        debugger;
         enemyHero = JSON.parse(event.data);
-        if(enemyHero && playerHero) {
+        if(enemyHero && playerHero && isChosed) {
             startGame(playerHero, enemyHero);
         }
     };
@@ -30,17 +18,18 @@ function chooseHero() {
         return _.template($('#' + id).html());
     };
 
-    Hero = Backbone.Model.extend({
+    let Hero = Backbone.Model.extend({
 
     });
 
-    HeroView = Backbone.View.extend({
+    let HeroView = Backbone.View.extend({
         className: 'character',
         template: template('characters'),
         initialize: function() {
             this.render();
         },
         render: function() {
+            debugger;
             this.$el.html(this.template(this.model.toJSON()));
             this.$el.prop('id', this.model.get('id') - 1);
             return this;
@@ -70,7 +59,6 @@ function chooseHero() {
                     console.log(this, event);
                     heroesCards.removeClass('.chosen');
                     playerHero = th.collection.models[this.id].attributes;
-                    // gameSocket.send(JSON.stringify(playerHero));
                     $(this).addClass('.chosen');
                 }
             });
@@ -89,7 +77,7 @@ function chooseHero() {
     let center = $('#center');
     center.html(heroesView.render().el);
     $('<button/>', {id: 'chooseHero'}).html('Выбрать героя!').click(function (event) {
-        if(playerHero) {
+        if(playerHero && !isChosed) {
             gameSocket.send(JSON.stringify(playerHero));
             isChosed = true;
             $(this).prop('disabled', true);
@@ -98,4 +86,31 @@ function chooseHero() {
             }
         }
     }).appendTo(center);
+
+    function startGame(playerHero, enemyHero) {
+        let general = $('#general');
+        $('#all_characters, #chooseHero').remove();
+        let playerHeroModel = new Hero(playerHero);
+        let enemyHeroModel = new Hero(enemyHero);
+        debugger;
+        let playerHeroView = new HeroView({model: playerHeroModel});
+        let enemyHeroView = new HeroView({model: enemyHeroModel});
+        let divInLeft;
+
+        $('<div/>',{
+            id: 'left',
+            class: 'block'
+        }).prependTo(general).append(playerHeroView.render().el);
+        $('<div/>', {
+            id: 'right',
+            class: 'block'
+        }).appendTo(general).append(enemyHeroView.render().el);
+        let width = CELL_SIZE * map.x;
+        let height = CELL_SIZE * map.y;
+        let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');
+        gameState.prototype.playerHero = playerHero;
+        gameState.prototype.enemyHero = enemyHero;
+        game.state.add('Game', gameState);
+        game.state.start('Game');
+    }
 }

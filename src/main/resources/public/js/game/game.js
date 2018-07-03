@@ -176,11 +176,11 @@ gameState.prototype = {
             id: 'cardsButton',
             class: 'game_button margin_button'
         }).html("Получить карточку").click(bind(this.addCard, this)).prependTo(this.gameDiv);
-        this.setWhoseTurn(yourTurnFirst);
         $('<br>').prependTo(this.gameDiv);
         this.whoseTurnText = $('<span/>', {
             id: 'whoseTurnText'
         }).prependTo(this.gameDiv);
+        this.setWhoseTurn(yourTurnFirst);
         this.stepCountText = $('<span/>', {
             id: 'stepCountText'
         }).prependTo(this.gameDiv);
