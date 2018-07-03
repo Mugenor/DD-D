@@ -3,11 +3,55 @@
 }
 
 #left {
-    width: 18%;
+    width: 19%;
 }
 
 #right {
-    width: 18%;
+    width: 19%;
+    padding: 0;
+    background: none;
+    border: none;
+
+}
+
+.block {
+    text-align: center;
+}
+
+.inRight {
+    background: rgba(223, 238, 251, 0.9);
+    border: 3px solid #151751;
+    border-radius: 10px;
+    padding: 3%;
+}
+
+.firstInRight {
+    margin-bottom: 2%;
+}
+
+#queueButton {
+    background: #86addb;
+    border: 1px solid #151751;
+    border-radius: 7px;
+    font-family: "Arial Rounded MT Bold";
+    color: #151751;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1%;
+    font-size: 105%;
+}
+
+#queueButton:hover {
+    background: #b0ceed;
+}
+
+#queueButton:disabled {
+    background: #849090;
+    cursor: default;
+}
+
+#queueButton:focus {
+    outline: none;
 }
 
 canvas {

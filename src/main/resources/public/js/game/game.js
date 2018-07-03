@@ -63,7 +63,7 @@ gameState.prototype = {
         if (this.myTurn) {
             this.whoseTurnText.html('Теперь твой ход!');
         } else {
-            this.whoseTurnText.html('Ход противника!!');
+            this.whoseTurnText.html('Ход противника!');
         }
     },
     invertWhoseTurn: function () {
@@ -180,6 +180,12 @@ gameState.prototype = {
         this.cardText = $('<span/>', {
             id: 'cardText'
         }).prependTo(this.gameDiv);
+        $('<button/>', {
+            id: 'apply',
+        }).html("Применить").click(bind(this.applyCard, this)).prependTo(this.gameDiv);
+        $('<button/>', {
+            id: 'refuse',
+        }).html("Сбросить").click(bind(this.refuseCard, this)).prependTo(this.gameDiv);
 
         this.awaitingMessage = $('<p/>', {
             id: 'awaitingMessage'
@@ -280,6 +286,12 @@ gameState.prototype = {
 
             console.log('Пора достать карточку из БД');
         }
+    },
+    applyCard: function() {
+        console.log('Пора достать карточку из БД и применить');
+    },
+    refuseCard: function() {
+        console.log('Ход переходит другому игроку');
     },
     markFieldsAroundHero: function (hero, stepCount, mapPath) {
         mapPath[hero.posY][hero.posX] = 0;
