@@ -213,16 +213,10 @@ gameState.prototype = {
             id: 'whoseTurnText'
         }).prependTo(aboveGame);
         this.setWhoseTurn(yourTurnFirst);
-<<<<<<< HEAD
-        this.awaitingMessage = $('<p/>', {
-            id: 'awaitingMessage'
-        }).html('Ваш соперник: ' + sessionStorage.getItem('enemy')).prependTo(this.gameDiv);
-=======
         $('<br>').prependTo(aboveGame);
         this.awaitingMessage = $('<span/>', {
             id: 'awaitingMessage'
         }).html('<b> Твой соперник: <i>' + sessionStorage.getItem('enemy') + '</i></b>').prependTo(aboveGame);
->>>>>>> 3dfe7638f6a0832855640771830f72f363db1183
 
         this.heroMoveTween = this.game.add.tween(this.hero).to({}, 2000, null, false);
         this.heroMoveTween.onComplete.add(this.clearMovePoints, this.heroMoveTween);
