@@ -59,9 +59,9 @@ function chooseHero() {
             heroesCards.click(function (event) {
                 if(!isChosed) {
                     console.log(this, event);
-                    heroesCards.removeClass('.chosen');
+                    heroesCards.removeClass('chosen');
                     playerHero = th.collection.models[this.id].attributes;
-                    $(this).addClass('.chosen');
+                    $(this).addClass('chosen');
                 }
             });
             return this;
@@ -69,6 +69,7 @@ function chooseHero() {
         addOne: function(hero) {
             let personView = new HeroView({model: hero});
             this.$el.append(personView.render().el);
+            personView.$el.addClass('underCursor');
         },
         onError: function () {
             console.log('ERROR FETCH IN CHARACTERS');
@@ -77,13 +78,14 @@ function chooseHero() {
 
     let heroesView = new HeroesView({collection: new HeroesCollection});
     let center = $('#center');
-    $('<span/>', {id: 'chooseHeroText'}).html('Выбрите себе одного из предложенных героев').appendTo(center);
     center.html(heroesView.render().el);
+    $('<span/>', {id: 'chooseHeroText'}).html('Выбрите себе одного из предложенных героев').prependTo(center);
     $('<button/>', {id: 'chooseHero'}).html('Выбрать героя!').click(function (event) {
         if(playerHero && !isChosed) {
             gameSocket.send(JSON.stringify(playerHero));
             isChosed = true;
             $(this).prop('disabled', true);
+            $('.underCursor').removeClass('underCursor');
             if(enemyHero) {
                 startGame(playerHero, enemyHero);
             }
@@ -91,9 +93,9 @@ function chooseHero() {
     }).appendTo(center);
 
     function startGame(playerHero, enemyHero) {
-
+    
         let general = $('#general');
-        $('#all_characters, #chooseHero').remove();
+        $('#center').children().remove();
         let playerHeroModel = new Hero(playerHero);
         let enemyHeroModel = new Hero(enemyHero);
         debugger;

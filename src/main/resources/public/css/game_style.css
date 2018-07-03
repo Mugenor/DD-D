@@ -107,10 +107,11 @@ canvas {
 }
 
 #chooseHero {
-    margin: 3% 0;
+    margin: 2% 0;
+    font-size: 130%;
 }
 
-.character:hover {
+.underCursor:hover {
     background: #b0ceed;
     cursor: pointer;
 }

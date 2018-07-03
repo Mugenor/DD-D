@@ -164,14 +164,14 @@ gameState.prototype = {
         this.hero.anchor.y = 0.5;
         this.hero.posX = plX;
         this.hero.posY = plY;
-        this.hero.scale.set(CELL_SIZE / this.hero.texture.width, CELL_SIZE / this.hero.texture.height);
+        this.hero.scale.set(CELL_SIZE / this.hero.texture.width / 2, CELL_SIZE / this.hero.texture.height);
 
         this.enemy = this.game.add.sprite(CELL_SIZE * enX + HALF_CELL_SIZE, CELL_SIZE * enY + HALF_CELL_SIZE, enSprite);
         this.enemy.anchor.x = 0.5;
         this.enemy.anchor.y = 0.5;
         this.enemy.posX = enX;
         this.enemy.posY = enY;
-        this.enemy.scale.set(CELL_SIZE / this.enemy.texture.width, CELL_SIZE / this.enemy.texture.height);
+        this.enemy.scale.set(CELL_SIZE / this.enemy.texture.width / 2, CELL_SIZE / this.enemy.texture.height);
 
 
         this.ground.setAll('inputEnabled', true);
