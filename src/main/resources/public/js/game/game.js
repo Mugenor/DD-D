@@ -166,27 +166,32 @@ gameState.prototype = {
 
         // debugger;
         $('<button/>', {
-            id: 'stepsButton',
-        }).html("Получить шаги").click(bind(this.addSteps, this)).prependTo(this.gameDiv);
-        this.stepCountText = $('<span/>', {
-            id: 'stepCountText'
-        }).prependTo(this.gameDiv);
-        this.whoseTurnText = $('<span/>', {
-            id: 'whoseTurnText'
-        }).prependTo(this.gameDiv);
-        this.setWhoseTurn(yourTurnFirst);
+            id: 'refuse',
+            class: 'game_button margin_button'
+        }).html("Сбросить").click(bind(this.refuseCard, this)).prependTo(this.gameDiv);
         $('<button/>', {
-            id: 'cardsButton',
-        }).html("Получить карточку").click(bind(this.addCard, this)).prependTo(this.gameDiv);
+            id: 'apply',
+            class: 'game_button margin_button'
+        }).html("Применить").click(bind(this.applyCard, this)).prependTo(this.gameDiv);
         this.cardText = $('<span/>', {
             id: 'cardText'
         }).prependTo(this.gameDiv);
         $('<button/>', {
-            id: 'apply',
-        }).html("Применить").click(bind(this.applyCard, this)).prependTo(this.gameDiv);
+            id: 'cardsButton',
+            class: 'game_button margin_button'
+        }).html("Получить карточку").click(bind(this.addCard, this)).prependTo(this.gameDiv);
+        this.setWhoseTurn(yourTurnFirst);
+        $('<br>').prependTo(this.gameDiv);
+        this.whoseTurnText = $('<span/>', {
+            id: 'whoseTurnText'
+        }).prependTo(this.gameDiv);
+        this.stepCountText = $('<span/>', {
+            id: 'stepCountText'
+        }).prependTo(this.gameDiv);
         $('<button/>', {
-            id: 'refuse',
-        }).html("Сбросить").click(bind(this.refuseCard, this)).prependTo(this.gameDiv);
+            id: 'stepsButton',
+            class: 'game_button margin_button'
+        }).html("Получить шаги").click(bind(this.addSteps, this)).prependTo(this.gameDiv);
 
         this.awaitingMessage = $('<p/>', {
             id: 'awaitingMessage'

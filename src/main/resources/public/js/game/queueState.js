@@ -1,9 +1,10 @@
 // let queueState = function (game) {};
 $(function () {
     let queueButton = $('#queueButton');
+    let center = $('#center');
     queueButton.click(function (event) {
-        queueButton.prop('disabled', true);
-        queueButton.html('Стоим в очереди...');
+        //queueButton.prop('disabled', true);
+        center.html('Подождите немного, мы ищем Вам соперника...');
         let queueSocket = new WebSocket('ws://localhost:8080/queue');
         queueSocket.onmessage = function (event) {
             let message = JSON.parse(event.data);
