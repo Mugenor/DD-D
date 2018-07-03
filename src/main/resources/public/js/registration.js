@@ -59,7 +59,6 @@ $(function () {
                     .html('Перейдите по ссылке в письме, которое было выслано вам на почту, чтобы закончить регистрацию.');
             },
             error: function (jqXHR, status, error) {
-                console.log(jqXHR, status, error);
                 errorDiv.html(jqXHR.responseJSON.message);
                 $('#button_div').before(errorDiv);
                 $('#registrationButton').prop('disabled', false);

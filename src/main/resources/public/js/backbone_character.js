@@ -48,7 +48,6 @@
             this.$el.append(personView.render().el);
         },
         onError: function () {
-            console.log('ERROR FETCH IN CHARACTERS');
         }
     });
 

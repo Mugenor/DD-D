@@ -149,10 +149,6 @@ canvas {
     font-weight: bold;
 }
 
-#stepCountText {
-    margin: 0 3%;
-}
-
 canvas {
     border: 3px solid #6d3f15;
 }

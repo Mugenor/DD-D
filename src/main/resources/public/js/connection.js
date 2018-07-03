@@ -17,7 +17,6 @@ $(function () {
                 $('#center').addClass('answer_con').html('Ваше сообщение успешно отправлено!');
             },
             error: function (jqXHR, status, error) {
-                console.log(jqXHR, status, error);
                 $('textarea, #button_div, #connection').remove();
                 $('#center').addClass('answer_con').html('Не удалось отправить сообщение!');
             },

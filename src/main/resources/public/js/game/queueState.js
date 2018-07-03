@@ -1,9 +1,7 @@
-// let queueState = function (game) {};
 $(function () {
     let queueButton = $('#queueButton');
     let center = $('#center');
     queueButton.click(function (event) {
-        //queueButton.prop('disabled', true);
         center.html('Подождите немного, мы ищем Вам соперника...');
         let queueSocket = new WebSocket('ws://localhost:8080/queue');
         queueSocket.onmessage = function (event) {
@@ -27,7 +25,6 @@ $(function () {
 //         this.game.stage.backgroundColor = '#4440aa';
 //         this.stateMessage = this.game.add.text(30, 170, 'State message', {font: '20px Arial'});
 //         this.enemyName = this.game.add.text(30, 200, 'Enemy name', {font: '20px Arial'});
-//         console.log(this.stateMessage, this.enemyName, this.game);
 //         this.entryQueueButton = this.game.add.button(30, 30, 'queueButton', this.enterTheQueue, this);
 //     },
 //     update: function () {
@@ -49,12 +46,10 @@ $(function () {
 //         }
 //     },
 //     socketOnOpen: function () {
-//         console.log('Socket opened');
 //         this.stateMessage.text = 'Socket opened';
 //         this.isSocketOpened = true;
 //     },
 //     socketOnMessage: function (event) {
-//         console.log('Got a message: ', event);
 //         let message = JSON.parse(event.data);
 //         sessionStorage.setItem('enemy', message.enemy);
 //         sessionStorage.setItem('yourTurnFirst', message.yourTurnFirst);
@@ -62,11 +57,9 @@ $(function () {
 //         this.game.state.start('Game');
 //     },
 //     socketOnClose: function (event) {
-//         console.log('Socket closed', event);
 //         this.stateMessage.text = 'Socket closed';
 //         this.isSocketOpened = false;
 //     },
 //     socketOnError: function (event) {
-//         console.log('ERROR WITH SOCKET!', event);
 //     }
 // };

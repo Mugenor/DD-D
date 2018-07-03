@@ -7,7 +7,6 @@ function chooseHero() {
     let isChosed = false;
     gameSocket = new WebSocket('ws://localhost:8080/game');
     gameSocket.onopen = function() {
-        console.log('Game socket opened');
     };
     gameSocket.onmessage = function(event) {
         enemyHero = JSON.parse(event.data);
@@ -31,7 +30,6 @@ function chooseHero() {
             this.render();
         },
         render: function() {
-            debugger;
             this.$el.html(this.template(this.model.toJSON()));
             this.$el.prop('id', this.model.get('id') - 1);
             return this;
@@ -58,7 +56,6 @@ function chooseHero() {
             let heroesCards = $('.character');
             heroesCards.click(function (event) {
                 if(!isChosed) {
-                    console.log(this, event);
                     heroesCards.removeClass('chosen');
                     playerHero = th.collection.models[this.id].attributes;
                     $(this).addClass('chosen');
@@ -72,7 +69,6 @@ function chooseHero() {
             personView.$el.addClass('underCursor');
         },
         onError: function () {
-            console.log('ERROR FETCH IN CHARACTERS');
         }
     });
 
@@ -98,7 +94,6 @@ function chooseHero() {
         $('#center').children().remove();
         let playerHeroModel = new Hero(playerHero);
         let enemyHeroModel = new Hero(enemyHero);
-        debugger;
         let playerHeroView = new HeroView({model: playerHeroModel, className: 'characterInGame'});
         let enemyHeroView = new HeroView({model: enemyHeroModel, className: 'characterInGame'});
         let divInLeft = $('<div/>', {

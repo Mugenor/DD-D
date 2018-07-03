@@ -49,7 +49,6 @@
 
         },
         onError: function () {
-            console.log('ERROR FETCH IN CARDS');
         }
     });
 

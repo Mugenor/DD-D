@@ -22,12 +22,12 @@ const map = {
     x: 13, y: 10, map:
         [[WALL, WALL, WALL, WALL, WALL, FIELD2, FIELD1, FIELD2, WALL, WALL, WALL, WALL, WALL],
             [WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL],
-            [WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL],
-            [WALL, FIELD1, FIELD2, WALL, FIELD2, WALL, FIELD2, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL],
-            [WALL, FIELD2, FIELD1, FIELD2, FIELD1, WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, WALL],
+            [WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL],
+            [WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL],
+            [WALL, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, WALL],
             [WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, WALL],
-            [WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL],
-            [WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL, WALL, FIELD2, WALL, FIELD2, FIELD1, WALL],
+            [WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL],
+            [WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL, FIELD2, FIELD1, WALL],
             [WALL, FIELD2, FIELD1, WALL, FIELD1, FIELD2, FIELD1, FIELD2, FIELD1, WALL, FIELD1, FIELD2, WALL],
             [WALL, WALL, WALL, WALL, WALL, FIELD1, FIELD2, FIELD1, WALL, WALL, WALL, WALL, WALL]
         ],
@@ -66,7 +66,6 @@ gameState.prototype = {
         });
     },
     socketOnOpen: function () {
-        console.log('GameSocket opened');
     },
     setWhoseTurn: function (bool) {
         this.myTurn = bool;
@@ -83,36 +82,43 @@ gameState.prototype = {
         this.setWhoseTurn(!this.myTurn);
     },
     socketOnMessage: function (event) {
-        console.log('Got a message', event);
         let message = JSON.parse(event.data);
-        console.log('Message', message);
-        for(let i=0; i < message.length; ++i) {
+        let healths;
+        for (let i = 0; i < message.length; ++i) {
             // what enemy did
-            if(message[i].movement) {
+            if (message[i].movement) {
                 this.makeNumArrFromStrArr(message[i].movement.x);
                 this.makeNumArrFromStrArr(message[i].movement.y);
 
-                this.addArrayAtBeginning(message[i].movement.x, this.enemyMoveTween.properties.x);
-                this.addArrayAtBeginning(message[i].movement.y, this.enemyMoveTween.properties.y);
-                // debugger;
+                this.addArrayAtEnd(message[i].movement.x, this.enemyMoveTween.properties.x);
+                this.addArrayAtEnd(message[i].movement.y, this.enemyMoveTween.properties.y);
                 this.enemy.posX = (message[i].movement.x[message[i].movement.x.length - 1] - HALF_CELL_SIZE) / CELL_SIZE;
                 this.enemy.posY = (message[i].movement.y[message[i].movement.y.length - 1] - HALF_CELL_SIZE) / CELL_SIZE;
-                console.log(this.enemy);
+                // console.log(this.enemy.posX, this.enemy.posY);
             }
 
 
-            if(message[i].card) {
-                this.applyCard(message[i].card);
+            if (message[i].card) {
+                let tmp = message[i].card.health;
+                message[i].card.health = message[i].card.damage;
+                message[i].card.damage = tmp;
+                healths = this.applyCard(message[i].card);
             }
         }
-        this.enemyMoveTween.start();
-        this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
+        if (healths && healths.playerHealth <= 0) {
+            alert('Вы проиграли!');
+            window.location.reload(false);
+        } else if (healths && healths.enemyHealth <= 0) {
+            alert('Вы выиграли!');
+            window.location.reload(false);
+        } else {
+            this.enemyMoveTween.start();
+            this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
+        }
     },
     socketOnClose: function (event) {
-        console.log('Socket closed!', event);
     },
     socketOnError: function (event) {
-        console.log("Error with socket!", event);
     },
     create: function () {
         this.game.stage.backgroundColor = '#defa5b';
@@ -148,7 +154,6 @@ gameState.prototype = {
             }
         }
         let yourTurnFirst = JSON.parse(sessionStorage.getItem('yourTurnFirst'));
-        console.log(yourTurnFirst);
         let plX = 6, plY = 0, enX = 6, enY = 9, plSprite = 'player', enSprite = 'enemy';
         if (!yourTurnFirst) {
             let tmp = plX;
@@ -238,33 +243,29 @@ gameState.prototype = {
         this.takeCardButton.prop('disabled', true);
     },
     highLightPath: function (event) {
-        // debugger;
-        // console.log('HighLight: ', event);
         if (this.state === WALK_STATE && this.myTurn && this.canStepToField(event.posX, event.posY, this.pathMap)) {
             this.markPath(event.posX, event.posY, 0.65, this.pathMap);
         }
     },
     lowLightPath: function (event) {
-        // debugger;
-        // console.log('LowLight: ', event);
         if (this.myTurn && this.state === WALK_STATE) {
             this.markPath(event.posX, event.posY, 1, this.pathMap);
         }
     },
     clearMovePoints: function () {
-        console.log(this);
         this.properties.x.length = 0;
         this.properties.y.length = 0;
     },
     moveHero: function (event) {
         if (this.myTurn && this.state === WALK_STATE) {
-            console.log('Click');
 
             if (this.stepCount > 0 && this.canStepToField(event.posX, event.posY, this.pathMap)) {
                 this.stepCount = this.stepCount - this.pathMap[event.posY][event.posX];
                 this.stepCountText.html(this.stepCount.toString());
                 this.markPath(event.posX, event.posY, 1, this.pathMap);
                 let movement = this.moveHeroByPath(this.hero, event.posX, event.posY, this.pathMap);
+                movement.x = movement.x.slice();
+                movement.y = movement.y.slice();
                 this.queue.push({movement: movement});
 
                 this.hero.posX = event.posX;
@@ -302,7 +303,6 @@ gameState.prototype = {
         return rand;
     },
     addSteps: function () {
-        console.log('In add steps');
         if (this.myTurn && this.state === THROW_CUBE_STATE) {
             this.stepCount = this.randomInteger(1, 6);
             this.stepCountText.html(this.stepCount.toString());
@@ -310,50 +310,97 @@ gameState.prototype = {
             this.markFieldsAroundHero(this.hero, this.stepCount, this.pathMap);
             this.state = WALK_STATE;
             this.throwCubeButton.prop('disabled', true);
-            console.log(this.pathMap);
         }
     },
     addCard: function () {
-        console.log('In add card');
         if (this.myTurn && this.state === TAKE_CARD_STATE) {
-            this.cardNumber = this.randomInteger(0,37);
+            this.cardNumber = this.randomInteger(0, 37);
             let card = this.cards[this.cardNumber];
-            this.cardText.html(card.cubeNumber + ' - '+ card.name + ' - ' + card.action);
+            this.cardText.html(card.cubeNumber + ' - ' + card.name + ' - ' + card.action);
 
             this.takeCardButton.prop('disabled', true);
 
-            this.applyCardButton.prop('disabled', false);
+            this.applyCardButton.prop('disabled', card.length  > 5 ? false : !this.checkCardDistance(card.length));
             this.refuseCardButton.prop('disabled', false);
 
             this.state = CARD_STATE;
-
-            console.log(this.cards[this.cardNumber - 1]);
         }
     },
-    useCard: function() {
-        console.log('Пора достать карточку из БД и применить');
-        if(this.myTurn && this.state === CARD_STATE) {
-            let card = this.cards[this.cardNumber];
-            this.applyCard(card);
-            this.queue[this.queue.length - 1].card = card;
-            if(card.gamer) {
-                // TODO ход остаётся у игрока
+    checkCardDistance: function (maxDistance) {
+        let mapPath = this.slice2DimensionalArray(map.map);
+        let queue = [];
+        let depth = 1;
+        const MARKER = {};
+        queue.push({x: this.hero.posX, y: this.hero.posY}, MARKER);
+        while (queue.length !== 0) {
+            let curPos = queue.shift();
+            if (curPos === MARKER) {
+                depth++;
+                if (depth > maxDistance) return false;
+                queue.push(MARKER);
             } else {
-                // TODO ход передаётся противнику
+                for (let i = 0; i < map.directions.length; ++i) {
+                    let newY = curPos.y + map.directions[i].y;
+                    let newX = curPos.x + map.directions[i].x;
+                    if (newY >= 0 && newX >= 0 && newY < map.y && newX < map.x &&
+                        (mapPath[newY][newX] === FIELD1 ||
+                            mapPath[newY][newX] === FIELD2)) {
+                        mapPath[newY][newX] = depth;
+                        if (newY === this.enemy.posY && newX === this.enemy.posX) {
+                            return true;
+                        }
+                        queue.push({x: newX, y: newY})
+                    }
+                }
+            }
+        }
+        return false;
+    },
+    useCard: function () {
+        if (this.myTurn && this.state === CARD_STATE) {
+            let card = this.cards[this.cardNumber];
+            let healths = this.applyCard(card);
+            this.queue[this.queue.length - 1].card = card;
+            this.applyCardButton.prop('disabled', true);
+            this.refuseCardButton.prop('disabled', true);
+
+            if (healths.playerHealth <= 0) {
+                gameSocket.send(JSON.stringify(this.queue));
+                alert('Вы проиграли!');
+                window.location.reload(false);
+                return;
+            }
+            if (healths.enemyHealth <= 0) {
+                gameSocket.send(JSON.stringify(this.queue));
+                alert('Вы выиграли!');
+                window.location.reload(false);
+                return;
+            }
+
+            if (card.gamer) {
+                this.state = THROW_CUBE_STATE;
+                this.throwCubeButton.prop('disabled', false);
+            } else {
+                this.state = ENEMY_TURN_STATE;
+                this.invertWhoseTurn();
+                gameSocket.send(JSON.stringify(this.queue));
+                this.queue = [];
             }
         }
     },
-    applyCard: function(card) {
+    applyCard: function (card) {
         let playerHealth = Number.parseInt(playerHealthEl.html());
         let enemyHealth = Number.parseInt(enemyHealthEl.html());
         playerHealth += card.health;
         enemyHealth += card.damage;
         playerHealthEl.html(playerHealth);
         enemyHealthEl.html(enemyHealth);
+        return {playerHealth: playerHealth, enemyHealth: enemyHealth};
     },
-    refuseCard: function() {
-        console.log('Ход переходит другому игроку');
-        if(this.myTurn && this.state === CARD_STATE) {
+    refuseCard: function () {
+        this.applyCardButton.prop('disabled', true);
+        this.refuseCardButton.prop('disabled', true);
+        if (this.myTurn && this.state === CARD_STATE) {
             this.invertWhoseTurn();
             gameSocket.send(JSON.stringify(this.queue));
             this.queue = [];
@@ -367,7 +414,6 @@ gameState.prototype = {
         let depth = 1;
         const MARKER = {};
         queue.push({x: hero.posX, y: hero.posY}, MARKER);
-        debugger;
         while (queue.length !== 0) {
             let curPos = queue.shift();
             if (curPos === MARKER) {
@@ -423,19 +469,10 @@ gameState.prototype = {
             arr[i] = Number.parseInt(arr[i]);
         }
     },
-    addArrayAtBeginning(arr, result) {
-        for (let i = arr.length - 1; i >= 0; --i) {
-            result.unshift(arr[i]);
+    addArrayAtEnd(arr, result) {
+        for (let i = 0; i < arr.length; ++i) {
+            result.push(arr[i]);
         }
     }
 
 };
-// window.onload = function () {
-//     let width = CELL_SIZE * map.x;
-//     let height = CELL_SIZE * map.y;
-//     let game = new Phaser.Game(width, height, Phaser.AUTO, 'center');
-//     // game.state.add('Queue', queueState);
-//     game.state.add('Game', gameState);
-//     game.state.start('Queue');
-//
-// };
